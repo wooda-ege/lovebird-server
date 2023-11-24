@@ -9,6 +9,7 @@ tasks.getByName("jar") {
 }
 
 dependencies {
+	implementation(project(":lovebird-domain"))
 	implementation(project(":lovebird-infra:logging"))
 
 	implementation("org.springframework.boot:spring-boot-starter-web")

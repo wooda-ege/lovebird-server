@@ -1,0 +1,21 @@
+spring.config.activate.on-profile: local
+
+spring:
+    jpa:
+        open-in-view: false
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+
+storage:
+    datasource:
+        core:
+            jdbc-url: jdbc:postgresql://localhost:5432/lovebird
+            username: lovebird
+            password: Lovebirdproject1!
+            driver-class-name: org.postgresql.Driver
+            data-source-properties:
+                rewriteBatchedStatements: true
