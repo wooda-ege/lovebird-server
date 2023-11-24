@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+    postgresql:
+        image: postgres:14
+        restart: always
+        container_name: postgres
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: lovebird
+            POSTGRES_PASSWORD: Lovebirdproject1!
+        # 볼륨 설정
+        volumes:
+            - ./data/postgres/:/var/lib/postgresql/data
