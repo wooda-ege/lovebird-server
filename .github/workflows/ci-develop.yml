@@ -9,10 +9,13 @@ on:
             - lovebird-domain/**
             - lovebird-common/**
 
+permissions: write-all
+
 jobs:
     build:
         name: Build
         runs-on: ubuntu-latest
+        environment: Development-CI
 
         steps:
             -   name: Get Current Time
