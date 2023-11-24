@@ -38,3 +38,6 @@ out/
 
 ### MAC OS ###
 .DS_Store
+
+### generated ###
+src/main/generated/
