@@ -9,4 +9,3 @@ spring:
     config:
         import:
             - logging-${spring.profiles.default}.yml
-
