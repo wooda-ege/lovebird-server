@@ -8,4 +8,5 @@ spring:
         location: classpath:/app-banner.dat
     config:
         import:
+            - db-${spring.profiles.default}.yml
             - logging-${spring.profiles.default}.yml
