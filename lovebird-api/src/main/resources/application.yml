@@ -6,3 +6,6 @@ spring:
         version: 1.0.0
     banner:
         location: classpath:/app-banner.dat
+    config:
+        import:
+            - logging-${spring.profiles.default}.yml
