@@ -1,5 +1,13 @@
 rootProject.name = "lovebird"
 
+include(
+	"lovebird-api",
+	"lovebird-common",
+	"lovebird-domain",
+	"lovebird-infra:logging",
+	"lovebird-infra:monitoring"
+)
+
 pluginManagement {
     val kotlinVersion: String by settings
     val springBootVersion: String by settings

@@ -1,0 +1,8 @@
+spring:
+    profiles:
+        default: ${application-profile}
+    application:
+        title: Lovebird
+        version: 1.0.0
+    banner:
+        location: classpath:/app-banner.dat
