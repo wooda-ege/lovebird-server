@@ -1,0 +1,15 @@
+FROM azul/zulu-openjdk:19-latest
+WORKDIR /app
+
+COPY build/libs/lovebird-api-1.0.0-SNAPSHOT.jar .
+
+EXPOSE 8080
+
+USER nobody
+ENTRYPOINT [\
+    "java",\
+    "-jar",\
+    "-Djava.security.egd=file:/dev/./urandom",\
+    "-Dsun.net.inetaddr.ttl=0",\
+    "lovebird-api-1.0.0-SNAPSHOT.jar"\
+]
