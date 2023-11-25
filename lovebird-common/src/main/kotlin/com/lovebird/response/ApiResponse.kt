@@ -7,14 +7,15 @@ import org.springframework.http.ResponseEntity
 data class ApiResponse<T>(
 	val code: String,
 	val message: String,
-	val data: T?,
+	val data: T?
 ) {
+
 	companion object {
 		fun <T> success(data: T? = null): ApiResponse<T> {
 			return ApiResponse(
 				ReturnCode.SUCCESS.code,
 				ReturnCode.SUCCESS.message,
-				data,
+				data
 			)
 		}
 

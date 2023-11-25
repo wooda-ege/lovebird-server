@@ -18,5 +18,5 @@ enum class ReturnCode(val code: String, val message: String) {
 
 	// 서버 에러
 	INTERNAL_SERVER_ERROR("9998", "내부 서버 에러 입니다."),
-	EXTERNAL_SERVER_ERROR("9999", "외부 서버 에러 입니다."),
+	EXTERNAL_SERVER_ERROR("9999", "외부 서버 에러 입니다.")
 }
