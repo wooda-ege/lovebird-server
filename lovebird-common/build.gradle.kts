@@ -1,5 +1,5 @@
 description = "common module"
 
-dependencies{
+dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 }
