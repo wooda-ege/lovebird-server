@@ -2,8 +2,11 @@ rootProject.name = "lovebird"
 
 include(
 	"lovebird-api",
+	"lovebird-security",
 	"lovebird-common",
 	"lovebird-domain",
+	"lovebird-external:s3",
+	"lovebird-external:web-client",
 	"lovebird-infra:logging",
 	"lovebird-infra:monitoring"
 )

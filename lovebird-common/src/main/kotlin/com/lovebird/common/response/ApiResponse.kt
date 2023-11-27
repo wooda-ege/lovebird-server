@@ -1,4 +1,4 @@
-package com.lovebird.response
+package com.lovebird.common.response
 
 import com.lovebird.enums.ReturnCode
 import org.springframework.http.HttpStatus
