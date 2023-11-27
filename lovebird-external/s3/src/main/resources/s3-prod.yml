@@ -1,0 +1,12 @@
+cloud:
+  aws:
+    credentials:
+      access-key: ${PROD_S3_ACCESS_KEY}
+      secret-key: ${PROD_S3_SECRET_KEY}
+    s3-bucket: ${PROD_S3_BUCKET_NAME}
+    region:
+      static:
+        ap-northeast-2
+    stack:
+      auto:
+        false
