@@ -1,0 +1,14 @@
+oauth:
+    kakao:
+        public-key-info: https://kauth.kakao.com/.well-known/jwks.json
+    apple:
+        public-key-url: https://appleid.apple.com/auth/keys
+    google:
+        client-id: ${GOOGLE_CLIENT_ID}
+    naver:
+        client-id: ${NAVER_CLIENT_ID}
+        client-secret: ${NAVER_CLIENT_SECRET}
+        grant-type: authorization_code
+        url:
+            token: https://nid.naver.com/oauth2.0/token
+            user-info: https://openapi.naver.com/v1/nid/me
