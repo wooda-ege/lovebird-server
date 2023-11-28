@@ -8,7 +8,6 @@ import com.lovebird.dto.response.PresignedUrlResponse
 import com.lovebird.provider.PresignedUrlProvider
 import org.springframework.stereotype.Service
 
-
 @Service
 class PresignedUrlService(
 	private val presignedUrlProvider: PresignedUrlProvider,
