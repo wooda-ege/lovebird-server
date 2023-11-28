@@ -1,6 +1,8 @@
 name: reviewdog
 on: [pull_request]
 
+permissions: read-all
+
 jobs:
   ktlint:
     name: Check Code Quality
