@@ -8,7 +8,7 @@ enum class ReturnCode(val code: String, val message: String) {
 	NOT_EXIST_BEARER_SUFFIX("1100", "Bearer 접두사가 포함되지 않았습니다."),
 	WRONG_JWT_TOKEN("1101", "잘못된 jwt 토큰입니다."),
 
-	// 어드민 - 유저 관련
+	// 유저 관련
 	WRONG_PROVIDER("1200", "잘못된 인증 제공자 입니다."),
 	DUPLICATE_SIGN_UP("1201", "중복된 회원가입 입니다."),
 	NOT_EXIST_USER("1202", "존재하지 않는 회원 입니다."),
