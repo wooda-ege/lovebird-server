@@ -10,7 +10,7 @@ import java.util.*
 
 @Configuration
 class GoogleProperties(
-	@Value("\${oauth2.google.client-id}")
+	@Value("\${oauth.google.client-id}")
 	private val clientId: String
 ) {
 
