@@ -1,6 +1,6 @@
 spring:
     profiles:
-        default: ${application-profile}
+        default: ${APPLICATION_PROFILE}
     application:
         title: Lovebird
         version: 1.0.0

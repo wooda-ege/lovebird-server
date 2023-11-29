@@ -9,19 +9,16 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class AwsS3Config {
-
+class AwsS3Config(
 	@Value("\${cloud.aws.credentials.access-key}")
-	private lateinit var accessKey: String
-
+	private val accessKey: String,
 	@Value("\${cloud.aws.credentials.secret-key}")
-	private lateinit var secretKey: String
-
+	private val secretKey: String,
 	@Value("\${cloud.aws.region.static}")
-	private lateinit var region: String
-
+	private val region: String,
 	@Value("\${cloud.aws.s3-bucket}")
-	lateinit var bucketName: String
+	private val bucketName: String
+) {
 
 	@Bean
 	fun amazonS3Client(): AmazonS3Client {
@@ -31,5 +28,9 @@ class AwsS3Config {
 			.withRegion(region)
 			.withCredentials(AWSStaticCredentialsProvider(basicAWSCredentials))
 			.build() as AmazonS3Client
+	}
+
+	fun getBucketName(): String {
+		return bucketName
 	}
 }

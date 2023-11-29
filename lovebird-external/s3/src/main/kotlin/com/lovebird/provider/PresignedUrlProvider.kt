@@ -27,7 +27,7 @@ class PresignedUrlProvider(
 		method: HttpMethod,
 		expiration: Date
 	): GeneratePresignedUrlRequest {
-		return GeneratePresignedUrlRequest(awsS3Config.bucketName, path, method).withExpiration(expiration)
+		return GeneratePresignedUrlRequest(awsS3Config.getBucketName(), path, method).withExpiration(expiration)
 	}
 
 	private fun getExpiration(): Date {
