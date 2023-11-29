@@ -17,7 +17,7 @@ class NaverAuthClient(
 
 	fun getAccessToken(request: NaverLoginClientRequest): NaverLoginClientResponse {
 		return webClient.mutate()
-			.baseUrl(properties.tokenUrl)
+			.baseUrl(properties.getTokenUrl())
 			.build()
 			.post()
 			.bodyValue(request)
@@ -28,7 +28,7 @@ class NaverAuthClient(
 
 	fun getUserInfo(request: NaverUserInfoClientRequest): NaverUserInfoClientResponse {
 		return webClient.mutate()
-			.baseUrl(properties.userInfoUrl)
+			.baseUrl(properties.getUserInfoUrl())
 			.build()
 			.get()
 			.header(AUTHORIZATION, request.accessToken)

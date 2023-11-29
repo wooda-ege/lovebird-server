@@ -13,7 +13,7 @@ class AppleAuthClient(
 
 	override fun getPublicKeys(): PublicKeyList {
 		return webClient.mutate()
-			.baseUrl(properties.publicKeyUrl)
+			.baseUrl(properties.getPublicKeyUrl())
 			.build()
 			.get()
 			.retrieve()

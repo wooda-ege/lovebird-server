@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class KakaoProperties {
-
+class KakaoProperties(
 	@Value("\${oauth.kakao.public-key-info}")
-	lateinit var publicKeyUrl: String
+	private val publicKeyUrl: String
+) {
+
+	fun getPublicKeyUrl(): String {
+		return publicKeyUrl
+	}
 }

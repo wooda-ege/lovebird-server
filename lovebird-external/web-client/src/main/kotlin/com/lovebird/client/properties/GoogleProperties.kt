@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration
 import java.util.*
 
 @Configuration
-class GoogleProperties {
-
+class GoogleProperties(
 	@Value("\${oauth2.google.client-id}")
-	lateinit var clientId: String
+	private val clientId: String
+) {
 
 	@Bean
 	fun googleIdTokenVerifier(): GoogleIdTokenVerifier {

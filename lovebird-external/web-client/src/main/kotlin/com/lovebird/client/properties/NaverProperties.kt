@@ -2,23 +2,29 @@ package com.lovebird.client.properties
 
 import com.lovebird.client.dto.request.NaverLoginClientRequest
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 
-class NaverProperties {
-
+@Component
+class NaverProperties(
 	@Value("\${oauth.naver.client-id}")
-	lateinit var clientId: String
-
-	@Value("\${oauth.naver.client-secret}")
-	lateinit var clientSecret: String
-
+	private val clientId: String,
 	@Value("\${oauth.naver.grant-type}")
-	lateinit var grantType: String
-
+	private val grantType: String,
+	@Value("\${oauth.naver.client-secret}")
+	private val clientSecret: String,
 	@Value("\${oauth.naver.url.token}")
-	lateinit var tokenUrl: String
-
+	private val tokenUrl: String,
 	@Value("\${oauth.naver.url.user-info}")
-	lateinit var userInfoUrl: String
+	private val userInfoUrl: String
+) {
+
+	fun getTokenUrl(): String {
+		return tokenUrl
+	}
+
+	fun getUserInfoUrl(): String {
+		return userInfoUrl
+	}
 
 	fun toNaverLoginRequest(code: String, state: String): NaverLoginClientRequest {
 		return NaverLoginClientRequest(
