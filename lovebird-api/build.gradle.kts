@@ -11,6 +11,7 @@ tasks.getByName("jar") {
 dependencies {
 	implementation(project(":lovebird-common"))
 	implementation(project(":lovebird-domain"))
+	implementation(project(":lovebird-security"))
 	implementation(project(":lovebird-external:s3"))
 	implementation(project(":lovebird-infra:logging"))
 

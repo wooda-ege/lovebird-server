@@ -1,0 +1,8 @@
+jwt:
+    access-header: Authorization
+    refresh-header: Refresh
+    secret: devedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedeved
+    expiration:
+        access-token: 432000
+        refresh-token: 6048000
+    grant-type: Bearer
