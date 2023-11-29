@@ -1,0 +1,17 @@
+management:
+  server:
+    port: 1015
+  endpoints:
+    enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: "*"
+    web:
+      exposure:
+        include: health, prometheus
+      base-path: /lovebird-monitoring/check
+      path-mapping:
+        health: health
+  endpoint:
+    health:
+      enabled: true

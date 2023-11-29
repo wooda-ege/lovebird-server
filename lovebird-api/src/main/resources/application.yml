@@ -11,3 +11,4 @@ spring:
             - db-${spring.profiles.default}.yml
             - s3-${spring.profiles.default}.yml
             - logging-${spring.profiles.default}.yml
+            - monitoring.yml
