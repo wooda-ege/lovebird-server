@@ -2,8 +2,8 @@ package com.lovebird.api.service.external
 
 import com.lovebird.api.dto.param.external.DiaryUploadPresignedUrlParam
 import com.lovebird.api.dto.param.external.ProfileUploadPresignedUrlParam
-import com.lovebird.api.dto.response.PresignedUrlListResponse
-import com.lovebird.api.dto.response.PresignedUrlResponse
+import com.lovebird.api.dto.response.external.PresignedUrlListResponse
+import com.lovebird.api.dto.response.external.PresignedUrlResponse
 import com.lovebird.common.utils.FilenameFormatter
 import com.lovebird.s3.provider.PresignedUrlProvider
 import org.springframework.stereotype.Service
