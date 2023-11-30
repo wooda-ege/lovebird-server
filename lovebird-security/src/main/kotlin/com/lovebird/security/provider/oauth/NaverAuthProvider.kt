@@ -1,7 +1,7 @@
 package com.lovebird.security.provider.oauth
 
+import com.lovebird.security.dto.param.NaverLoginParam
 import com.lovebird.webClient.client.NaverAuthClient
-import com.lovebird.webClient.client.dto.request.NaverLoginClientRequest
 import com.lovebird.webClient.client.dto.request.NaverUserInfoClientRequest
 import com.lovebird.webClient.client.dto.response.NaverUserInfoResponse
 import com.lovebird.security.dto.param.OAuthParam
@@ -13,21 +13,21 @@ class NaverAuthProvider(
 ) : OAuthProvider {
 
 	override fun getProviderId(request: Any): String {
-		return getOAuthParam(request as NaverLoginClientRequest).providerId
+		return getOAuthParam(request as NaverLoginParam).providerId
 	}
 
 	override fun getOAuthParam(request: Any): OAuthParam {
-		val accessToken = getAccessToken(request as NaverLoginClientRequest)
+		val accessToken = getAccessToken(request as NaverLoginParam)
 		val userInfoRequest = NaverUserInfoClientRequest(accessToken)
 
 		return OAuthParam.of(getUserInfo(userInfoRequest))
 	}
 
-	private fun getUserInfo(request: NaverUserInfoClientRequest): NaverUserInfoResponse {
-		return naverAuthClient.getUserInfo(request).response
+	private fun getAccessToken(request: NaverLoginParam): String {
+		return naverAuthClient.getAccessToken(request.code, request.state).accessToken
 	}
 
-	private fun getAccessToken(request: NaverLoginClientRequest): String {
-		return naverAuthClient.getAccessToken(request).accessToken
+	private fun getUserInfo(request: NaverUserInfoClientRequest): NaverUserInfoResponse {
+		return naverAuthClient.getUserInfo(request).response
 	}
 }
