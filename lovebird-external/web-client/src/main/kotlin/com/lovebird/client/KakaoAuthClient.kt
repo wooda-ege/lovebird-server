@@ -1,7 +1,7 @@
 package com.lovebird.client
 
 import com.lovebird.client.properties.KakaoProperties
-import com.lovebird.vo.key.PublicKeyList
+import com.lovebird.vo.key.OidcPublicKeyList
 import org.springframework.web.reactive.function.client.WebClient
 
 class KakaoAuthClient(
@@ -9,13 +9,13 @@ class KakaoAuthClient(
 	private val properties: KakaoProperties
 ) : PublicKeyClient {
 
-	override fun getPublicKeys(): PublicKeyList {
+	override fun getPublicKeys(): OidcPublicKeyList {
 		return webClient.mutate()
 			.baseUrl(properties.getPublicKeyUrl())
 			.build()
 			.get()
 			.retrieve()
-			.bodyToMono(PublicKeyList::class.java)
+			.bodyToMono(OidcPublicKeyList::class.java)
 			.block()!!
 	}
 }

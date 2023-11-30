@@ -1,8 +1,8 @@
 package com.lovebird.client
 
-import com.lovebird.vo.key.PublicKeyList
+import com.lovebird.vo.key.OidcPublicKeyList
 
 interface PublicKeyClient {
 
-	fun getPublicKeys(): PublicKeyList
+	fun getPublicKeys(): OidcPublicKeyList
 }
