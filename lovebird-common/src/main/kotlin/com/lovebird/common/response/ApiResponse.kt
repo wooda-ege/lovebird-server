@@ -1,6 +1,6 @@
 package com.lovebird.common.response
 
-import com.lovebird.enums.ReturnCode
+import com.lovebird.common.enums.ReturnCode
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

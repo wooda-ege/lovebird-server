@@ -1,7 +1,7 @@
 package com.lovebird.vo.key
 
+import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
-import com.lovebird.enums.ReturnCode
 
 class PublicKeyList(private val keys: List<PublicKey>) {
 

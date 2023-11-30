@@ -1,7 +1,7 @@
 package com.lovebird.security.filter
 
+import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
-import com.lovebird.enums.ReturnCode
 import com.lovebird.security.validator.JwtValidator
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

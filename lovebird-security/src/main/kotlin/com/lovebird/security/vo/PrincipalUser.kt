@@ -1,6 +1,6 @@
 package com.lovebird.security.vo
 
-import com.lovebird.entity.User
+import com.lovebird.domain.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

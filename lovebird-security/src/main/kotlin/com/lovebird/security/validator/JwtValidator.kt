@@ -1,10 +1,10 @@
 package com.lovebird.security.validator
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
-import com.lovebird.entity.User
-import com.lovebird.enums.ReturnCode
-import com.lovebird.repository.reader.UserReader
+import com.lovebird.domain.entity.User
+import com.lovebird.domain.repository.reader.UserReader
 import com.lovebird.security.vo.PrincipalUser
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts

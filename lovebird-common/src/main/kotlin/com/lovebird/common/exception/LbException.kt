@@ -1,6 +1,6 @@
 package com.lovebird.common.exception
 
-import com.lovebird.enums.ReturnCode
+import com.lovebird.common.enums.ReturnCode
 
 class LbException(returnCode: ReturnCode) : RuntimeException() {
 
