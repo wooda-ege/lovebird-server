@@ -1,7 +1,7 @@
 jwt:
     access-header: Authorization
     refresh-header: Refresh
-    secret: devedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedevedeved
+    secret: ${DEV_JWT_SECRET}
     expiration:
         access-token: 432000
         refresh-token: 6048000
