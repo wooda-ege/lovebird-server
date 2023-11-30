@@ -1,7 +1,7 @@
-package com.lovebird.client
+package com.lovebird.webClient.client
 
-import com.lovebird.client.properties.KakaoProperties
-import com.lovebird.vo.key.OidcPublicKeyList
+import com.lovebird.webClient.client.properties.KakaoProperties
+import com.lovebird.webClient.vo.key.OidcPublicKeyList
 import org.springframework.web.reactive.function.client.WebClient
 
 class KakaoAuthClient(
