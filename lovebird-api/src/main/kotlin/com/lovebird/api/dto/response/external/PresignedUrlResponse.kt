@@ -1,4 +1,4 @@
-package com.lovebird.api.dto.response
+package com.lovebird.api.dto.response.external
 
 data class PresignedUrlResponse(
 	val presignedUrl: String,
