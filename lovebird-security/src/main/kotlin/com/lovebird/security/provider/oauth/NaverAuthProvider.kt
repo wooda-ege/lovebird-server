@@ -1,10 +1,10 @@
 package com.lovebird.security.provider.oauth
 
 import com.lovebird.security.dto.param.NaverLoginParam
+import com.lovebird.security.dto.param.OAuthParam
 import com.lovebird.webClient.client.NaverAuthClient
 import com.lovebird.webClient.client.dto.request.NaverUserInfoClientRequest
 import com.lovebird.webClient.client.dto.response.NaverUserInfoResponse
-import com.lovebird.security.dto.param.OAuthParam
 import org.springframework.stereotype.Component
 
 @Component

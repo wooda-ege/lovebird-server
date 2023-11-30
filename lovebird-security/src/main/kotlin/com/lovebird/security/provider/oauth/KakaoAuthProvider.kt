@@ -30,5 +30,4 @@ class KakaoAuthProvider(
 	private fun getHeaders(idToken: String): Map<String, String> {
 		return jwtValidator.parseHeaders(idToken)
 	}
-
 }

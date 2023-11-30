@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProfileJpaRepository : JpaRepository<Profile, Long> {
 
-	fun findByUser(user: User) : Profile?
+	fun findByUser(user: User): Profile?
 }
