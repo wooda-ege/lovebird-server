@@ -1,0 +1,8 @@
+jwt:
+    access-header: ${ACCESS_HEADER}
+    refresh-header: ${REFRESH_HEADER}
+    secret: ${PROD_JWT_SECRET}
+    expiration:
+        access-token: ${JWT_ACCESS_TOKEN_EXPIRATION}
+        refresh-token: ${JWT_REFRESH_TOKEN_EXPIRATION}
+    grant-type: Bearer
