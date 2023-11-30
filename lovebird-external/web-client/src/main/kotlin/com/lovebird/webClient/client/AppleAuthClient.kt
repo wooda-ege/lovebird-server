@@ -1,7 +1,7 @@
-package com.lovebird.client
+package com.lovebird.webClient.client
 
-import com.lovebird.client.properties.AppleProperties
-import com.lovebird.vo.key.PublicKeyList
+import com.lovebird.webClient.client.properties.AppleProperties
+import com.lovebird.webClient.vo.key.OidcPublicKeyList
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 
@@ -11,13 +11,13 @@ class AppleAuthClient(
 	private val properties: AppleProperties
 ) : PublicKeyClient {
 
-	override fun getPublicKeys(): PublicKeyList {
+	override fun getPublicKeys(): OidcPublicKeyList {
 		return webClient.mutate()
 			.baseUrl(properties.getPublicKeyUrl())
 			.build()
 			.get()
 			.retrieve()
-			.bodyToMono(PublicKeyList::class.java)
+			.bodyToMono(OidcPublicKeyList::class.java)
 			.block()!!
 	}
 }
