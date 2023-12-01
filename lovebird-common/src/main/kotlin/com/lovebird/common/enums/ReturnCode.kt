@@ -13,6 +13,9 @@ enum class ReturnCode(val code: String, val message: String) {
 	DUPLICATE_SIGN_UP("1201", "중복된 회원가입 입니다."),
 	NOT_EXIST_USER("1202", "존재하지 않는 회원 입니다."),
 
+	// 프로필 관련
+	NOT_EXIST_PROFILE("1250", "존재하지 않는 프로필입니다."),
+
 	// 클라이언트 에러
 	WRONG_PARAMETER("8000", "잘못된 파라미터 입니다."),
 
