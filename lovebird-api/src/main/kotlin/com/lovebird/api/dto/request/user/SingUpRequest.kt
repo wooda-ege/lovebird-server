@@ -1,7 +1,7 @@
 package com.lovebird.api.dto.request.user
 
-import com.lovebird.api.dto.param.auth.ProfileCreateParam
-import com.lovebird.api.dto.param.auth.UserRegisterParam
+import com.lovebird.api.dto.param.profile.ProfileCreateParam
+import com.lovebird.api.dto.param.user.SignUpParam
 import com.lovebird.common.enums.Gender
 import com.lovebird.common.enums.Provider
 import com.lovebird.domain.entity.User
@@ -38,8 +38,8 @@ sealed class SingUpRequest(
 		firstDate = firstDate,
 		gender = gender
 	) {
-		fun toUserRegisterParam(): UserRegisterParam.OidcUserParam {
-			return UserRegisterParam.OidcUserParam(
+		fun toUserRegisterParam(): SignUpParam.OidcUserParam {
+			return SignUpParam.OidcUserParam(
 				provider = provider,
 				deviceToken = deviceToken,
 				idToken = idToken
@@ -80,8 +80,8 @@ sealed class SingUpRequest(
 		firstDate = firstDate,
 		gender = gender
 	) {
-		fun toUserRegisterParam(): UserRegisterParam.NaverUserParam {
-			return UserRegisterParam.NaverUserParam(
+		fun toUserRegisterParam(): SignUpParam.NaverUserParam {
+			return SignUpParam.NaverUserParam(
 				provider = provider,
 				deviceToken = deviceToken,
 				code = code,

@@ -1,4 +1,4 @@
-package com.lovebird.api.dto.param.auth
+package com.lovebird.api.dto.param.user
 
 import com.lovebird.domain.entity.User
 import com.lovebird.security.vo.PrincipalUser

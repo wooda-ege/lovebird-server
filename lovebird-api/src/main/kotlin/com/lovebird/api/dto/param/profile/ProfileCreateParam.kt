@@ -1,4 +1,4 @@
-package com.lovebird.api.dto.param.auth
+package com.lovebird.api.dto.param.profile
 
 import com.lovebird.common.enums.Gender
 import com.lovebird.domain.entity.Profile
