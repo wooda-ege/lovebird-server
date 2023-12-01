@@ -8,7 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class CoupleQueryRepository(
+class CoupleEntryQueryRepository(
 	private val queryFactory: JPAQueryFactory
 ) {
 

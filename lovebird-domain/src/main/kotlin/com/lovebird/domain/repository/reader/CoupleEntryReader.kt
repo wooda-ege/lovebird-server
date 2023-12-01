@@ -3,11 +3,11 @@ package com.lovebird.domain.repository.reader
 import com.lovebird.common.annotation.Reader
 import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.User
-import com.lovebird.domain.repository.query.CoupleQueryRepository
+import com.lovebird.domain.repository.query.CoupleEntryQueryRepository
 
 @Reader
-class CoupleReader(
-	private val coupleQueryRepository: CoupleQueryRepository
+class CoupleEntryReader(
+	private val coupleEntryQueryRepository: CoupleEntryQueryRepository
 ) {
 
 	fun existsByUser(user: User): Boolean {
@@ -15,6 +15,6 @@ class CoupleReader(
 	}
 
 	fun findByUser(user: User): CoupleEntry? {
-		return coupleQueryRepository.findByUser(user)
+		return coupleEntryQueryRepository.findByUser(user)
 	}
 }
