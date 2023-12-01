@@ -1,6 +1,6 @@
 package com.lovebird.api.service.profile
 
-import com.lovebird.api.dto.param.auth.ProfileCreateParam
+import com.lovebird.api.dto.param.profile.ProfileCreateParam
 import com.lovebird.domain.repository.reader.ProfileReader
 import com.lovebird.domain.repository.writer.ProfileWriter
 import org.springframework.stereotype.Service
