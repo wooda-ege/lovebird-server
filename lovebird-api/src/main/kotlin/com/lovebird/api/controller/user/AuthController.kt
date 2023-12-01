@@ -1,6 +1,8 @@
 package com.lovebird.api.controller.user
 
+import com.lovebird.api.dto.request.user.SignInRequest
 import com.lovebird.api.dto.request.user.SingUpRequest
+import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.common.response.ApiResponse
 import org.springframework.http.ResponseEntity
@@ -17,15 +19,25 @@ class AuthController(
 
 	@PostMapping("/sign-up/oidc")
 	fun signUp(@RequestBody request: SingUpRequest.OidcUserRequest): ResponseEntity<ApiResponse<Void>> {
-		authService.registerUserUsingOidc(request)
+		authService.signUpUserUsingOidc(request)
 
 		return ApiResponse.created()
 	}
 
 	@PostMapping("/sign-up/naver")
 	fun signUp(@RequestBody request: SingUpRequest.NaverUserRequest): ResponseEntity<ApiResponse<Void>> {
-		authService.registerUserUsingNaver(request)
+		authService.signUpUserUsingNaver(request)
 
 		return ApiResponse.created()
+	}
+
+	@PostMapping("/sign-in/oidc")
+	fun signIn(@RequestBody request: SignInRequest.OidcUserRequest): ApiResponse<SignInResponse> {
+		return ApiResponse.success(authService.signInUsingOidc(request.toParam()))
+	}
+
+	@PostMapping("/sign-in/naver")
+	fun signIn(@RequestBody request: SignInRequest.NaverUserRequest): ApiResponse<SignInResponse> {
+		return ApiResponse.success(authService.signInUsingNaver(request.toParam()))
 	}
 }
