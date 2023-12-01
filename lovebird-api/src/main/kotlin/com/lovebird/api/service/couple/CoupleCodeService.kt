@@ -64,7 +64,9 @@ class CoupleCodeService(
 			if (it.isExpired()) {
 				delete(it)
 				null
-			} else it
+			} else {
+				it
+			}
 		}
 	}
 
