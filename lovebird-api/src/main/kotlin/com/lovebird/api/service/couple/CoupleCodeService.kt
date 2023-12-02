@@ -9,6 +9,7 @@ import com.lovebird.domain.entity.CoupleCode
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.CoupleCodeReader
 import com.lovebird.domain.repository.writer.CoupleCodeWriter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional
 class CoupleCodeService(
 	private val coupleService: CoupleService,
 	private val coupleCodeWriter: CoupleCodeWriter,
-	private val coupleCodeReader: CoupleCodeReader
+	private val coupleCodeReader: CoupleCodeReader,
+	@Value("\${apple.test-code}")
+	private val appleTestCode: String
 ) {
 
 	private val ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz"
@@ -30,18 +33,19 @@ class CoupleCodeService(
 
 	@Transactional
 	fun linkCouple(param: CoupleLinkParam): CoupleLinkResponse {
-		val coupleCode = findByUser(param.user) ?: throw LbException(ReturnCode.WRONG_PARAMETER)
-		coupleService.saveAll(param.user, coupleCode.user)
+		if (param.coupleCode == appleTestCode) {
+			return linkForAppleTest(param.user)
+		}
+
+		val coupleCode: CoupleCode = findByCode(param.coupleCode)
+		coupleService.saveAllWithValidation(param.user, coupleCode.user)
 
 		return CoupleLinkResponse(coupleCode.id!!)
 	}
 
-	private fun save(user: User, code: String): CoupleCode {
-		return coupleCodeWriter.save(CoupleCode(user, code))
-	}
-
-	private fun delete(coupleCode: CoupleCode) {
-		coupleCodeWriter.delete(coupleCode)
+	private fun linkForAppleTest(user: User): CoupleLinkResponse {
+		coupleService.saveAll(user, user)
+		return CoupleLinkResponse(user.id!!)
 	}
 
 	private fun generateCode(): String {
@@ -68,6 +72,24 @@ class CoupleCodeService(
 				it
 			}
 		}
+	}
+
+	private fun findByCode(code: String): CoupleCode {
+		return coupleCodeReader.findByCode(code).let {
+			if (it.isExpired()) {
+				delete(it)
+				throw LbException(ReturnCode.WRONG_PARAMETER)
+			}
+			it
+		}
+	}
+
+	private fun save(user: User, code: String): CoupleCode {
+		return coupleCodeWriter.save(CoupleCode(user, code))
+	}
+
+	private fun delete(coupleCode: CoupleCode) {
+		coupleCodeWriter.delete(coupleCode)
 	}
 
 	private fun existsByCode(code: String): Boolean {

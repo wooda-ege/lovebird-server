@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository
 interface CoupleCodeJpaRepository : JpaRepository<CoupleCode, Long> {
 
 	fun existsByCode(code: String): Boolean
+	fun findByCode(code: String): CoupleCode?
 	fun findByUser(user: User): CoupleCode?
 }
