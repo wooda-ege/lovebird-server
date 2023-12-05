@@ -1,6 +1,7 @@
 package com.lovebird.domain.entity
 
 import com.lovebird.common.enums.Gender
+import com.lovebird.domain.dto.command.ProfileUpdateParam
 import com.lovebird.domain.entity.audit.AuditEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
@@ -38,9 +40,6 @@ class Profile(
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	val user: User = user
 
-	@Column(name = "partner_id")
-	var partnerId: Long? = null
-
 	@Column(name = "image_url", nullable = false)
 	var imageUrl: String = imageUrl
 
@@ -60,6 +59,15 @@ class Profile(
 	@Enumerated(value = EnumType.STRING)
 	var gender: Gender = gender
 
-	@Column(name = "linked_flag", nullable = false)
-	var linkedFlag: Boolean = false
+	@OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+	val anniversaries: List<Anniversary> = mutableListOf()
+
+	fun update(param: ProfileUpdateParam) {
+		param.imageUrl?.let { this.imageUrl = it }
+		param.email?.let { this.email = it }
+		param.nickname?.let { this.nickname = it }
+		param.birthday?.let { this.birthday = it }
+		param.firstDate?.let { this.firstDate = it }
+		param.gender?.let { this.gender = it }
+	}
 }

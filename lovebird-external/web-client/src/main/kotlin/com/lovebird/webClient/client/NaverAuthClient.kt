@@ -1,6 +1,5 @@
 package com.lovebird.webClient.client
 
-import com.lovebird.webClient.client.dto.request.NaverLoginClientRequest
 import com.lovebird.webClient.client.dto.request.NaverUserInfoClientRequest
 import com.lovebird.webClient.client.dto.response.NaverLoginClientResponse
 import com.lovebird.webClient.client.dto.response.NaverUserInfoClientResponse
@@ -15,7 +14,9 @@ class NaverAuthClient(
 	private val properties: NaverProperties
 ) {
 
-	fun getAccessToken(request: NaverLoginClientRequest): NaverLoginClientResponse {
+	fun getAccessToken(code: String, state: String): NaverLoginClientResponse {
+		val request = properties.toNaverLoginRequest(code, state)
+
 		return webClient.mutate()
 			.baseUrl(properties.getTokenUrl())
 			.build()

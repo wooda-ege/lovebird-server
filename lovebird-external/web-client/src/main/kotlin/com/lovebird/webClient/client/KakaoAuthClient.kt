@@ -2,8 +2,10 @@ package com.lovebird.webClient.client
 
 import com.lovebird.webClient.client.properties.KakaoProperties
 import com.lovebird.webClient.vo.key.OidcPublicKeyList
+import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 
+@Component
 class KakaoAuthClient(
 	private val webClient: WebClient,
 	private val properties: KakaoProperties
