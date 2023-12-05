@@ -6,6 +6,7 @@ include(
 	"lovebird-common",
 	"lovebird-domain",
 	"lovebird-external:s3",
+	"lovebird-external:fcm",
 	"lovebird-external:web-client",
 	"lovebird-infra:logging",
 	"lovebird-infra:monitoring"
