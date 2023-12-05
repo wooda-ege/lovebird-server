@@ -10,6 +10,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Entity
 @Table(name = "couple_code")
@@ -21,15 +23,20 @@ class CoupleCode(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "couple_code_id")
-	private var id: Long? = null
+	var id: Long? = null
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
-	private var user: User = user
+	var user: User = user
 
 	@Column(name = "code", nullable = false, unique = true)
-	private var code: String = code
+	var code: String = code
 
-	@Column(name = "usage_flag", nullable = false)
-	private var useCode: Boolean = false
+	fun isExpired(): Boolean {
+		return ChronoUnit.HOURS.between(createdAt, LocalDateTime.now()) >= 24
+	}
+
+	fun getRemainSeconds(): Long {
+		return ChronoUnit.SECONDS.between(createdAt, LocalDateTime.now())
+	}
 }

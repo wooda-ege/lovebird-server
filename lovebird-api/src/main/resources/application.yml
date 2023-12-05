@@ -14,3 +14,6 @@ spring:
             - s3-${spring.profiles.default}.yml
             - logging-${spring.profiles.default}.yml
             - monitoring.yml
+
+apple:
+    test-code: ${APPLE_TEST_CODE}

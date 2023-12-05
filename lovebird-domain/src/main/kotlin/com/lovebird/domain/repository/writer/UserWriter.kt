@@ -9,7 +9,7 @@ class UserWriter(
 	private val userJpaRepository: UserJpaRepository
 ) {
 
-	fun save(user: User) {
-		userJpaRepository.save(user)
+	fun save(user: User): User {
+		return userJpaRepository.save(user)
 	}
 }

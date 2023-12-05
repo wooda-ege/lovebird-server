@@ -1,4 +1,4 @@
-package com.lovebird.api.dto.param
+package com.lovebird.api.dto.param.external
 
 data class ProfileUploadPresignedUrlParam(
 	val userId: Long,

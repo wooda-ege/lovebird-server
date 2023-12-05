@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 
@@ -40,6 +41,9 @@ class User(
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role", nullable = false)
 	val role: Role = Role.ROLE_USER
+
+	@OneToOne(mappedBy = "user")
+	var profile: Profile? = null
 
 	fun updateDeviceToken(deviceToken: String?) {
 		this.deviceToken = deviceToken

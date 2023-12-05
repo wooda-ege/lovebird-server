@@ -1,6 +1,6 @@
 package com.lovebird.common.enums
 
-enum class Anniversary {
+enum class AnniversaryType {
 
 	FIRST_DATE,
 	ONE_HUNDRED,

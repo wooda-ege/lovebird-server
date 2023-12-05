@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserJpaRepository : JpaRepository<User, Long>
+interface UserJpaRepository : JpaRepository<User, Long> {
+
+	fun findByProviderId(providerId: String): User?
+}
