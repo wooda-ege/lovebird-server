@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource
 
 
 @Configuration
-class FCMConfig(
+class FirebaseConfig(
 	@Value("\${firebase.certification}")
 	private val adminSdk: String,
 	@Value("\${firebase.scope}")
