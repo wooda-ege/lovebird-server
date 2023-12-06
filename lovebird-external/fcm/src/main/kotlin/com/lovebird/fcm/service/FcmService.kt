@@ -30,15 +30,15 @@ class FcmService(
 
 			loggingFailToken(response, param.deviceTokens)
 		} catch (e: FirebaseMessagingException) {
-			logger.error("cannot send to memberList push message. error info : {${e.message}}");
+			logger.error("cannot send to memberList push message. error info : {${e.message}}")
 		}
 	}
 
 	private fun loggingFailToken(response: BatchResponse, tokenList: List<String>) {
 		when {
 			response.failureCount > 0 -> {
-				val responses: List<SendResponse> = response.responses;
-				val failedTokens = mutableListOf<String>();
+				val responses: List<SendResponse> = response.responses
+				val failedTokens = mutableListOf<String>()
 
 				responses.indices
 					.filterNot { responses[it].isSuccessful }
