@@ -13,6 +13,7 @@ dependencies {
 	implementation(project(":lovebird-domain"))
 	implementation(project(":lovebird-security"))
 	implementation(project(":lovebird-external:s3"))
+	implementation(project(":lovebird-external:fcm"))
 	implementation(project(":lovebird-infra:logging"))
 	implementation(project(":lovebird-infra:monitoring"))
 

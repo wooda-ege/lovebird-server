@@ -1,0 +1,3 @@
+firebase:
+  certification: /firebase/lovebird-firebase-admin-sdk.json
+  scope: https://www.googleapis.com/auth/cloud-platform

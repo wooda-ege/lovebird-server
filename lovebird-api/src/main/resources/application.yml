@@ -12,6 +12,7 @@ spring:
             - security-${spring.profiles.default}.yml
             - client-${spring.profiles.default}.yml
             - s3-${spring.profiles.default}.yml
+            - fcm.yml
             - logging-${spring.profiles.default}.yml
             - monitoring.yml
 
