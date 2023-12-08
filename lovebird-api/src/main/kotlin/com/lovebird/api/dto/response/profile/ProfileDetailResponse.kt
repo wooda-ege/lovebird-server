@@ -1,7 +1,7 @@
 package com.lovebird.api.dto.response.profile
 
 import com.lovebird.api.dto.request.profile.AnniversaryResponse
-import com.lovebird.domain.dto.query.ProfileDetailParam
+import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -20,7 +20,7 @@ data class ProfileDetailResponse(
 ) {
 	companion object {
 		@JvmStatic
-		fun of(param: ProfileDetailParam): ProfileDetailResponse {
+		fun of(param: ProfileDetailResponseParam): ProfileDetailResponse {
 			return ProfileDetailResponse(
 				userId = param.userId,
 				partnerId = param.partnerId,

@@ -3,7 +3,7 @@ package com.lovebird.domain.dto.query
 import com.lovebird.common.enums.AnniversaryType
 import java.time.LocalDate
 
-data class ProfileDetailParam(
+data class ProfileDetailResponseParam(
 	val userId: Long,
 	val partnerId: Long,
 	val email: String,
