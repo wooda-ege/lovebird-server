@@ -41,3 +41,6 @@ out/
 
 ### generated ###
 src/main/generated/
+
+### firebase ###
+/lovebird-external/fcm/src/main/resources/firebase/lovebird-firebase-admin-sdk.json
