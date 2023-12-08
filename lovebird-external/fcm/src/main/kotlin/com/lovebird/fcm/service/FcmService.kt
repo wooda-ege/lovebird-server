@@ -25,8 +25,8 @@ class FcmService(
 
 	suspend fun sendAllNotification(param: FcmNotificationParam) {
 		try {
-			val messages = getMessages(param)
-			val response = FirebaseMessaging.getInstance().sendEach(messages)
+			val messages: List<Message> = getMessages(param)
+			val response: BatchResponse = FirebaseMessaging.getInstance().sendEach(messages)
 
 			loggingFailToken(response, param.deviceTokens)
 		} catch (e: FirebaseMessagingException) {
