@@ -1,15 +1,15 @@
 package com.lovebird.domain.repository.writer
 
+import com.lovebird.common.annotation.Writer
 import com.lovebird.domain.entity.CoupleEntry
-import com.lovebird.domain.repository.jpa.CoupleJpaRepository
-import org.springframework.stereotype.Component
+import com.lovebird.domain.repository.jpa.CoupleEntryJpaRepository
 
-@Component
+@Writer
 class CoupleEntryWriter(
-	private val coupleJpaRepository: CoupleJpaRepository
+	private val coupleEntryJpaRepository: CoupleEntryJpaRepository
 ) {
 
 	fun saveAll(coupleEntries: List<CoupleEntry>) {
-		coupleJpaRepository.saveAll(coupleEntries)
+		coupleEntryJpaRepository.saveAll(coupleEntries)
 	}
 }
