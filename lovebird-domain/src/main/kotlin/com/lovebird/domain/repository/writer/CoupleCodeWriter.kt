@@ -1,10 +1,10 @@
 package com.lovebird.domain.repository.writer
 
+import com.lovebird.common.annotation.Writer
 import com.lovebird.domain.entity.CoupleCode
 import com.lovebird.domain.repository.jpa.CoupleCodeJpaRepository
-import org.springframework.stereotype.Component
 
-@Component
+@Writer
 class CoupleCodeWriter(
 	private val coupleCodeJpaRepository: CoupleCodeJpaRepository
 ) {

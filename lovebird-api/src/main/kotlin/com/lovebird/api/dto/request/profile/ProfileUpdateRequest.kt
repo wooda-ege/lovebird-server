@@ -1,7 +1,7 @@
 package com.lovebird.api.dto.request.profile
 
 import com.lovebird.common.enums.Gender
-import com.lovebird.domain.dto.command.ProfileUpdateParam
+import com.lovebird.domain.dto.command.ProfileUpdateRequestParam
 import java.time.LocalDate
 
 data class ProfileUpdateRequest(
@@ -12,8 +12,8 @@ data class ProfileUpdateRequest(
 	val firstDate: LocalDate?,
 	val gender: Gender?
 ) {
-	fun toParam(): ProfileUpdateParam {
-		return ProfileUpdateParam(
+	fun toParam(): ProfileUpdateRequestParam {
+		return ProfileUpdateRequestParam(
 			imageUrl = imageUrl,
 			email = email,
 			nickname = nickname,

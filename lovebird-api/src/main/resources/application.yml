@@ -8,6 +8,7 @@ spring:
         location: classpath:/app-banner.dat
     config:
         import:
+            - common.yml
             - db-${spring.profiles.default}.yml
             - security-${spring.profiles.default}.yml
             - client-${spring.profiles.default}.yml

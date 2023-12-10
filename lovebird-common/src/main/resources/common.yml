@@ -1,0 +1,2 @@
+aes:
+  secret-key: ${AES_SECRET_KEY}
