@@ -4,7 +4,7 @@ import com.lovebird.api.dto.request.couple.CoupleLinkRequest
 import com.lovebird.api.dto.response.couple.CoupleCodeResponse
 import com.lovebird.api.dto.response.couple.CoupleLinkResponse
 import com.lovebird.api.service.couple.CoupleCodeService
-import com.lovebird.common.annotation.AuthorizedUser
+import com.lovebird.security.annotation.AuthorizedUser
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
 import org.springframework.web.bind.annotation.PostMapping
