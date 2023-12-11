@@ -1,8 +1,6 @@
 package com.lovebird.common.response
 
 import com.lovebird.common.enums.ReturnCode
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 
 data class ApiResponse<T>(
 	val code: String,
@@ -17,10 +15,6 @@ data class ApiResponse<T>(
 				ReturnCode.SUCCESS.message,
 				data
 			)
-		}
-
-		fun <T> created(data: T? = null): ResponseEntity<ApiResponse<T>> {
-			return ResponseEntity.status(HttpStatus.CREATED).body(success(data))
 		}
 
 		fun <T> fail(returnCode: ReturnCode): ApiResponse<T> {

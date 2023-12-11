@@ -1,11 +1,11 @@
-package com.lovebird.common.annotation
+package com.lovebird.domain.annotation
 
 import org.springframework.core.annotation.AliasFor
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
 /**
- * Indicates that an annotated class is a "Writer" (e.g. a data access object).
+ * Indicates that an annotated class is a "Reader" (e.g. a data access object).
  *
  * <p>This annotation serves as a specialization of {@link Component @Component},
  * allowing for implementation classes to be autodetected through classpath scanning.
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 @Component
-annotation class Writer(
+annotation class Reader(
 	/**
 	 * Alias for {@link Component#value}.
 	 */

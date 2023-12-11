@@ -1,6 +1,6 @@
 package com.lovebird.domain.repository.writer
 
-import com.lovebird.common.annotation.Writer
+import com.lovebird.domain.annotation.Writer
 import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.repository.jpa.CoupleEntryJpaRepository
 
