@@ -1,5 +1,1 @@
 description = "common module"
-
-dependencies {
-
-}
