@@ -29,7 +29,7 @@ data class ProfileDetailResponse(
 				partnerNickname = param.partnerNickname,
 				firstDate = param.firstDate,
 				birthday = param.birthday,
-				dayCount = param.firstDate?.let { ChronoUnit.DAYS.between(it, LocalDate.now()) },
+				dayCount = param.firstDate?.let { ChronoUnit.DAYS.between(it, LocalDate.now()) + 1 },
 				nextAnniversary = param.nextAnniversaryType?.let {
 					AnniversaryResponse(it, param.nextAnniversaryDate!!)
 				},

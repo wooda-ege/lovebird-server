@@ -1,6 +1,6 @@
 package com.lovebird.domain.repository.reader
 
-import com.lovebird.common.annotation.Reader
+import com.lovebird.domain.annotation.Reader
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.entity.Diary

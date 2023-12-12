@@ -1,7 +1,7 @@
 package com.lovebird.security.resolver
 
-import com.lovebird.common.annotation.AuthorizedUser
 import com.lovebird.domain.entity.User
+import com.lovebird.security.annotation.AuthorizedUser
 import com.lovebird.security.vo.PrincipalUser
 import org.springframework.core.MethodParameter
 import org.springframework.security.core.context.SecurityContextHolder

@@ -19,7 +19,7 @@ class DiaryImage(
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "diary_id")
+	@Column(name = "diary_image_id")
 	val id: Long? = null
 
 	@Column(name = "image_url", nullable = false)

@@ -5,6 +5,7 @@ import com.lovebird.api.dto.request.user.SingUpRequest
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.common.response.ApiResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,14 +22,14 @@ class AuthController(
 	fun signUp(@RequestBody request: SingUpRequest.OidcUserRequest): ResponseEntity<ApiResponse<Void>> {
 		authService.signUpUserUsingOidc(request)
 
-		return ApiResponse.created()
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
 	}
 
 	@PostMapping("/sign-up/naver")
 	fun signUp(@RequestBody request: SingUpRequest.NaverUserRequest): ResponseEntity<ApiResponse<Void>> {
 		authService.signUpUserUsingNaver(request)
 
-		return ApiResponse.created()
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
 	}
 
 	@PostMapping("/sign-in/oidc")

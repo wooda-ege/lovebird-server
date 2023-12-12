@@ -5,7 +5,7 @@ dependencies {
 	implementation(project(":lovebird-domain"))
 	implementation(project(":lovebird-external:web-client"))
 
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("jakarta.servlet:jakarta.servlet-api:5.0.0")
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")

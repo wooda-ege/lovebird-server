@@ -1,8 +1,8 @@
 package com.lovebird.domain.repository.reader
 
-import com.lovebird.common.annotation.Reader
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
+import com.lovebird.domain.annotation.Reader
 import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import com.lovebird.domain.entity.Profile
 import com.lovebird.domain.entity.User

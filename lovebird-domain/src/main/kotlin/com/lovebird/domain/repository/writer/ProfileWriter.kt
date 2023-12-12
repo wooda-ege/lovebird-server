@@ -1,6 +1,6 @@
 package com.lovebird.domain.repository.writer
 
-import com.lovebird.common.annotation.Writer
+import com.lovebird.domain.annotation.Writer
 import com.lovebird.domain.dto.command.ProfileUpdateRequestParam
 import com.lovebird.domain.entity.Profile
 import com.lovebird.domain.repository.jpa.ProfileJpaRepository
