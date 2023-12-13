@@ -2,6 +2,8 @@ package com.lovebird.domain.repository.query
 
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
+import com.lovebird.domain.dto.query.DiarySimpleRequestParam
+import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.QDiary
 import com.lovebird.domain.entity.QDiary.diary
 import com.lovebird.domain.entity.QDiaryImage.diaryImage
@@ -86,13 +88,45 @@ class DiaryQueryRepository(
 			)
 	}
 
+	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiarySimpleResponseParam> {
+		return queryFactory
+			.select(
+				Projections.constructor(
+					DiarySimpleResponseParam::class.java,
+					diary.id,
+					diary.user.id,
+					diary.title,
+					diary.memoryDate,
+					diary.place,
+					diary.content,
+					diary.diaryImages.get(0)
+				)
+			)
+			.from(diary)
+			.innerJoin(user)
+			.on(eqUserId(user.id))
+			.where(eqCouple(param.userId, param.partnerId), eqMemoryDate(param.memoryDate))
+			.orderBy(descCreatedAt())
+			.fetch()
+	}
+
 	private fun eqDiary(diary: QDiary): BooleanExpression = diary.eq(diary)
 
-	private fun eqCouple(userId: Long, partnerId: Long): BooleanExpression = eqUserId(userId).or(eqUserId(partnerId))
+	private fun eqCouple(userId: Long, partnerId: Long?): BooleanExpression {
+		val expression: BooleanExpression = eqUserId(userId)
+
+		return if (partnerId != null) {
+			expression.or(eqUserId(partnerId))
+		} else {
+			expression
+		}
+	}
 
 	private fun eqUserId(userId: Long): BooleanExpression = diary.user.id.eq(userId)
 
 	private fun eqUserId(userId: NumberPath<Long>): BooleanExpression = diary.user.id.eq(userId)
+
+	private fun eqMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.eq(memoryDate)
 
 	private fun loeMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.loe(memoryDate)
 
