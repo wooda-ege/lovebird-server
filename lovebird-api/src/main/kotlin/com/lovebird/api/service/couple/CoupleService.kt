@@ -37,6 +37,10 @@ class CoupleService(
 		}
 	}
 
+	fun findPartnerByUser(user: User): User? {
+		return coupleEntryReader.findByUser(user)?.partner
+	}
+
 	fun existByUser(user: User): Boolean {
 		return coupleEntryReader.existsByUser(user)
 	}

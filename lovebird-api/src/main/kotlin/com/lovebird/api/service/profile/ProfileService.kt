@@ -2,7 +2,7 @@ package com.lovebird.api.service.profile
 
 import com.lovebird.api.dto.param.profile.ProfileCreateParam
 import com.lovebird.api.dto.response.profile.ProfileDetailResponse
-import com.lovebird.domain.dto.command.ProfileUpdateParam
+import com.lovebird.domain.dto.command.ProfileUpdateRequestParam
 import com.lovebird.domain.entity.Profile
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.ProfileReader
@@ -22,7 +22,7 @@ class ProfileService(
 	}
 
 	@Transactional
-	fun update(user: User, param: ProfileUpdateParam) {
+	fun update(user: User, param: ProfileUpdateRequestParam) {
 		profileWriter.update(findByUser(user), param)
 	}
 

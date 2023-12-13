@@ -1,6 +1,6 @@
 package com.lovebird.domain.repository.query
 
-import com.lovebird.domain.dto.query.ProfileDetailParam
+import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import com.lovebird.domain.entity.QAnniversary.anniversary
 import com.lovebird.domain.entity.QCoupleEntry.coupleEntry
 import com.lovebird.domain.entity.QProfile.profile
@@ -16,11 +16,11 @@ class ProfileQueryRepository(
 	private val queryFactory: JPAQueryFactory
 ) {
 
-	fun findDetailParamByUser(user: User): ProfileDetailParam? {
+	fun findDetailParamByUser(user: User): ProfileDetailResponseParam? {
 		return queryFactory
 			.select(
 				Projections.constructor(
-					ProfileDetailParam::class.java,
+					ProfileDetailResponseParam::class.java,
 					profile.id,
 					coupleEntry.partner.id,
 					profile.email,

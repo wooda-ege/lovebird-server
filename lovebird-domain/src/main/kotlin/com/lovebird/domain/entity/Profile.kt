@@ -1,7 +1,7 @@
 package com.lovebird.domain.entity
 
 import com.lovebird.common.enums.Gender
-import com.lovebird.domain.dto.command.ProfileUpdateParam
+import com.lovebird.domain.dto.command.ProfileUpdateRequestParam
 import com.lovebird.domain.entity.audit.AuditEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -62,7 +62,7 @@ class Profile(
 	@OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
 	val anniversaries: List<Anniversary> = mutableListOf()
 
-	fun update(param: ProfileUpdateParam) {
+	fun update(param: ProfileUpdateRequestParam) {
 		param.imageUrl?.let { this.imageUrl = it }
 		param.email?.let { this.email = it }
 		param.nickname?.let { this.nickname = it }

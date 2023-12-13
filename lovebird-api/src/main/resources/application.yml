@@ -18,3 +18,6 @@ spring:
 
 apple:
     test-code: ${APPLE_TEST_CODE}
+
+aes:
+    secret-key: ${AES_SECRET_KEY}

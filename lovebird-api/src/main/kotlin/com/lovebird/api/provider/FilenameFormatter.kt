@@ -1,4 +1,4 @@
-package com.lovebird.common.utils
+package com.lovebird.api.provider
 
 import org.springframework.stereotype.Component
 

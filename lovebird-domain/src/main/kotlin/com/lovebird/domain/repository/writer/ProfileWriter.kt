@@ -1,11 +1,11 @@
 package com.lovebird.domain.repository.writer
 
-import com.lovebird.domain.dto.command.ProfileUpdateParam
+import com.lovebird.domain.annotation.Writer
+import com.lovebird.domain.dto.command.ProfileUpdateRequestParam
 import com.lovebird.domain.entity.Profile
 import com.lovebird.domain.repository.jpa.ProfileJpaRepository
-import org.springframework.stereotype.Component
 
-@Component
+@Writer
 class ProfileWriter(
 	private val profileJpaRepository: ProfileJpaRepository
 ) {
@@ -14,7 +14,7 @@ class ProfileWriter(
 		profileJpaRepository.save(profile)
 	}
 
-	fun update(profile: Profile, param: ProfileUpdateParam) {
+	fun update(profile: Profile, param: ProfileUpdateRequestParam) {
 		profile.update(param)
 	}
 }

@@ -1,6 +1,6 @@
 package com.lovebird.domain.repository.reader
 
-import com.lovebird.common.annotation.Reader
+import com.lovebird.domain.annotation.Reader
 import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.query.CoupleEntryQueryRepository

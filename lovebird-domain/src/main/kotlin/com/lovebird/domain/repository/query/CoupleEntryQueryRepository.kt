@@ -16,10 +16,8 @@ class CoupleEntryQueryRepository(
 		return queryFactory
 			.selectFrom(coupleEntry)
 			.where(eqUser(user))
-			.fetchFirst()
+			.fetchOne()
 	}
 
-	fun eqUser(user: User): BooleanExpression? {
-		return coupleEntry.user.eq(user).or(coupleEntry.partner.eq(user))
-	}
+	fun eqUser(user: User): BooleanExpression = coupleEntry.user.eq(user)
 }

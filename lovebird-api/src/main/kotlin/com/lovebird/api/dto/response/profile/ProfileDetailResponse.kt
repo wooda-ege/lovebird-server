@@ -1,7 +1,7 @@
 package com.lovebird.api.dto.response.profile
 
 import com.lovebird.api.dto.request.profile.AnniversaryResponse
-import com.lovebird.domain.dto.query.ProfileDetailParam
+import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -20,7 +20,7 @@ data class ProfileDetailResponse(
 ) {
 	companion object {
 		@JvmStatic
-		fun of(param: ProfileDetailParam): ProfileDetailResponse {
+		fun of(param: ProfileDetailResponseParam): ProfileDetailResponse {
 			return ProfileDetailResponse(
 				userId = param.userId,
 				partnerId = param.partnerId,
@@ -29,7 +29,7 @@ data class ProfileDetailResponse(
 				partnerNickname = param.partnerNickname,
 				firstDate = param.firstDate,
 				birthday = param.birthday,
-				dayCount = param.firstDate?.let { ChronoUnit.DAYS.between(it, LocalDate.now()) },
+				dayCount = param.firstDate?.let { ChronoUnit.DAYS.between(it, LocalDate.now()) + 1 },
 				nextAnniversary = param.nextAnniversaryType?.let {
 					AnniversaryResponse(it, param.nextAnniversaryDate!!)
 				},
