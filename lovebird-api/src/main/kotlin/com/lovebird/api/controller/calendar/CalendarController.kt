@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/calendar")
+@RequestMapping("/api/v1/calendars")
 class CalendarController(
 	private val calendarService: CalendarService
 ) {
