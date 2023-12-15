@@ -130,7 +130,7 @@ class DiaryQueryRepository(
 	private fun eqUserId(userId: NumberPath<Long>): BooleanExpression = diary.user.id.eq(userId)
 
 	private fun eqMemoryDateAndGtDiaryId(memoryDate: LocalDate, diaryId: Long): BooleanExpression {
-		return eqMemoryDate(memoryDate).and(gtDiaryId(diaryId))
+		return gtDiaryId(diaryId).and(eqMemoryDate(memoryDate))
 	}
 
 	private fun eqMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.eq(memoryDate)
