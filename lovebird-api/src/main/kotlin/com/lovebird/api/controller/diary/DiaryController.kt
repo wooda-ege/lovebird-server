@@ -4,6 +4,7 @@ import com.lovebird.api.dto.request.diary.DiaryCreateRequest
 import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.request.diary.DiaryUpdateRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
+import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.common.response.ApiResponse
@@ -36,12 +37,20 @@ class DiaryController(
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
 	}
 
-	@GetMapping
+	@GetMapping("/memory-date")
 	fun findAllByMemoryDate(
 		@AuthorizedUser user: User,
 		@ModelAttribute request: DiaryListRequest.SearchByMemoryDateRequest
 	): ApiResponse<DiarySimpleListResponse> {
 		return ApiResponse.success(diaryService.findAllByMemoryDate(request, user))
+	}
+
+	@GetMapping("/cursor")
+	fun findAllByCursor(
+		@AuthorizedUser user: User,
+		@ModelAttribute request: DiaryListRequest.SearchByCursorRequest
+	): ApiResponse<DiaryListResponse> {
+		return ApiResponse.success(diaryService.findPageByCursor(request, user))
 	}
 
 	@GetMapping("/{id}")
