@@ -28,8 +28,6 @@ class DiaryQueryRepository(
 			.from(diary)
 			.innerJoin(user)
 			.on(eqUserId(user.id))
-			.innerJoin(diaryImage)
-			.on(eqDiary(diaryImage.diary))
 			.where(
 				eqCouple(param.userId, param.partnerId),
 				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
@@ -51,7 +49,7 @@ class DiaryQueryRepository(
 							list(
 								Projections.constructor(
 									String::class.java,
-									diary.diaryImages.any().imageUrl
+									diaryImage.imageUrl
 								)
 							)
 						)
@@ -64,8 +62,6 @@ class DiaryQueryRepository(
 			.from(diary)
 			.innerJoin(user)
 			.on(eqUserId(user.id))
-			.innerJoin(diaryImage)
-			.on(eqDiary(diaryImage.diary))
 			.where(
 				eqCouple(param.userId, param.partnerId),
 				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
@@ -87,7 +83,7 @@ class DiaryQueryRepository(
 							list(
 								Projections.constructor(
 									String::class.java,
-									diary.diaryImages.any().imageUrl
+									diaryImage.imageUrl
 								)
 							)
 						)
