@@ -17,7 +17,7 @@ data class CalendarDetailResponse(
 	val endTime: LocalTime? = null
 ) {
 	companion object {
-		fun of (calendar: Calendar): CalendarDetailResponse {
+		fun of(calendar: Calendar): CalendarDetailResponse {
 			return CalendarDetailResponse(
 				calendar.id!!,
 				calendar.user.id!!,

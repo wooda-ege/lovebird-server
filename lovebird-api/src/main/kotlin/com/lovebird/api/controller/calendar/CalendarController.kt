@@ -16,6 +16,6 @@ class CalendarController(
 
 	@GetMapping("/{id}")
 	fun getCalendarById(@PathVariable id: Long): ApiResponse<CalendarDetailResponse> {
-		return ApiResponse.success(calendarService.findById(id));
+		return ApiResponse.success(calendarService.findById(id))
 	}
 }
