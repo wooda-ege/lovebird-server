@@ -23,6 +23,7 @@ class CalendarQueryRepository(
 				Projections.constructor(
 					CalendarListResponseParam::class.java,
 					calendar.id,
+					calendar.user.id,
 					calendar.title,
 					calendar.memo,
 					calendar.startDate,

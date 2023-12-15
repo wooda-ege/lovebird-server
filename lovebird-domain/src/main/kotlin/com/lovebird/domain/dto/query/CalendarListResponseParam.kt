@@ -7,6 +7,7 @@ import java.time.LocalTime
 
 data class CalendarListResponseParam(
 	val id: Long,
+	val userId: Long,
 	val title: String,
 	val memo: String?,
 	val startDate: LocalDate,
