@@ -19,6 +19,9 @@ enum class ReturnCode(val code: String, val message: String) {
 	// 커플 관련
 	ALREADY_EXIST_COUPLE("1300", "이미 커플 연동을 한 유저입니다."),
 
+	// 캘린더 관련
+	CALENDAR_BUSINESS_ERROR("1400", "캘린더 일정을 조회하는데 문제가 발생했습니다."),
+
 	// 클라이언트 에러
 	WRONG_PARAMETER("8000", "잘못된 파라미터 입니다."),
 
