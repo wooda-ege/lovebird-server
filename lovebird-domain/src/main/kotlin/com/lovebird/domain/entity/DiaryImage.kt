@@ -12,9 +12,12 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "diary_image", indexes = [
-	Index(name = "fk_diary_image_diary_id", columnList = "diary_id")
-])
+@Table(
+	name = "diary_image",
+	indexes = [
+		Index(name = "fk_diary_image_diary_id", columnList = "diary_id")
+	]
+)
 class DiaryImage(
 	diary: Diary,
 	imageUrl: String
