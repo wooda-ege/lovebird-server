@@ -7,7 +7,9 @@ import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.couple.CoupleService
+import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
+import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.DiaryReader
@@ -22,6 +24,20 @@ class DiaryService(
 	private val diaryImageService: DiaryImageService,
 	private val coupleService: CoupleService
 ) {
+
+	@Transactional(readOnly = true)
+	fun findPageByCursor(request: DiaryListRequest.SearchByCursorRequest, user: User): DiaryListResponse {
+		val partner: User? = coupleService.findPartnerByUser(user)
+
+		return when (request.searchType) {
+			DiarySearchType.BEFORE -> {
+				findBeforeNowUsingCursor(request.toParam(user.id!!, partner?.id))
+			}
+			DiarySearchType.AFTER -> {
+				findAfterNowUsingCursor(request.toParam(user.id!!, partner?.id))
+			}
+		}
+	}
 
 	@Transactional
 	fun save(param: DiaryCreateParam) {
@@ -47,18 +63,6 @@ class DiaryService(
 	}
 
 	@Transactional(readOnly = true)
-	fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
-		val diaries: List<DiaryDetailResponse> = diaryReader.findBeforeNowUsingCursor(param).map { DiaryDetailResponse.of(it) }
-		return DiaryListResponse(diaries)
-	}
-
-	@Transactional(readOnly = true)
-	fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
-		val diaries: List<DiaryDetailResponse> = diaryReader.findAfterNowUsingCursor(param).map { DiaryDetailResponse.of(it) }
-		return DiaryListResponse(diaries)
-	}
-
-	@Transactional(readOnly = true)
 	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
 		val partner: User? = coupleService.findPartnerByUser(user)
 
@@ -69,5 +73,15 @@ class DiaryService(
 	fun findDetailById(diaryId: Long): DiaryDetailResponse {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
 		return DiaryDetailResponse.of(diary)
+	}
+
+	private fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
+		val diaries: List<DiaryResponseParam> = diaryReader.findBeforeNowUsingCursor(param)
+		return DiaryListResponse(diaries)
+	}
+
+	private fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
+		val diaries: List<DiaryResponseParam> = diaryReader.findAfterNowUsingCursor(param)
+		return DiaryListResponse(diaries)
 	}
 }

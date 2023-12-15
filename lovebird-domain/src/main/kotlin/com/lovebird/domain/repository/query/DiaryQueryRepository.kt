@@ -17,7 +17,6 @@ import com.querydsl.core.types.dsl.NumberPath
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Repository
 class DiaryQueryRepository(
@@ -29,10 +28,12 @@ class DiaryQueryRepository(
 			.from(diary)
 			.innerJoin(user)
 			.on(eqUserId(user.id))
-			.innerJoin(diaryImage)
-			.on(eqDiary(diaryImage.diary))
-			.where(eqCouple(param.userId, param.partnerId), loeMemoryDate(param.memoryDate))
-			.orderBy(descMemoryDate(), descCreatedAt())
+			.where(
+				eqCouple(param.userId, param.partnerId),
+				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
+				ltMemoryDate(param.memoryDate)
+			)
+			.orderBy(descMemoryDate(), ascDiaryId())
 			.limit(param.pageSize)
 			.transform(
 				groupBy(diary.id)
@@ -48,7 +49,7 @@ class DiaryQueryRepository(
 							list(
 								Projections.constructor(
 									String::class.java,
-									diary.diaryImages.any().imageUrl
+									diaryImage.imageUrl
 								)
 							)
 						)
@@ -61,10 +62,12 @@ class DiaryQueryRepository(
 			.from(diary)
 			.innerJoin(user)
 			.on(eqUserId(user.id))
-			.innerJoin(diaryImage)
-			.on(eqDiary(diaryImage.diary))
-			.where(eqCouple(param.userId, param.partnerId), goeMemoryDate(param.memoryDate))
-			.orderBy(ascMemoryDate(), ascCreatedAt())
+			.where(
+				eqCouple(param.userId, param.partnerId),
+				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
+				gtMemoryDate(param.memoryDate)
+			)
+			.orderBy(ascMemoryDate(), ascDiaryId())
 			.limit(param.pageSize)
 			.transform(
 				groupBy(diary.id)
@@ -80,7 +83,7 @@ class DiaryQueryRepository(
 							list(
 								Projections.constructor(
 									String::class.java,
-									diary.diaryImages.any().imageUrl
+									diaryImage.imageUrl
 								)
 							)
 						)
@@ -106,7 +109,7 @@ class DiaryQueryRepository(
 			.innerJoin(user)
 			.on(eqUserId(user.id))
 			.where(eqCouple(param.userId, param.partnerId), eqMemoryDate(param.memoryDate))
-			.orderBy(descCreatedAt())
+			.orderBy(ascDiaryId())
 			.fetch()
 	}
 
@@ -126,17 +129,21 @@ class DiaryQueryRepository(
 
 	private fun eqUserId(userId: NumberPath<Long>): BooleanExpression = diary.user.id.eq(userId)
 
+	private fun eqMemoryDateAndGtDiaryId(memoryDate: LocalDate, diaryId: Long): BooleanExpression {
+		return gtDiaryId(diaryId).and(eqMemoryDate(memoryDate))
+	}
+
 	private fun eqMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.eq(memoryDate)
 
-	private fun loeMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.loe(memoryDate)
+	private fun gtDiaryId(diaryId: Long): BooleanExpression = diary.id.gt(diaryId)
 
-	private fun goeMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.goe(memoryDate)
+	private fun ltMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.lt(memoryDate)
+
+	private fun gtMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.gt(memoryDate)
+
+	private fun ascDiaryId(): OrderSpecifier<Long> = diary.id.asc()
 
 	private fun ascMemoryDate(): OrderSpecifier<LocalDate> = diary.memoryDate.asc()
 
 	private fun descMemoryDate(): OrderSpecifier<LocalDate> = diary.memoryDate.desc()
-
-	private fun ascCreatedAt(): OrderSpecifier<LocalDateTime> = diary.createdAt.asc()
-
-	private fun descCreatedAt(): OrderSpecifier<LocalDateTime> = diary.createdAt.desc()
 }
