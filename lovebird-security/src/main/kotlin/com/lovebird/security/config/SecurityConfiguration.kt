@@ -43,7 +43,8 @@ class SecurityConfiguration(
 		return Customizer {
 			it
 				.requestMatchers(AntPathRequestMatcher("/docs/**", "/api/v1/auth/**")).permitAll()
-				.requestMatchers("/api/v1/**").hasAnyRole("USER", "ADMIN")
+				.requestMatchers("api/v1/calendar/**").permitAll()
+				//.requestMatchers("/api/v1/**").hasAnyRole("USER", "ADMIN")
 				.anyRequest().authenticated()
 		}
 	}
