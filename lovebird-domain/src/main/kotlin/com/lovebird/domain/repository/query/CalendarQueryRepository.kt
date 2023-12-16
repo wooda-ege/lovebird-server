@@ -1,6 +1,7 @@
 package com.lovebird.domain.repository.query
 
 import com.lovebird.domain.dto.query.CalendarListResponseParam
+import com.lovebird.domain.dto.query.CalenderListRequestParam
 import com.lovebird.domain.entity.QCalendar.calendar
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -13,11 +14,7 @@ class CalendarQueryRepository(
 ) {
 
 	fun findCalendarsByDateAndUserIdAndPartnerId(
-		year: Int,
-		month: Int,
-		userId: Long,
-		partnerId: Long
-	): List<CalendarListResponseParam> {
+		calenderListRequestParam: CalenderListRequestParam): List<CalendarListResponseParam> {
 		return queryFactory
 			.select(
 				Projections.constructor(
@@ -35,7 +32,7 @@ class CalendarQueryRepository(
 				)
 			)
 			.from(calendar)
-			.where(eqUserIdOrEqPartnerId(userId, partnerId), eqYearAndMonth(year, month))
+			.where(eqUserIdOrEqPartnerId(calenderListRequestParam.userId, calenderListRequestParam.partnerId!!), eqYearAndMonth(calenderListRequestParam.year, calenderListRequestParam.month))
 			.orderBy(calendar.startDate.asc())
 			.fetch()
 	}
