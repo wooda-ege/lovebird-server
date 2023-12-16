@@ -1,5 +1,6 @@
 package com.lovebird.api.service.calendar
 
+import com.lovebird.api.dto.param.calendar.CalendarListParam
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
 import com.lovebird.common.enums.ReturnCode
@@ -29,13 +30,17 @@ class CalendarService(
 	}
 
 	@Transactional(readOnly = true)
-	fun findCalendarsByMonthAndUser(year: Int, month: Int, user: User): CalendarListResponse {
-		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+	fun findCalendarsByMonthAndUser(calendarListParam: CalendarListParam): CalendarListResponse {
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(calendarListParam.user)
 
 		if (coupleEntry != null) {
 			val partner: User = coupleEntry.partner
 			val calendars: List<CalendarListResponseParam> = calendarReader
-				.findCalendarsByDateAndUserIdAndPartnerId(year, month, user.id!!, partner.id!!)
+				.findCalendarsByDateAndUserIdAndPartnerId(
+					calendarListParam.year,
+					calendarListParam.month,
+					calendarListParam.user.id!!,
+					partner.id!!)
 
 			return CalendarListResponse.of(calendars)
 		}
