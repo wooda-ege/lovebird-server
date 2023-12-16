@@ -32,14 +32,17 @@ class CalendarQueryRepository(
 				)
 			)
 			.from(calendar)
-			.where(eqUserIdOrEqPartnerId(calenderListRequestParam.userId, calenderListRequestParam.partnerId!!), eqYearAndMonth(calenderListRequestParam.year, calenderListRequestParam.month))
+			.where(eqUserIdOrEqPartnerId(calenderListRequestParam))
+			.where(eqYearAndMonth(calenderListRequestParam.year, calenderListRequestParam.month))
 			.orderBy(calendar.startDate.asc())
 			.fetch()
 	}
 
-	private fun eqUserIdOrEqPartnerId(userId: Long, partnerId: Long): BooleanExpression {
-		return calendar.user.id.eq(userId).or(calendar.user.id.eq(partnerId))
+	private fun eqUserIdOrEqPartnerId(calenderListRequestParam: CalenderListRequestParam): BooleanExpression {
+		return eqUserId(calenderListRequestParam.userId).or(eqUserId(calenderListRequestParam.partnerId))
 	}
+
+	private fun eqUserId(userId: Long?): BooleanExpression = calendar.user.id.eq(userId)
 
 	private fun eqYearAndMonth(year: Int, month: Int): BooleanExpression {
 		return calendar.startDate.year().eq(year).and(calendar.startDate.month().eq(month))
