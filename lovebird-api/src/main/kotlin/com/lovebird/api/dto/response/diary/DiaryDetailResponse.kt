@@ -1,5 +1,6 @@
 package com.lovebird.api.dto.response.diary
 
+import com.lovebird.api.provider.AesEncryptProvider
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.entity.Diary
 import java.time.LocalDate
@@ -19,10 +20,10 @@ data class DiaryDetailResponse(
 			return DiaryDetailResponse(
 				diaryId = param.diaryId,
 				userId = param.userId,
-				title = param.title,
+				title = AesEncryptProvider.decryptString(param.title),
 				memoryDate = param.memoryDate,
-				place = param.place,
-				content = param.content,
+				place = param.place?.let { AesEncryptProvider.decryptString(it) },
+				content = param.content?.let { AesEncryptProvider.decryptString(it) },
 				imageUrls = param.imageUrls
 			)
 		}
@@ -32,10 +33,10 @@ data class DiaryDetailResponse(
 			return DiaryDetailResponse(
 				diaryId = entity.id!!,
 				userId = entity.user.id!!,
-				title = entity.title,
+				title = AesEncryptProvider.decryptString(entity.title),
 				memoryDate = entity.memoryDate,
-				place = entity.place,
-				content = entity.content,
+				place = entity.place?.let { AesEncryptProvider.decryptString(it) },
+				content = entity.content?.let { AesEncryptProvider.decryptString(it) },
 				imageUrls = entity.diaryImages.map { it.imageUrl }
 			)
 		}

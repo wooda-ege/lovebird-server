@@ -65,8 +65,7 @@ class DiaryService(
 	@Transactional(readOnly = true)
 	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
 		val partner: User? = coupleService.findPartnerByUser(user)
-
-		return DiarySimpleListResponse(diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id)))
+		return DiarySimpleListResponse.of(diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id)))
 	}
 
 	@Transactional(readOnly = true)
@@ -77,11 +76,11 @@ class DiaryService(
 
 	private fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findBeforeNowUsingCursor(param)
-		return DiaryListResponse(diaries)
+		return DiaryListResponse.of(diaries)
 	}
 
 	private fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findAfterNowUsingCursor(param)
-		return DiaryListResponse(diaries)
+		return DiaryListResponse.of(diaries)
 	}
 }

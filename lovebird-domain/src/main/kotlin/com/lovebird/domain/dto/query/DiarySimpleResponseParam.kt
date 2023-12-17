@@ -5,9 +5,9 @@ import java.time.LocalDate
 data class DiarySimpleResponseParam(
 	val diaryId: Long,
 	val userId: Long,
-	val title: String,
+	var title: String,
 	val memoryDate: LocalDate,
-	val place: String?,
-	val content: String?,
+	var place: String?,
+	var content: String?,
 	val imageUrl: String?
 )

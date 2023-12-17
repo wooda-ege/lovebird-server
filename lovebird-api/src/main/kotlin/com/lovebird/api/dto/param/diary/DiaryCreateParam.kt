@@ -6,10 +6,10 @@ import java.time.LocalDate
 
 data class DiaryCreateParam(
 	val user: User,
-	val title: String,
+	var title: String,
 	val memoryDate: LocalDate,
-	val place: String?,
-	val content: String?,
+	var place: String?,
+	var content: String?,
 	val imageUrls: List<String>?
 ) {
 	fun toEntity(): Diary {

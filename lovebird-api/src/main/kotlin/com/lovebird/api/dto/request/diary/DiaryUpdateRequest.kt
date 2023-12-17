@@ -1,6 +1,7 @@
 package com.lovebird.api.dto.request.diary
 
 import com.lovebird.api.dto.param.diary.DiaryUpdateParam
+import com.lovebird.api.provider.AesEncryptProvider.encryptString
 import java.time.LocalDate
 
 data class DiaryUpdateRequest(
@@ -14,10 +15,10 @@ data class DiaryUpdateRequest(
 	fun toParam(): DiaryUpdateParam {
 		return DiaryUpdateParam(
 			diaryId = diaryId,
-			title = title,
+			title = title?.let { encryptString(it) },
 			memoryDate = memoryDate,
-			place = place,
-			content = content,
+			place = place?.let { encryptString(it) },
+			content = content?.let { encryptString(it) },
 			imageUrls = imageUrls
 		)
 	}
