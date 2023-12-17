@@ -28,16 +28,17 @@ class CalendarService(
 	}
 
 	@Transactional(readOnly = true)
-	fun findCalendarsByMonthAndUser(calendarListParam: CalendarListParam): CalendarListResponse {
-		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(calendarListParam.user)
+	fun findCalendarsByMonthAndUser(param: CalendarListParam): CalendarListResponse {
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(param.user)
 
-		if (coupleEntry != null) {
+		return if (coupleEntry != null) {
 			val partner: User = coupleEntry.partner
 			val calendars: List<CalendarListResponseParam> = calendarReader
-				.findCalendarsByDate(calendarListParam.toRequestParam(partner))
+				.findCalendarsByDate(param.toRequestParam(partner))
 
-			return CalendarListResponse.of(calendars)
+			CalendarListResponse.of(calendars)
+		} else {
+			CalendarListResponse.of(calendarReader.findCalendarsByDate(param.toRequestParam()))
 		}
-		return CalendarListResponse.of(calendarReader.findCalendarsByDate(calendarListParam.toRequestParam()))
 	}
 }

@@ -9,6 +9,7 @@ import com.lovebird.domain.entity.User
 import com.lovebird.security.annotation.AuthorizedUser
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -26,7 +27,8 @@ class CalendarController(
 
 	@GetMapping
 	fun getCalendarsByMonth(
-		@Valid calendarListRequest: CalendarListRequest,
+		@Valid @ModelAttribute
+		calendarListRequest: CalendarListRequest,
 		@AuthorizedUser user: User
 	): ApiResponse<CalendarListResponse> {
 		return ApiResponse.success(calendarService.findCalendarsByMonthAndUser(calendarListRequest.toParam(user)))

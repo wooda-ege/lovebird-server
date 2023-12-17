@@ -4,8 +4,8 @@ import com.lovebird.domain.dto.query.CalenderListRequestParam
 import com.lovebird.domain.entity.User
 
 data class CalendarListParam(
-	val year: Int,
-	val month: Int,
+	val year: Int?,
+	val month: Int?,
 	val user: User
 ) {
 	fun toRequestParam(partner: User): CalenderListRequestParam {

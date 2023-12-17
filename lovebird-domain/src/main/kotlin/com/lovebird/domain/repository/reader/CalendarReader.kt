@@ -19,7 +19,7 @@ class CalendarReader(
 		return calendarJpaRepository.findById(id).orElseThrow() { throw LbException(ReturnCode.WRONG_PARAMETER) }
 	}
 
-	fun findCalendarsByDate(calenderListRequestParam: CalenderListRequestParam): List<CalendarListResponseParam> {
-		return calendarQueryRepository.findCalendarsByDateAndUserIdAndPartnerId(calenderListRequestParam)
+	fun findCalendarsByDate(param: CalenderListRequestParam): List<CalendarListResponseParam> {
+		return calendarQueryRepository.findCalendarsByDateAndUserIdAndPartnerId(param)
 	}
 }

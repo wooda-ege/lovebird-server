@@ -13,8 +13,7 @@ class CalendarQueryRepository(
 	private val queryFactory: JPAQueryFactory
 ) {
 
-	fun findCalendarsByDateAndUserIdAndPartnerId(
-		calenderListRequestParam: CalenderListRequestParam): List<CalendarListResponseParam> {
+	fun findCalendarsByDateAndUserIdAndPartnerId(param: CalenderListRequestParam): List<CalendarListResponseParam> {
 		return queryFactory
 			.select(
 				Projections.constructor(
@@ -32,8 +31,8 @@ class CalendarQueryRepository(
 				)
 			)
 			.from(calendar)
-			.where(eqUserIdOrEqPartnerId(calenderListRequestParam))
-			.where(eqYearAndMonth(calenderListRequestParam.year, calenderListRequestParam.month))
+			.where(eqUserIdOrEqPartnerId(param))
+			.where(eqYearAndMonth(param))
 			.orderBy(calendar.startDate.asc())
 			.fetch()
 	}
@@ -44,7 +43,7 @@ class CalendarQueryRepository(
 
 	private fun eqUserId(userId: Long?): BooleanExpression = calendar.user.id.eq(userId)
 
-	private fun eqYearAndMonth(year: Int, month: Int): BooleanExpression {
-		return calendar.startDate.year().eq(year).and(calendar.startDate.month().eq(month))
+	private fun eqYearAndMonth(param: CalenderListRequestParam): BooleanExpression {
+		return calendar.startDate.year().eq(param.year).and(calendar.startDate.month().eq(param.month))
 	}
 }
