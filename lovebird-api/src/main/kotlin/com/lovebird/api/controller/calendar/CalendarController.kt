@@ -1,5 +1,6 @@
 package com.lovebird.api.controller.calendar
 
+import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.request.calendar.CalendarListRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
@@ -8,9 +9,13 @@ import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
 import com.lovebird.security.annotation.AuthorizedUser
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -32,5 +37,14 @@ class CalendarController(
 		@AuthorizedUser user: User
 	): ApiResponse<CalendarListResponse> {
 		return ApiResponse.success(calendarService.findCalendarsByMonthAndUser(calendarListRequest.toParam(user)))
+	}
+
+	@PostMapping
+	fun save(
+		@AuthorizedUser user: User,
+		@Valid @RequestBody request: CalendarCreateRequest)
+	: ResponseEntity<ApiResponse<Void>> {
+		calendarService.save(request, user)
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
 	}
 }
