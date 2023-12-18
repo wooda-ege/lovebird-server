@@ -40,15 +40,25 @@ class CalendarEvent(
 	val calendar: Calendar = calendar
 
 	@Column(name = "send_flag")
-	val sendFlag: Boolean = false
+	var sendFlag: Boolean = false
 
 	@Column(name = "event_at")
-	val eventAt: LocalDateTime = eventAt
+	var eventAt: LocalDateTime = eventAt
 
 	@Column(name = "alarm")
 	@Enumerated(value = EnumType.STRING)
-	val alarm: Alarm = alarm
+	var alarm: Alarm = alarm
 
 	@Column(name = "result")
 	val result: String = "알림 발송 전"
+
+	fun updateCalendarEvent(newEventAt: LocalDateTime, alarm: Alarm) {
+		if (!eventAt.isEqual(newEventAt)) {
+			this.eventAt = newEventAt.minusMinutes(alarm.value)
+			this.alarm = alarm
+			if (this.eventAt.isAfter(LocalDateTime.now())) {
+				this.sendFlag = false
+			}
+		}
+	}
 }
