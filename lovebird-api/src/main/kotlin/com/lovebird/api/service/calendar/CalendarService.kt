@@ -68,15 +68,15 @@ class CalendarService(
 	}
 
 	@Transactional
-	fun update(calendarId:Long, request: CalendarUpdateRequest, user: User) {
+	fun update(calendarId: Long, request: CalendarUpdateRequest, user: User) {
 		val calendar: Calendar = calendarReader.findEntityById(calendarId)
 
 		calendar.updateCalendar(request.toEntity(user))
 
 		val newEventAt: LocalDateTime = DateUtils.toLocalDateTime(request.startDate, request.startTime)
-		val calendarEvents: List<CalendarEvent> =  calendarEventReader.findCalendarEventsByCalendar(calendar)
+		val calendarEvents: List<CalendarEvent> = calendarEventReader.findCalendarEventsByCalendar(calendar)
 
-		calendarEvents.forEach {calendarEvent ->
+		calendarEvents.forEach { calendarEvent ->
 			calendarEvent.updateCalendarEvent(newEventAt, request.alarm ?: Alarm.NONE)
 		}
 	}
