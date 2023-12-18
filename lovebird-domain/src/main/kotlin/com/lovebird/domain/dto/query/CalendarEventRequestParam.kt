@@ -7,10 +7,10 @@ import java.time.LocalDateTime
 
 data class CalendarEventRequestParam(
 	val calendar: Calendar,
-	val partner: User?,
+	val user: User,
 	val eventAt: LocalDateTime
 ) {
 	fun toEntity(): CalendarEvent {
-		return CalendarEvent(calendar, calendar.user, partner, eventAt, calendar.alarm!!)
+		return CalendarEvent(calendar, user, eventAt, calendar.alarm!!)
 	}
 }

@@ -56,7 +56,11 @@ class CalendarService(
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val eventAt: LocalDateTime = toLocalDateTime(request.startDate, request.startTime)
 
-		calendarEventWriter.save(CalendarEventRequestParam(calendar, coupleEntry?.partner, eventAt))
+		calendarEventWriter.save(CalendarEventRequestParam(calendar, calendar.user, eventAt))
+
+		if (coupleEntry != null) {
+			calendarEventWriter.save(CalendarEventRequestParam(calendar, coupleEntry.partner, eventAt))
+		}
 	}
 
 	private fun toLocalDateTime(startDate: LocalDate, startTime: LocalTime?): LocalDateTime {

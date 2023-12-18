@@ -22,7 +22,6 @@ import java.time.LocalDateTime
 class CalendarEvent(
 	calendar: Calendar,
 	user: User,
-	partner: User?,
 	eventAt: LocalDateTime,
 	alarm: Alarm
 ) : AuditEntity() {
@@ -35,10 +34,6 @@ class CalendarEvent(
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	val user: User = user
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = true)
-	val partner: User? = partner
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "calendar_id", referencedColumnName = "calendar_id", nullable = false)
