@@ -3,7 +3,7 @@ package com.lovebird.api.provider
 import org.springframework.stereotype.Component
 
 @Component
-class FilenameFormatter {
+class FilenameProvider {
 
 	fun generateProfileImageName(filename: String, userId: Long): String {
 		return "%n-profile".format(userId) + getFileExtension(filename)

@@ -4,24 +4,24 @@ import com.lovebird.api.dto.param.external.DiaryUploadPresignedUrlParam
 import com.lovebird.api.dto.param.external.ProfileUploadPresignedUrlParam
 import com.lovebird.api.dto.response.external.PresignedUrlListResponse
 import com.lovebird.api.dto.response.external.PresignedUrlResponse
-import com.lovebird.api.provider.FilenameFormatter
+import com.lovebird.api.provider.FilenameProvider
 import com.lovebird.s3.provider.PresignedUrlProvider
 import org.springframework.stereotype.Service
 
 @Service
 class PresignedUrlService(
 	private val presignedUrlProvider: PresignedUrlProvider,
-	private val fileNameFormatter: FilenameFormatter
+	private val fileNameProvider: FilenameProvider
 ) {
 
 	fun getDiaryPresignedUrls(param: DiaryUploadPresignedUrlParam): PresignedUrlListResponse {
-		val newFileNames = fileNameFormatter.generateDiaryImageNames(param.filenames, param.userId, param.diaryId)
+		val newFileNames = fileNameProvider.generateDiaryImageNames(param.filenames, param.userId, param.diaryId)
 
 		return PresignedUrlListResponse.of(newFileNames.map { getDiaryPresignedUrl(param.userId, it) })
 	}
 
 	fun getProfilePresignedUrl(param: ProfileUploadPresignedUrlParam): PresignedUrlResponse {
-		val newFilename: String = fileNameFormatter.generateProfileImageName(param.filename, param.userId)
+		val newFilename: String = fileNameProvider.generateProfileImageName(param.filename, param.userId)
 		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl("profile", param.userId, newFilename)
 
 		return PresignedUrlResponse(presignedUrl, newFilename)
