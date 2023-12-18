@@ -4,6 +4,7 @@ import com.lovebird.api.dto.param.calendar.CalendarListParam
 import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
+import com.lovebird.common.util.DateUtils
 import com.lovebird.domain.dto.query.CalendarEventRequestParam
 import com.lovebird.domain.dto.query.CalendarListResponseParam
 import com.lovebird.domain.entity.Calendar
@@ -15,9 +16,7 @@ import com.lovebird.domain.repository.writer.CalendarEventWriter
 import com.lovebird.domain.repository.writer.CalendarWriter
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Service
 class CalendarService(
@@ -54,16 +53,12 @@ class CalendarService(
 		val calendar: Calendar = calendarWriter.save(request.toEntity(user))
 
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
-		val eventAt: LocalDateTime = toLocalDateTime(request.startDate, request.startTime)
+		val eventAt: LocalDateTime = DateUtils.toLocalDateTime(request.startDate, request.startTime)
 
 		calendarEventWriter.save(CalendarEventRequestParam(calendar, calendar.user, eventAt))
 
 		if (coupleEntry != null) {
 			calendarEventWriter.save(CalendarEventRequestParam(calendar, coupleEntry.partner, eventAt))
 		}
-	}
-
-	private fun toLocalDateTime(startDate: LocalDate, startTime: LocalTime?): LocalDateTime {
-		return LocalDateTime.of(startDate, startTime ?: LocalTime.MIDNIGHT)
 	}
 }
