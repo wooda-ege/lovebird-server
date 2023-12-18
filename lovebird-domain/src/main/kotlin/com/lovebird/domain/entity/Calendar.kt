@@ -16,12 +16,14 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.DynamicInsert
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import java.time.LocalTime
 
 @Entity
 @Table(name = "calendar")
+@DynamicInsert
 class Calendar(
 	title: String,
 	memo: String?,
@@ -70,7 +72,7 @@ class Calendar(
 	@Enumerated(value = EnumType.STRING)
 	var color: Color? = color
 
-	@Column(name = "alarm")
+	@Column(name = "alarm", nullable = false)
 	@ColumnDefault("'NONE'")
 	@Enumerated(value = EnumType.STRING)
 	var alarm: Alarm? = alarm
@@ -78,4 +80,15 @@ class Calendar(
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	val user: User = user
+
+	fun updateCalendar(calendar: Calendar) {
+		this.title = calendar.title
+		this.memo = calendar.memo
+		this.startDate = calendar.startDate
+		this.endDate = calendar.endDate
+		this.startTime = calendar.startTime
+		this.endTime = calendar.endTime
+		this.color = calendar.color
+		this.alarm = calendar.alarm
+	}
 }
