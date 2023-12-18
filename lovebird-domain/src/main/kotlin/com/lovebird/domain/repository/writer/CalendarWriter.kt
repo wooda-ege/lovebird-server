@@ -8,7 +8,7 @@ import com.lovebird.domain.repository.jpa.CalendarJpaRepository
 class CalendarWriter(
 	private val calendarJpaRepository: CalendarJpaRepository
 ){
-	fun save(calendar: Calendar) {
-		calendarJpaRepository.save(calendar)
+	fun save(calendar: Calendar): Calendar {
+		return calendarJpaRepository.save(calendar)
 	}
 }
