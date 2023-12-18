@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
@@ -44,6 +45,9 @@ class User(
 
 	@OneToOne(mappedBy = "user")
 	var profile: Profile? = null
+
+	@OneToMany(mappedBy = "user")
+	val calendarEvents: List<CalendarEvent> = mutableListOf()
 
 	fun updateDeviceToken(deviceToken: String?) {
 		this.deviceToken = deviceToken
