@@ -28,6 +28,6 @@ data class CalendarCreateRequest(
 	val endTime: LocalTime?
 ) {
 	fun toEntity(user: User): Calendar {
-		return Calendar(title, memo, startDate, endDate, startTime, endTime, color, alarm, user)
+		return Calendar(title, memo, startDate, endDate ?: startDate, startTime, endTime, color, alarm, user)
 	}
 }
