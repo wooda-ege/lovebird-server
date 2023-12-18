@@ -1,6 +1,7 @@
 package com.lovebird.api.service.calendar
 
 import com.lovebird.api.dto.param.calendar.CalendarListParam
+import com.lovebird.api.dto.param.calendar.CalendarUpdateParam
 import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
@@ -67,7 +68,10 @@ class CalendarService(
 	}
 
 	@Transactional
-	fun update(calendarId: Long, request: CalendarUpdateRequest, user: User) {
+	fun update(calendarUpdateParam: CalendarUpdateParam) {
+		val calendarId: Long = calendarUpdateParam.calendarId
+		val user: User = calendarUpdateParam.user
+		val request: CalendarUpdateRequest = calendarUpdateParam.request
 		val calendar: Calendar = calendarReader.findEntityById(calendarId)
 
 		calendar.updateCalendar(request.toEntity(user))

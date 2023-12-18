@@ -58,7 +58,7 @@ class CalendarController(
 		@Valid @RequestBody
 		request: CalendarUpdateRequest
 	): ApiResponse<Void> {
-		calendarService.update(id, request, user)
+		calendarService.update(request.toParam(id, user))
 		return ApiResponse.success()
 	}
 }

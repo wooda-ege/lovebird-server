@@ -1,5 +1,6 @@
 package com.lovebird.api.dto.request.calendar
 
+import com.lovebird.api.dto.param.calendar.CalendarUpdateParam
 import com.lovebird.common.enums.Alarm
 import com.lovebird.common.enums.Color
 import com.lovebird.domain.entity.Calendar
@@ -22,6 +23,10 @@ data class CalendarUpdateRequest(
 	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
 	val endTime: LocalTime?
 ) {
+	fun toParam(calendarId: Long, user: User): CalendarUpdateParam {
+		return CalendarUpdateParam(calendarId, user, this)
+	}
+
 	fun toEntity(user: User): Calendar {
 		return Calendar(title, memo, startDate, endDate, startTime, endTime, color, alarm, user)
 	}
