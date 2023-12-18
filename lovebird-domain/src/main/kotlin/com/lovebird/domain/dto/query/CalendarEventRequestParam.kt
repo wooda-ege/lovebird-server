@@ -11,6 +11,6 @@ data class CalendarEventRequestParam(
 	val eventAt: LocalDateTime
 ) {
 	fun toEntity(): CalendarEvent {
-		return CalendarEvent(calendar, user, eventAt, calendar.alarm!!)
+		return CalendarEvent(calendar, user, eventAt.minusMinutes(calendar.alarm!!.value), calendar.alarm!!)
 	}
 }
