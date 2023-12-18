@@ -5,7 +5,6 @@ import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
-import com.lovebird.common.enums.Alarm
 import com.lovebird.common.util.DateUtils
 import com.lovebird.domain.dto.query.CalendarEventRequestParam
 import com.lovebird.domain.dto.query.CalendarListResponseParam
@@ -77,7 +76,7 @@ class CalendarService(
 		val calendarEvents: List<CalendarEvent> = calendarEventReader.findCalendarEventsByCalendar(calendar)
 
 		calendarEvents.forEach { calendarEvent ->
-			calendarEvent.updateCalendarEvent(newEventAt, request.alarm ?: Alarm.NONE)
+			calendarEvent.updateCalendarEvent(newEventAt, request.alarm)
 		}
 	}
 }

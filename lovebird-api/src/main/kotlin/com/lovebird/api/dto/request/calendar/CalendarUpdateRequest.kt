@@ -11,8 +11,8 @@ import java.time.LocalTime
 data class CalendarUpdateRequest(
 	val title: String,
 	val memo: String?,
-	val color: Color?,
-	val alarm: Alarm?,
+	val color: Color,
+	val alarm: Alarm,
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	val startDate: LocalDate,
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
