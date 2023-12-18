@@ -26,7 +26,7 @@ class Calendar(
 	title: String,
 	memo: String?,
 	startDate: LocalDate,
-	endDate: LocalDate?,
+	endDate: LocalDate,
 	startTime: LocalTime?,
 	endTime: LocalTime?,
 	color: Color?,
@@ -52,8 +52,8 @@ class Calendar(
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "end_date")
-	var endDate: LocalDate? = endDate
+	@Column(name = "end_date", nullable = false)
+	var endDate: LocalDate = endDate
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern = "HH:mm")
