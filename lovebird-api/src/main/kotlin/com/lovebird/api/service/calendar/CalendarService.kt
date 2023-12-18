@@ -2,14 +2,18 @@ package com.lovebird.api.service.calendar
 
 import com.lovebird.api.dto.param.calendar.CalendarListParam
 import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
+import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
+import com.lovebird.common.enums.Alarm
 import com.lovebird.common.util.DateUtils
 import com.lovebird.domain.dto.query.CalendarEventRequestParam
 import com.lovebird.domain.dto.query.CalendarListResponseParam
 import com.lovebird.domain.entity.Calendar
+import com.lovebird.domain.entity.CalendarEvent
 import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.User
+import com.lovebird.domain.repository.reader.CalendarEventReader
 import com.lovebird.domain.repository.reader.CalendarReader
 import com.lovebird.domain.repository.reader.CoupleEntryReader
 import com.lovebird.domain.repository.writer.CalendarEventWriter
@@ -23,7 +27,8 @@ class CalendarService(
 	private val calendarReader: CalendarReader,
 	private val coupleEntryReader: CoupleEntryReader,
 	private val calendarWriter: CalendarWriter,
-	private val calendarEventWriter: CalendarEventWriter
+	private val calendarEventWriter: CalendarEventWriter,
+	private val calendarEventReader: CalendarEventReader
 ) {
 
 	@Transactional(readOnly = true)
@@ -59,6 +64,20 @@ class CalendarService(
 
 		if (coupleEntry != null) {
 			calendarEventWriter.save(CalendarEventRequestParam(calendar, coupleEntry.partner, eventAt))
+		}
+	}
+
+	@Transactional
+	fun update(calendarId:Long, request: CalendarUpdateRequest, user: User) {
+		val calendar: Calendar = calendarReader.findEntityById(calendarId)
+
+		calendar.updateCalendar(request.toEntity(user))
+
+		val newEventAt: LocalDateTime = DateUtils.toLocalDateTime(request.startDate, request.startTime)
+		val calendarEvents: List<CalendarEvent> =  calendarEventReader.findCalendarEventsByCalendar(calendar)
+
+		calendarEvents.forEach {calendarEvent ->
+			calendarEvent.updateCalendarEvent(newEventAt, request.alarm ?: Alarm.NONE)
 		}
 	}
 }
