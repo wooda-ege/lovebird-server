@@ -2,10 +2,19 @@ package com.lovebird.domain.entity
 
 import com.lovebird.common.enums.Alarm
 import com.lovebird.domain.entity.audit.AuditEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDateTime
-
 
 @DynamicUpdate
 @Entity
@@ -16,7 +25,7 @@ class CalendarEvent(
 	partner: User?,
 	eventAt: LocalDateTime,
 	alarm: Alarm
-): AuditEntity() {
+) : AuditEntity() {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

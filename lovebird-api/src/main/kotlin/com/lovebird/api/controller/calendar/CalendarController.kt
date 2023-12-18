@@ -42,8 +42,9 @@ class CalendarController(
 	@PostMapping
 	fun save(
 		@AuthorizedUser user: User,
-		@Valid @RequestBody request: CalendarCreateRequest)
-	: ResponseEntity<ApiResponse<Void>> {
+		@Valid @RequestBody
+		request: CalendarCreateRequest
+	): ResponseEntity<ApiResponse<Void>> {
 		calendarService.save(request, user)
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
 	}

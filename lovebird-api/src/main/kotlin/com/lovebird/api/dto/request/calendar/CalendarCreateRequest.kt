@@ -17,7 +17,8 @@ data class CalendarCreateRequest(
 	@NotNull
 	val color: Color,
 	val alarm: Alarm?,
-	@NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@NotNull
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	val startDate: LocalDate,
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	val endDate: LocalDate?,
