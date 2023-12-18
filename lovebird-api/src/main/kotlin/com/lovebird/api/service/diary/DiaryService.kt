@@ -6,10 +6,12 @@ import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
+import com.lovebird.api.provider.AesEncryptProvider.decryptString
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
+import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.DiaryReader
@@ -41,6 +43,8 @@ class DiaryService(
 
 	@Transactional
 	fun save(param: DiaryCreateParam) {
+		param.encrypt()
+
 		val diary: Diary = diaryWriter.save(param.toEntity())
 		param.imageUrls?.let { diaryImageService.saveAll(diary, it) }
 	}
@@ -48,6 +52,8 @@ class DiaryService(
 	@Transactional
 	fun update(param: DiaryUpdateParam) {
 		val diary: Diary = diaryReader.findEntityById(param.diaryId)
+
+		param.encrypt()
 		diaryWriter.update(diary, param.toDomainParam())
 
 		param.imageUrls?.let {
@@ -65,7 +71,15 @@ class DiaryService(
 	@Transactional(readOnly = true)
 	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
 		val partner: User? = coupleService.findPartnerByUser(user)
-		return DiarySimpleListResponse.of(diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id)))
+		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
+
+		diaries.forEach {
+			it.title = decryptString(it.title)
+			it.place = it.place?.let { place -> decryptString(place) }
+			it.content = it.content?.let { content -> decryptString(content) }
+		}
+
+		return DiarySimpleListResponse.of(diaries)
 	}
 
 	@Transactional(readOnly = true)
@@ -76,11 +90,23 @@ class DiaryService(
 
 	private fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findBeforeNowUsingCursor(param)
+		decryptDiaries(diaries)
+
 		return DiaryListResponse.of(diaries)
 	}
 
 	private fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findAfterNowUsingCursor(param)
+		decryptDiaries(diaries)
+
 		return DiaryListResponse.of(diaries)
+	}
+
+	private fun decryptDiaries(diaries: List<DiaryResponseParam>) {
+		diaries.forEach {
+			it.title = decryptString(it.title)
+			it.place = it.place?.let { place -> decryptString(place) }
+			it.content = it.content?.let { content -> decryptString(content) }
+		}
 	}
 }
