@@ -75,6 +75,7 @@ class Calendar(
 	var color: Color? = color
 
 	@Column(name = "deleted", nullable = false)
+	@ColumnDefault("false")
 	var deleted: Boolean = false
 
 	@Column(name = "alarm", nullable = false)
