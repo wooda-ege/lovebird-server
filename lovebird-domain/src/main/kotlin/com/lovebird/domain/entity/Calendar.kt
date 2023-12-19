@@ -26,7 +26,7 @@ class Calendar(
 	title: String,
 	memo: String?,
 	startDate: LocalDate,
-	endDate: LocalDate?,
+	endDate: LocalDate,
 	startTime: LocalTime?,
 	endTime: LocalTime?,
 	color: Color?,
@@ -52,8 +52,8 @@ class Calendar(
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "end_date")
-	var endDate: LocalDate? = endDate
+	@Column(name = "end_date", nullable = false)
+	var endDate: LocalDate = endDate
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern = "HH:mm")
@@ -70,7 +70,7 @@ class Calendar(
 	@Enumerated(value = EnumType.STRING)
 	var color: Color? = color
 
-	@Column(name = "alarm")
+	@Column(name = "alarm", nullable = false)
 	@ColumnDefault("'NONE'")
 	@Enumerated(value = EnumType.STRING)
 	var alarm: Alarm? = alarm
@@ -78,4 +78,15 @@ class Calendar(
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	val user: User = user
+
+	fun updateCalendar(calendar: Calendar) {
+		this.title = calendar.title
+		this.memo = calendar.memo
+		this.startDate = calendar.startDate
+		this.endDate = calendar.endDate
+		this.startTime = calendar.startTime
+		this.endTime = calendar.endTime
+		this.color = calendar.color
+		this.alarm = calendar.alarm
+	}
 }
