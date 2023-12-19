@@ -72,7 +72,7 @@ class CalendarService(
 		val calendarId: Long = calendarUpdateParam.calendarId
 		val user: User = calendarUpdateParam.user
 		val request: CalendarUpdateRequest = calendarUpdateParam.request
-		val calendar: Calendar = calendarReader.findEntityById(calendarId)
+		val calendar: Calendar = calendarReader.findEntityByIdAndUser(calendarId, user)
 
 		calendar.updateCalendar(request.toEntity(user))
 
