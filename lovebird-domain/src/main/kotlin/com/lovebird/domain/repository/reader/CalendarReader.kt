@@ -6,6 +6,7 @@ import com.lovebird.domain.annotation.Reader
 import com.lovebird.domain.dto.query.CalendarListResponseParam
 import com.lovebird.domain.dto.query.CalenderListRequestParam
 import com.lovebird.domain.entity.Calendar
+import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.jpa.CalendarJpaRepository
 import com.lovebird.domain.repository.query.CalendarQueryRepository
 
@@ -17,6 +18,10 @@ class CalendarReader(
 
 	fun findEntityById(id: Long): Calendar {
 		return calendarJpaRepository.findById(id).orElseThrow() { throw LbException(ReturnCode.WRONG_PARAMETER) }
+	}
+
+	fun findEntityByIdAndUser(id: Long, user: User): Calendar {
+		return calendarJpaRepository.findCalendarByIdAndUser(id, user)
 	}
 
 	fun findCalendarsByDate(param: CalenderListRequestParam): List<CalendarListResponseParam> {
