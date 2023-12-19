@@ -16,12 +16,16 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Where
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import java.time.LocalTime
 
 @Entity
 @Table(name = "calendar")
+@SQLDelete(sql = "UPDATE calendar SET deleted = true WHERE calendar_id=?")
+@Where(clause = "deleted=false")
 class Calendar(
 	title: String,
 	memo: String?,
@@ -69,6 +73,9 @@ class Calendar(
 	@ColumnDefault("'PRIMARY'")
 	@Enumerated(value = EnumType.STRING)
 	var color: Color? = color
+
+	@Column(name = "deleted", nullable = false)
+	var deleted: Boolean = false
 
 	@Column(name = "alarm", nullable = false)
 	@ColumnDefault("'NONE'")
