@@ -83,4 +83,13 @@ class CalendarService(
 			calendarEvent.updateCalendarEvent(newEventAt, request.alarm)
 		}
 	}
+
+	@Transactional
+	fun delete(calendarId: Long, user: User) {
+		val calendar: Calendar = calendarReader.findEntityByIdAndUser(calendarId, user)
+		val calendarEvents: List<CalendarEvent> = calendarEventReader.findCalendarEventsByCalendar(calendar)
+
+		calendarWriter.delete(calendar)
+		calendarEventWriter.deleteAll(calendarEvents)
+	}
 }
