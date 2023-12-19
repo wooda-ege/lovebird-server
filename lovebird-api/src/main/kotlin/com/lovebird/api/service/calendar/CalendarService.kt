@@ -89,7 +89,7 @@ class CalendarService(
 		val calendar: Calendar = calendarReader.findEntityByIdAndUser(calendarId, user)
 		val calendarEvents: List<CalendarEvent> = calendarEventReader.findCalendarEventsByCalendar(calendar)
 
-		calendarWriter.delete(calendar)
 		calendarEventWriter.deleteAll(calendarEvents)
+		calendarWriter.delete(calendar)
 	}
 }
