@@ -16,14 +16,12 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.ColumnDefault
-import org.hibernate.annotations.DynamicInsert
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import java.time.LocalTime
 
 @Entity
 @Table(name = "calendar")
-@DynamicInsert
 class Calendar(
 	title: String,
 	memo: String?,

@@ -37,6 +37,7 @@ data class CalendarUpdateRequest(
 			endTime = endTime,
 			color = color,
 			alarm = alarm,
-			user = user)
+			user = user
+		)
 	}
 }
