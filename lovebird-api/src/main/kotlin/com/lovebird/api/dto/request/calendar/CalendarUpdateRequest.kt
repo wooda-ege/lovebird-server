@@ -28,6 +28,15 @@ data class CalendarUpdateRequest(
 	}
 
 	fun toEntity(user: User): Calendar {
-		return Calendar(title, memo, startDate, endDate, startTime, endTime, color, alarm, user)
+		return Calendar(
+			title = title,
+			memo = memo,
+			startDate = startDate,
+			endDate = endDate,
+			startTime = startTime,
+			endTime = endTime,
+			color = color,
+			alarm = alarm,
+			user = user)
 	}
 }
