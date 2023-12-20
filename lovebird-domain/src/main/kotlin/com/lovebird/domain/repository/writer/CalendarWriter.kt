@@ -11,4 +11,8 @@ class CalendarWriter(
 	fun save(calendar: Calendar): Calendar {
 		return calendarJpaRepository.save(calendar)
 	}
+
+	fun delete(calendar: Calendar) {
+		calendarJpaRepository.delete(calendar)
+	}
 }

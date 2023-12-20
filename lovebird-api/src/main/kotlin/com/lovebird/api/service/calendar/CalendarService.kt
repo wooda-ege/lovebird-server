@@ -6,6 +6,8 @@ import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
+import com.lovebird.common.enums.ReturnCode
+import com.lovebird.common.exception.LbException
 import com.lovebird.common.util.DateUtils
 import com.lovebird.domain.dto.query.CalendarEventRequestParam
 import com.lovebird.domain.dto.query.CalendarListResponseParam
@@ -74,6 +76,7 @@ class CalendarService(
 		val request: CalendarUpdateRequest = calendarUpdateParam.request
 		val calendar: Calendar = calendarReader.findEntityById(calendarId)
 
+		validateCalendarUser(calendar, user)
 		calendar.updateCalendar(request.toEntity(user))
 
 		val newEventAt: LocalDateTime = DateUtils.toLocalDateTime(request.startDate, request.startTime)
@@ -82,5 +85,20 @@ class CalendarService(
 		calendarEvents.forEach { calendarEvent ->
 			calendarEvent.updateCalendarEvent(newEventAt, request.alarm)
 		}
+	}
+
+	@Transactional
+	fun delete(calendarId: Long, user: User) {
+		val calendar: Calendar = calendarReader.findEntityById(calendarId)
+		validateCalendarUser(calendar, user)
+
+		val calendarEvents: List<CalendarEvent> = calendarEventReader.findCalendarEventsByCalendar(calendar)
+
+		calendarEventWriter.deleteAll(calendarEvents)
+		calendarWriter.delete(calendar)
+	}
+
+	private fun validateCalendarUser(calendar: Calendar, user: User) {
+		if (calendar.user.id != user.id) { throw LbException(ReturnCode.INVALID_MEMBER) }
 	}
 }

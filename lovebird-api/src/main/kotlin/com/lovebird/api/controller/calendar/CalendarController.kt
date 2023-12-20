@@ -12,6 +12,7 @@ import com.lovebird.security.annotation.AuthorizedUser
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -59,6 +60,15 @@ class CalendarController(
 		request: CalendarUpdateRequest
 	): ApiResponse<Void> {
 		calendarService.update(request.toParam(id, user))
+		return ApiResponse.success()
+	}
+
+	@DeleteMapping("/{id}")
+	fun delete(
+		@PathVariable id: Long,
+		@AuthorizedUser user: User
+	): ApiResponse<Void> {
+		calendarService.delete(id, user)
 		return ApiResponse.success()
 	}
 }
