@@ -1,4 +1,4 @@
-package com.lovebird.api.restdoc.utils
+package com.lovebird.api.utils.restdocs
 
 import org.springframework.restdocs.request.ParameterDescriptor
 import org.springframework.restdocs.request.PathParametersSnippet
