@@ -1,7 +1,7 @@
 description = "api module"
 
 plugins {
-	id("org.asciidoctor.jvm.convert") version "3.3.2"
+	id("org.asciidoctor.jvm.convert")
 }
 
 val asciidoctorExt: Configuration by configurations.creating
@@ -19,14 +19,17 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
-	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
 	testImplementation("io.mockk:mockk:${property("mockKVersion")}")
 	testImplementation("io.kotest:kotest-runner-junit5:${property("kotestVersion")}")
 	testImplementation("io.kotest:kotest-assertions-core:${property("kotestVersion")}")
+	testImplementation("io.kotest.extensions:kotest-extensions-spring:${property("kotestSpringVersion")}")
+	testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 tasks.asciidoctor {
