@@ -8,6 +8,7 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.FilterConfig
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
+import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import java.lang.reflect.Field
@@ -30,6 +31,8 @@ class MockSecurityFilter : Filter {
 	override fun destroy() {
 		SecurityContextHolder.clearContext()
 	}
+
+	fun getFilters(mockHttpServletRequest: MockHttpServletRequest) {}
 
 	companion object {
 		private fun createMember(): User {
