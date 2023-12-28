@@ -5,6 +5,7 @@ import com.lovebird.api.dto.param.external.ProfileUploadPresignedUrlParam
 import com.lovebird.api.dto.response.external.PresignedUrlListResponse
 import com.lovebird.api.dto.response.external.PresignedUrlResponse
 import com.lovebird.api.provider.FilenameProvider
+import com.lovebird.common.enums.Domain
 import com.lovebird.s3.provider.PresignedUrlProvider
 import org.springframework.stereotype.Service
 
@@ -22,13 +23,13 @@ class PresignedUrlService(
 
 	fun getProfilePresignedUrl(param: ProfileUploadPresignedUrlParam): PresignedUrlResponse {
 		val newFilename: String = fileNameProvider.generateProfileImageName(param.filename, param.userId)
-		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl("profile", param.userId, newFilename)
+		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl(Domain.PROFILE.lower(), param.userId, newFilename)
 
 		return PresignedUrlResponse(presignedUrl, newFilename)
 	}
 
 	private fun getDiaryPresignedUrl(userId: Long, filename: String): PresignedUrlResponse {
-		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl("diary", userId, filename)
+		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl(Domain.DIARY.lower(), userId, filename)
 		return PresignedUrlResponse(presignedUrl, filename)
 	}
 }

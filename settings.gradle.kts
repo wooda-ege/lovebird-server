@@ -17,6 +17,7 @@ pluginManagement {
 	val springBootVersion: String by settings
 	val springDependencyManagementVersion: String by settings
 	val ktlintVersion: String by settings
+	val asciidoctorVersion: String by settings
 
 	resolutionStrategy {
 		eachPlugin {
@@ -29,6 +30,7 @@ pluginManagement {
 				"io.spring.dependency-management" -> useVersion(springDependencyManagementVersion)
 				"org.jlleitschuh.gradle.ktlint" -> useVersion(ktlintVersion)
 				"org.jlleitschuh.gradle.ktlint-idea" -> useVersion(ktlintVersion)
+				"org.asciidoctor.jvm.convert" -> useVersion(asciidoctorVersion)
 			}
 		}
 	}

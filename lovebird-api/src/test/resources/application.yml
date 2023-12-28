@@ -1,0 +1,72 @@
+spring:
+    config:
+        import:
+            - logging-local.yml
+            - monitoring.yml
+    jpa:
+        open-in-view: false
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+    h2:
+        console:
+            enabled: true
+
+storage:
+    datasource:
+        core:
+            jdbc-url: jdbc:h2:mem:core;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+            username: sa
+            driver-class-name: org.h2.Driver
+            data-source-properties:
+                rewriteBatchedStatements: true
+
+firebase:
+    certification: /firebase/lovebird-firebase-admin-sdk.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+
+cloud:
+    aws:
+        credentials:
+            access-key: test
+            secret-key: test
+        s3-bucket: test-bucket
+        region:
+            static:
+                ap-northeast-2
+        stack:
+            auto:
+                false
+
+oauth:
+    kakao:
+        public-key-info: https://kauth.kakao.com/.well-known/jwks.json
+    apple:
+        public-key-url: https://appleid.apple.com/auth/keys
+    google:
+        client-id: goolge
+    naver:
+        client-id: naver
+        client-secret: naver-secret
+        grant-type: authorization_code
+        url:
+            token: https://nid.naver.com/oauth2.0/token
+            user-info: https://openapi.naver.com/v1/nid/me
+
+apple:
+    test-code: apple
+
+aes:
+    secret-key: testestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestest
+
+jwt:
+    access-header: Authorization
+    refresh-header: Refresh
+    secret: testestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestestest
+    expiration:
+        access-token: 432000
+        refresh-token: 6048000
+    grant-type: Bearer
