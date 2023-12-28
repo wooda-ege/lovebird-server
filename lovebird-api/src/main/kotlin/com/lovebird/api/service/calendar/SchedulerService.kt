@@ -44,12 +44,14 @@ class SchedulerService(
 				if (isSameTime(calendarEvents.first(), localDateTime)) {
 					val deviceTokens = calendarEvents.stream().map { it.user.deviceToken!! }.toList()
 
-					fcmService.sendNotificationAsync(FcmNotificationParam(
-						deviceTokens = deviceTokens,
-						title = ALARM_TITLE,
-						body = AlarmResponse.ALARM_SEND_SUCCESS.message,
-						data = mutableListOf()
-					))
+					fcmService.sendNotificationAsync(
+						FcmNotificationParam(
+							deviceTokens = deviceTokens,
+							title = ALARM_TITLE,
+							body = AlarmResponse.ALARM_SEND_SUCCESS.message,
+							data = mutableListOf()
+						)
+					)
 
 					// 플래그 설정
 					calendarEvents.forEach {

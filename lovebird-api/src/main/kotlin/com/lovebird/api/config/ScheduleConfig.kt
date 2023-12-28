@@ -6,7 +6,6 @@ import org.springframework.core.task.TaskExecutor
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
-
 @Configuration
 @EnableScheduling
 class ScheduleConfig {

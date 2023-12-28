@@ -30,8 +30,8 @@ class CalendarService(
 	private val coupleEntryReader: CoupleEntryReader,
 	private val calendarWriter: CalendarWriter,
 	private val calendarEventWriter: CalendarEventWriter,
-	private val calendarEventReader: CalendarEventReader,
-	//private val schedulerService: SchedulerService
+	private val calendarEventReader: CalendarEventReader
+	// private val schedulerService: SchedulerService
 ) {
 
 	@Transactional(readOnly = true)
@@ -69,8 +69,8 @@ class CalendarService(
 			calendarEventWriter.save(CalendarEventRequestParam(calendar, coupleEntry.partner, eventAt))
 		}
 
-		//FCM ALARM 발생 시키는 로직
-		//schedulerService.registryCalendarAlarm(calendar)
+		// FCM ALARM 발생 시키는 로직
+		// schedulerService.registryCalendarAlarm(calendar)
 	}
 
 	@Transactional
@@ -90,8 +90,8 @@ class CalendarService(
 			calendarEvent.updateCalendarEvent(newEventAt, request.alarm)
 		}
 
-		//FCM ALARM 발생 시키는 로직
-		//schedulerService.registryCalendarAlarm(calendar)
+		// FCM ALARM 발생 시키는 로직
+		// schedulerService.registryCalendarAlarm(calendar)
 	}
 
 	@Transactional
