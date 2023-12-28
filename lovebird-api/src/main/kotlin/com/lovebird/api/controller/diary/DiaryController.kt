@@ -53,23 +53,23 @@ class DiaryController(
 		return ApiResponse.success(diaryService.findPageByCursor(request, user))
 	}
 
-	@GetMapping("/{id}")
-	fun findDetailById(@PathVariable id: Long): ApiResponse<DiaryDetailResponse> {
-		return ApiResponse.success(diaryService.findDetailById(id))
+	@GetMapping("/{diaryId}")
+	fun findDetailById(@PathVariable diaryId: Long): ApiResponse<DiaryDetailResponse> {
+		return ApiResponse.success(diaryService.findDetailById(diaryId))
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/{diaryId}")
 	fun modify(
-		@PathVariable id: Long,
+		@PathVariable diaryId: Long,
 		@RequestBody request: DiaryUpdateRequest
 	): ApiResponse<Void> {
-		diaryService.update(request.toParam())
+		diaryService.update(request.toParam(diaryId))
 		return ApiResponse.success()
 	}
 
-	@DeleteMapping("/{id}")
-	fun delete(@PathVariable id: Long): ApiResponse<Void> {
-		diaryService.delete(id)
+	@DeleteMapping("/{diaryId}")
+	fun delete(@PathVariable diaryId: Long): ApiResponse<Void> {
+		diaryService.delete(diaryId)
 		return ApiResponse.success()
 	}
 }
