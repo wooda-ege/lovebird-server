@@ -9,8 +9,8 @@ data class OAuthParam(
 	val email: String
 ) {
 	companion object {
-		fun of(response: NaverUserInfoResponse): OAuthParam {
-			return OAuthParam(response.id, response.email)
+		fun of(response: Map<String, String>): OAuthParam {
+			return OAuthParam(response["id"]!!, response["email"]!!)
 		}
 
 		fun of(claims: Claims): OAuthParam {

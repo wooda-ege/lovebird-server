@@ -24,10 +24,10 @@ class NaverAuthProvider(
 	}
 
 	private fun getAccessToken(request: NaverLoginParam): String {
-		return naverAuthClient.getAccessToken(request.code, request.state).accessToken
+		return naverAuthClient.getAccessToken(request.code, request.state)
 	}
 
-	private fun getUserInfo(request: NaverUserInfoClientRequest): NaverUserInfoResponse {
+	private fun getUserInfo(request: NaverUserInfoClientRequest): Map<String, String> {
 		return naverAuthClient.getUserInfo(request).response
 	}
 }
