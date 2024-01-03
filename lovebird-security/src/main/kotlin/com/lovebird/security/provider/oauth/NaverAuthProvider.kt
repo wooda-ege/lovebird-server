@@ -20,7 +20,7 @@ class NaverAuthProvider(
 		val accessToken = getAccessToken(request as NaverLoginParam)
 		val userInfoRequest = NaverUserInfoClientRequest(accessToken)
 
-		return OAuthParam.of(getUserInfo(userInfoRequest))
+		return OAuthParam.from(getUserInfo(userInfoRequest))
 	}
 
 	private fun getAccessToken(request: NaverLoginParam): String {

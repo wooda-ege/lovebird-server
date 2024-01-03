@@ -9,15 +9,15 @@ data class OAuthParam(
 	val email: String
 ) {
 	companion object {
-		fun of(response: Map<String, String>): OAuthParam {
+		fun from(response: Map<String, String>): OAuthParam {
 			return OAuthParam(response["id"]!!, response["email"]!!)
 		}
 
-		fun of(claims: Claims): OAuthParam {
+		fun from(claims: Claims): OAuthParam {
 			return OAuthParam(claims.subject, claims["email"] as String)
 		}
 
-		fun of(googleIdToken: GoogleIdToken): OAuthParam {
+		fun from(googleIdToken: GoogleIdToken): OAuthParam {
 			return OAuthParam(googleIdToken.payload.subject, googleIdToken.payload.email)
 		}
 	}
