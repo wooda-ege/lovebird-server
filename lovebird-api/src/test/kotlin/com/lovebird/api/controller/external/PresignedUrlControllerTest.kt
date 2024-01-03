@@ -95,7 +95,8 @@ class PresignedUrlControllerTest(
 		val filenames = listOf("test1.png", "test2.png")
 		val presignedUrls: List<PresignedUrlResponse> = listOf(
 			PresignedUrlResponse("https://cdn.lovebird.com/profile/1_1-1.png", "1_1-1.png"),
-			PresignedUrlResponse("https://cdn.lovebird.com/profile/1_1-2.png", "1_1-2.png"))
+			PresignedUrlResponse("https://cdn.lovebird.com/profile/1_1-2.png", "1_1-2.png")
+		)
 
 		context("유효한 요청이 전달 되면") {
 			val requestBody = DiaryUploadPresignedUrlRequest(filenames, 1L)
