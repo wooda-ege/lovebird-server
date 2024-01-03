@@ -4,7 +4,6 @@ import com.lovebird.security.dto.param.NaverLoginParam
 import com.lovebird.security.dto.param.OAuthParam
 import com.lovebird.webClient.client.NaverAuthClient
 import com.lovebird.webClient.client.dto.request.NaverUserInfoClientRequest
-import com.lovebird.webClient.client.dto.response.NaverUserInfoResponse
 import org.springframework.stereotype.Component
 
 @Component

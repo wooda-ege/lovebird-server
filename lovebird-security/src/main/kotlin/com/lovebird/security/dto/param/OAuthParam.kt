@@ -1,7 +1,6 @@
 package com.lovebird.security.dto.param
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken
-import com.lovebird.webClient.client.dto.response.NaverUserInfoResponse
 import io.jsonwebtoken.Claims
 
 data class OAuthParam(

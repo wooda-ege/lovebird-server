@@ -1,6 +1,5 @@
 package com.lovebird.webClient.client
 
-import com.google.gson.JsonObject
 import com.lovebird.webClient.client.dto.request.NaverLoginClientRequest
 import com.lovebird.webClient.client.dto.request.NaverUserInfoClientRequest
 import com.lovebird.webClient.client.dto.response.NaverLoginClientResponse
