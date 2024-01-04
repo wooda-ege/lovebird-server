@@ -15,7 +15,7 @@ import io.mockk.mockk
 
 class PresignedUrlServiceTest : ServiceDescribeSpec({
 
-	val presignedUrlProvider: PresignedUrlProvider = mockk<PresignedUrlProvider>(relaxUnitFun = true)
+	val presignedUrlProvider: PresignedUrlProvider = mockk<PresignedUrlProvider>(relaxed = true)
 	val fileNameProvider = FilenameProvider()
 
 	val presignedUrlService = PresignedUrlService(presignedUrlProvider, fileNameProvider)

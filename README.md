@@ -48,18 +48,18 @@
 ## Tech Stack
 
 - #### Language
-    - zulu-openjdk:19.0.2
-    - Kotlin 1.9.10
+  - zulu-openjdk:19.0.2
+  - Kotlin 1.9.10
 - #### Framework
-    - Spring Boot 3.1.5
-    - Gradle 8.4.0
+  - Spring Boot 3.1.5
+  - Gradle 8.4.0
 - #### ORM
-    - Spring Data JPA
+  - Spring Data JPA
 
 - #### Authorization
-    - Spring Security
-    - OIDC, OAuth2.0
-    - JWT
+  - Spring Security
+  - OIDC, OAuth2.0
+  - JWT
 
 - #### Test
   - Kotest 5.8.0
@@ -67,7 +67,7 @@
   - Spring Rest Docs 3.3.2
 
 - #### Database
-    - PostgreSQL 14
+  - PostgreSQL 14
 
 - #### AWS
   - EC2 (Ubuntu 20.04)

@@ -19,7 +19,7 @@ class KakaoAuthProvider(
 	}
 
 	override fun getOAuthParam(request: Any): OAuthParam {
-		return OAuthParam.of(getClaims(idToken = request as String))
+		return OAuthParam.from(getClaims(idToken = request as String))
 	}
 
 	private fun getClaims(idToken: String): Claims {
