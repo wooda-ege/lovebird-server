@@ -1,11 +1,11 @@
 package com.lovebird.api.controller.profile
 
+import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.dto.request.profile.ProfileUpdateRequest
 import com.lovebird.api.dto.response.profile.ProfileDetailResponse
 import com.lovebird.api.service.profile.ProfileService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
-import com.lovebird.security.annotation.AuthorizedUser
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody

@@ -9,7 +9,6 @@ spring:
     config:
         import:
             - db-${spring.profiles.default}.yml
-            - security-${spring.profiles.default}.yml
             - client-${spring.profiles.default}.yml
             - s3-${spring.profiles.default}.yml
             - fcm.yml

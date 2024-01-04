@@ -2,17 +2,10 @@ package com.lovebird.common.exception
 
 import com.lovebird.common.enums.ReturnCode
 
-class LbException(returnCode: ReturnCode) : RuntimeException() {
+class LbException(private val returnCode: ReturnCode) : RuntimeException() {
 
-	private val code: String
-	private val msg: String
-	private val returnCode: ReturnCode
-
-	init {
-		this.returnCode = returnCode
-		this.code = returnCode.code
-		this.msg = returnCode.message
-	}
+	private val code: String = returnCode.code
+	private val msg: String = returnCode.message
 
 	fun getReturnCode(): ReturnCode = this.returnCode
 
