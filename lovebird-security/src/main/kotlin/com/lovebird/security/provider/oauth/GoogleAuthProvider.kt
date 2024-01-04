@@ -15,7 +15,7 @@ class GoogleAuthProvider(
 	}
 
 	override fun getOAuthParam(request: Any): OAuthParam {
-		return OAuthParam.of(getGoogleIdToken(idToken = request as String))
+		return OAuthParam.from(getGoogleIdToken(idToken = request as String))
 	}
 
 	private fun getGoogleIdToken(idToken: String): GoogleIdToken {
