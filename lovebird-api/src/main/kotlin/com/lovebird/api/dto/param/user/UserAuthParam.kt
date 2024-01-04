@@ -1,7 +1,7 @@
 package com.lovebird.api.dto.param.user
 
+import com.lovebird.api.vo.PrincipalUser
 import com.lovebird.domain.entity.User
-import com.lovebird.security.vo.PrincipalUser
 
 data class UserAuthParam(
 	val user: User,

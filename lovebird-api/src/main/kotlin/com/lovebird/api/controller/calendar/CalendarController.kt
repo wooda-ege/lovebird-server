@@ -1,5 +1,6 @@
 package com.lovebird.api.controller.calendar
 
+import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.request.calendar.CalendarListRequest
 import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
@@ -8,7 +9,6 @@ import com.lovebird.api.dto.response.calendar.CalendarListResponse
 import com.lovebird.api.service.calendar.CalendarService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
-import com.lovebird.security.annotation.AuthorizedUser
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
