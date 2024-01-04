@@ -70,4 +70,8 @@ class CalendarEvent(
 			}
 		}
 	}
+
+	fun setFlag() {
+		this.sendFlag = true
+	}
 }
