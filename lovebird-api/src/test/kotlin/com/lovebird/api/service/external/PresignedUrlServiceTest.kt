@@ -5,7 +5,6 @@ import com.lovebird.api.dto.param.external.DiaryUploadPresignedUrlParam
 import com.lovebird.api.dto.param.external.ProfileUploadPresignedUrlParam
 import com.lovebird.api.dto.response.external.PresignedUrlListResponse
 import com.lovebird.api.dto.response.external.PresignedUrlResponse
-import com.lovebird.api.provider.FilenameProvider
 import com.lovebird.common.enums.Domain
 import com.lovebird.s3.provider.PresignedUrlProvider
 import io.kotest.matchers.shouldBe
@@ -16,9 +15,8 @@ import io.mockk.mockk
 class PresignedUrlServiceTest : ServiceDescribeSpec({
 
 	val presignedUrlProvider: PresignedUrlProvider = mockk<PresignedUrlProvider>(relaxed = true)
-	val fileNameProvider = FilenameProvider()
 
-	val presignedUrlService = PresignedUrlService(presignedUrlProvider, fileNameProvider)
+	val presignedUrlService = PresignedUrlService(presignedUrlProvider)
 
 	afterEach {
 		clearMocks(presignedUrlProvider)

@@ -1,12 +1,12 @@
 package com.lovebird.api.controller.couple
 
+import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.dto.request.couple.CoupleLinkRequest
 import com.lovebird.api.dto.response.couple.CoupleCodeResponse
 import com.lovebird.api.dto.response.couple.CoupleLinkResponse
 import com.lovebird.api.service.couple.CoupleCodeService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
-import com.lovebird.security.annotation.AuthorizedUser
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

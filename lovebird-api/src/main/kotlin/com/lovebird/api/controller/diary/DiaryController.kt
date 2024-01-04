@@ -1,5 +1,6 @@
 package com.lovebird.api.controller.diary
 
+import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.dto.request.diary.DiaryCreateRequest
 import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.request.diary.DiaryUpdateRequest
@@ -9,7 +10,6 @@ import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
-import com.lovebird.security.annotation.AuthorizedUser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping

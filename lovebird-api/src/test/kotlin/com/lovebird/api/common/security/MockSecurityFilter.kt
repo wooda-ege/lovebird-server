@@ -1,8 +1,8 @@
 package com.lovebird.api.common.security
 
+import com.lovebird.api.vo.PrincipalUser
 import com.lovebird.common.enums.Provider
 import com.lovebird.domain.entity.User
-import com.lovebird.security.vo.PrincipalUser
 import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
 import jakarta.servlet.FilterConfig

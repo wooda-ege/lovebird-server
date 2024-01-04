@@ -1,6 +1,6 @@
 package com.lovebird.api.dto.response.user
 
-import com.lovebird.security.vo.JwtToken
+import com.lovebird.api.vo.JwtToken
 
 data class SignUpResponse(
 	val accessToken: String,

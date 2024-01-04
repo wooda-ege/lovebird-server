@@ -1,9 +1,6 @@
-package com.lovebird.api.provider
+package com.lovebird.common.util
 
-import org.springframework.stereotype.Component
-
-@Component
-class FilenameProvider {
+object FilenameUtils {
 
 	fun generateProfileImageName(filename: String, userId: Long): String {
 		return "%d-profile%s".format(userId, getFileExtension(filename))

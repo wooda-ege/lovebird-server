@@ -2,3 +2,13 @@ spring:
     config:
         activate:
             on-profile: dev
+
+jwt:
+    access-header: Authorization
+    refresh-header: Refresh
+    secret: ${DEV_JWT_SECRET}
+    expiration:
+        access-token: 432000
+        refresh-token: 6048000
+    grant-type: Bearer
+
