@@ -10,15 +10,16 @@ val snippetsDir by extra { file("build/generated-snippets") }
 dependencies {
 	implementation(project(":lovebird-common"))
 	implementation(project(":lovebird-domain"))
+	implementation(project(":lovebird-client"))
 	implementation(project(":lovebird-external:s3"))
 	implementation(project(":lovebird-external:fcm"))
-	implementation(project(":lovebird-external:web-client"))
 	implementation(project(":lovebird-infra:logging"))
 	implementation(project(":lovebird-infra:monitoring"))
 
 	// Basic
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework:spring-tx")
 
 	// Security & OAuth
 	implementation("org.springframework.boot:spring-boot-starter-security")

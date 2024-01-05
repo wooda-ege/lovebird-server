@@ -1,4 +1,4 @@
-package com.lovebird.webClient.config
+package com.lovebird.client.config
 
 import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler

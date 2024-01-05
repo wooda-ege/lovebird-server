@@ -1,4 +1,4 @@
-package com.lovebird.webClient.vo.key
+package com.lovebird.client.vo.key
 
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException

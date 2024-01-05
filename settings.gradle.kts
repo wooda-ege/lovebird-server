@@ -4,9 +4,9 @@ include(
 	"lovebird-api",
 	"lovebird-common",
 	"lovebird-domain",
+	"lovebird-client",
 	"lovebird-external:s3",
 	"lovebird-external:fcm",
-	"lovebird-external:web-client",
 	"lovebird-infra:logging",
 	"lovebird-infra:monitoring"
 )
