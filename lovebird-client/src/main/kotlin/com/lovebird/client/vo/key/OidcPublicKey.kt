@@ -1,4 +1,4 @@
-package com.lovebird.webClient.vo.key
+package com.lovebird.client.vo.key
 
 data class OidcPublicKey(
 	val kid: String,

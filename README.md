@@ -32,18 +32,43 @@
 ├── .github
 ├── lovebird-api
 ├── lovebird-common
+├── lovebird-client 
 ├── lovebird-domain
 ├── lovebird-external 
 │   ├── fcm
-│   ├── s3
-│   └── web-client
-├── lovebird-infra
-│   ├── logging
-│   └── monitoring
-└── lovebird-security
+│   └── s3
+└── lovebird-infra
+    ├── logging
+    └── monitoring
 ```
 
-[//]: # (## Multi Module Structure)
+## Multi Module Structure
+
+![image](https://github.com/wooda-ege/lovebird-server/assets/56003992/e45b1ce3-fcd0-4aa5-98bd-1a6a0661b39d)
+
+- 상위 모듈이 하위 모듈만을 의존하도록 구성
+
+> ### Common
+
+- 공통 모듈
+- 어떠한 의존 관계도 갖지 않음
+- 공통으로 사용되는 Type, Util 등을 정의
+
+> ### Domain
+
+- DB와 밀접한 도메인을 다루는 모듈
+- 애플리케이션 비즈니스를 모름
+- 하나의 모듈은 최대 하나의 Infrastructure에 대한 책임을 가짐
+- Entity, Repository, Reader, Writer 정의
+
+> ### Client
+
+- 비즈니스를 모르지만 외부 API와 통신하는 모듈
+- WebClient를 통해 외부 API와 통신
+
+> ### Api, Batch, External
+
+- 독립적으로 실행 가능한 모듈
 
 ## Tech Stack
 

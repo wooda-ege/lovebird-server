@@ -1,7 +1,7 @@
-package com.lovebird.webClient.client
+package com.lovebird.client.web
 
-import com.lovebird.webClient.client.properties.AppleProperties
-import com.lovebird.webClient.vo.key.OidcPublicKeyList
+import com.lovebird.client.vo.key.OidcPublicKeyList
+import com.lovebird.client.web.properties.AppleProperties
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 

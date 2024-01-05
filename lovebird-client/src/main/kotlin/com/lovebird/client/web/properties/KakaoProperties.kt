@@ -1,11 +1,11 @@
-package com.lovebird.webClient.client.properties
+package com.lovebird.client.web.properties
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class AppleProperties(
-	@Value("\${oauth.apple.public-key-url}")
+class KakaoProperties(
+	@Value("\${oauth.kakao.public-key-info}")
 	private val publicKeyUrl: String
 ) {
 

@@ -1,10 +1,10 @@
-package com.lovebird.webClient.client
+package com.lovebird.client.web
 
-import com.lovebird.webClient.client.dto.request.NaverLoginClientRequest
-import com.lovebird.webClient.client.dto.request.NaverUserInfoClientRequest
-import com.lovebird.webClient.client.dto.response.NaverLoginClientResponse
-import com.lovebird.webClient.client.dto.response.NaverUserInfoClientResponse
-import com.lovebird.webClient.client.properties.NaverProperties
+import com.lovebird.client.web.dto.request.NaverLoginClientRequest
+import com.lovebird.client.web.dto.request.NaverUserInfoClientRequest
+import com.lovebird.client.web.dto.response.NaverLoginClientResponse
+import com.lovebird.client.web.dto.response.NaverUserInfoClientResponse
+import com.lovebird.client.web.properties.NaverProperties
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
