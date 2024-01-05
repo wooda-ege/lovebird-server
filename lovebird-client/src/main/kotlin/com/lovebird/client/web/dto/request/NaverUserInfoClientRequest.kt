@@ -1,4 +1,4 @@
-package com.lovebird.webClient.client.dto.request
+package com.lovebird.client.web.dto.request
 
 data class NaverUserInfoClientRequest(
 	val accessToken: String

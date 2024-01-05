@@ -10,9 +10,9 @@ val snippetsDir by extra { file("build/generated-snippets") }
 dependencies {
 	implementation(project(":lovebird-common"))
 	implementation(project(":lovebird-domain"))
+	implementation(project(":lovebird-client"))
 	implementation(project(":lovebird-external:s3"))
 	implementation(project(":lovebird-external:fcm"))
-	implementation(project(":lovebird-external:web-client"))
 	implementation(project(":lovebird-infra:logging"))
 	implementation(project(":lovebird-infra:monitoring"))
 

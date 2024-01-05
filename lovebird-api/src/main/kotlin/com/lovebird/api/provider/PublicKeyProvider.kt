@@ -1,7 +1,7 @@
 package com.lovebird.api.provider
 
-import com.lovebird.webClient.vo.key.OidcPublicKey
-import com.lovebird.webClient.vo.key.OidcPublicKeyList
+import com.lovebird.client.vo.key.OidcPublicKey
+import com.lovebird.client.vo.key.OidcPublicKeyList
 import org.springframework.stereotype.Component
 import java.math.BigInteger
 import java.security.KeyFactory

@@ -1,4 +1,4 @@
-package com.lovebird.webClient.client.dto.request
+package com.lovebird.client.web.dto.request
 
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap

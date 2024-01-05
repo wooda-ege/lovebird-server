@@ -1,6 +1,6 @@
-package com.lovebird.webClient.client.properties
+package com.lovebird.client.web.properties
 
-import com.lovebird.webClient.client.dto.request.NaverLoginClientRequest
+import com.lovebird.client.web.dto.request.NaverLoginClientRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
