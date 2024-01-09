@@ -5,7 +5,7 @@ import com.lovebird.api.dto.param.user.OAuthParam
 import com.lovebird.api.dto.param.user.SignInParam
 import com.lovebird.api.dto.param.user.SignUpParam
 import com.lovebird.api.dto.param.user.UserAuthParam
-import com.lovebird.api.dto.request.user.SingUpRequest
+import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.factory.AuthProviderFactory
@@ -29,7 +29,7 @@ class AuthService(
 	private val jwtProvider: JwtProvider
 ) {
 	@Transactional
-	fun signUpUserUsingOidc(request: SingUpRequest.OidcUserRequest): SignUpResponse {
+	fun signUpUserUsingOidc(request: SignUpRequest.OidcUserRequest): SignUpResponse {
 		val param = signUsingOidc(request.toUserRegisterParam())
 		profileService.save(request.toProfileCreateParam(param.user))
 
@@ -37,7 +37,7 @@ class AuthService(
 	}
 
 	@Transactional
-	fun signUpUserUsingNaver(request: SingUpRequest.NaverUserRequest): SignUpResponse {
+	fun signUpUserUsingNaver(request: SignUpRequest.NaverUserRequest): SignUpResponse {
 		val param = signUsingNaver(request.toUserRegisterParam())
 		profileService.save(request.toProfileCreateParam(param.user))
 
@@ -62,6 +62,7 @@ class AuthService(
 
 	private fun signUsingOidc(param: SignUpParam.OidcUserParam): UserAuthParam {
 		val oAuthParam: OAuthParam = getOAuthParam(param.provider, param.idToken)
+		validateProviderId(oAuthParam.providerId)
 		val user: User = userService.save(param.toUserEntity(oAuthParam.providerId))
 
 		return UserAuthParam.of(user)
@@ -69,9 +70,16 @@ class AuthService(
 
 	private fun signUsingNaver(param: SignUpParam.NaverUserParam): UserAuthParam {
 		val oAuthParam: OAuthParam = getOAuthParam(param.provider, NaverLoginParam(param.code, param.state))
+		validateProviderId(oAuthParam.providerId)
 		val user: User = userService.save(param.toUserEntity(oAuthParam.providerId))
 
 		return UserAuthParam.of(user)
+	}
+
+	private fun validateProviderId(providerId: String) {
+		if (userService.findByProviderId(providerId) != null) {
+			throw LbException(ReturnCode.DUPLICATE_SIGN_UP)
+		}
 	}
 
 	private fun findUserByProviderId(providerId: String): User {
