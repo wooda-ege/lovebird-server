@@ -60,7 +60,7 @@ class PresignedUrlControllerTest(
 				.contentType(APPLICATION_JSON)
 				.content(requestJson)
 
-			it("200 OK") {
+			it("1000 SUCCESS") {
 				every { presignedUrlService.getProfilePresignedUrl(requestBody.toParam(1L)) } returns response
 
 				mockMvc
@@ -73,7 +73,7 @@ class PresignedUrlControllerTest(
 						jsonPath("$.data.filename") shouldBe response.filename
 					)
 					.andDocument(
-						"200-profile-presigned-url",
+						"1000-profile-presigned-url",
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
@@ -109,7 +109,7 @@ class PresignedUrlControllerTest(
 				.contentType(APPLICATION_JSON)
 				.content(requestJson)
 
-			it("200 OK") {
+			it("1000 OK") {
 				every { presignedUrlService.getDiaryPresignedUrls(requestBody.toParam(1L)) } returns response
 
 				mockMvc
@@ -125,7 +125,7 @@ class PresignedUrlControllerTest(
 						jsonPath("$.data.totalCount") shouldBe response.totalCount
 					)
 					.andDocument(
-						"200-diary-presigned-url",
+						"1000-diary-presigned-url",
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),

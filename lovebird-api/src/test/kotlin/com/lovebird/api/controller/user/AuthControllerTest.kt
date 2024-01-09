@@ -81,7 +81,7 @@ class AuthControllerTest(
 						jsonPath("$.data.refreshToken") shouldBe response.refreshToken
 					)
 					.andDocument(
-						"1200-sign-up-oidc",
+						"1000-sign-up-oidc",
 						requestBody(
 							"provider" type STRING means "소셜 제공자",
 							"deviceToken" type STRING means "디바이스 토큰" isOptional true,
@@ -175,7 +175,7 @@ class AuthControllerTest(
 						jsonPath("$.data.refreshToken") shouldBe response.refreshToken
 					)
 					.andDocument(
-						"1200-sign-up-naver",
+						"1000-sign-up-naver",
 						requestBody(
 							"provider" type STRING means "소셜 제공자",
 							"deviceToken" type STRING means "디바이스 토큰" isOptional true,
