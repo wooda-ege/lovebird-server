@@ -94,3 +94,6 @@
 | `9999`
 | 외부 서버 에러 입니다.
 |===
+
+include::presigned-url.adoc[]
+include::auth.adoc[]

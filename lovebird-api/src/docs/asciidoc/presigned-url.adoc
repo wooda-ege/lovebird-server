@@ -1,0 +1,7 @@
+== Presigned Url
+
+=== 프로필 업로드용 Presigned Url 발급
+operation::1000-profile-presigned-url[snippets='http-request,http-response,request-headers,request-fields,response-fields']
+
+=== 일기 업로드용 Presigned Url 발급
+operation::1000-diary-presigned-url[snippets='http-request,http-response,request-headers,request-fields,response-fields']

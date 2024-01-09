@@ -23,6 +23,7 @@ import com.lovebird.common.enums.ReturnCode
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
+@WebMvcTest(PresignedUrlController::class)
 class PresignedUrlControllerTest(
 	@MockkBean(relaxed = true)
 	private val presignedUrlService: PresignedUrlService,
@@ -58,7 +60,7 @@ class PresignedUrlControllerTest(
 				.contentType(APPLICATION_JSON)
 				.content(requestJson)
 
-			it("200 OK") {
+			it("1000 SUCCESS") {
 				every { presignedUrlService.getProfilePresignedUrl(requestBody.toParam(1L)) } returns response
 
 				mockMvc
@@ -71,7 +73,7 @@ class PresignedUrlControllerTest(
 						jsonPath("$.data.filename") shouldBe response.filename
 					)
 					.andDocument(
-						"200-profile-presigned-url",
+						"1000-profile-presigned-url",
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
@@ -107,7 +109,7 @@ class PresignedUrlControllerTest(
 				.contentType(APPLICATION_JSON)
 				.content(requestJson)
 
-			it("200 OK") {
+			it("1000 OK") {
 				every { presignedUrlService.getDiaryPresignedUrls(requestBody.toParam(1L)) } returns response
 
 				mockMvc
@@ -123,7 +125,7 @@ class PresignedUrlControllerTest(
 						jsonPath("$.data.totalCount") shouldBe response.totalCount
 					)
 					.andDocument(
-						"200-diary-presigned-url",
+						"1000-diary-presigned-url",
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),

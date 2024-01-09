@@ -7,7 +7,7 @@ import com.lovebird.common.enums.Provider
 import com.lovebird.domain.entity.User
 import java.time.LocalDate
 
-sealed class SingUpRequest(
+sealed class SignUpRequest(
 	open val provider: Provider,
 	open val deviceToken: String? = null,
 	open val imageUrl: String,
@@ -28,7 +28,7 @@ sealed class SingUpRequest(
 		override val firstDate: LocalDate?,
 		override val gender: Gender,
 		val idToken: String
-	) : SingUpRequest(
+	) : SignUpRequest(
 		provider = provider,
 		deviceToken = deviceToken,
 		imageUrl = imageUrl,
@@ -70,7 +70,7 @@ sealed class SingUpRequest(
 		override val gender: Gender,
 		val code: String,
 		val state: String
-	) : SingUpRequest(
+	) : SignUpRequest(
 		provider = provider,
 		deviceToken = deviceToken,
 		imageUrl = imageUrl,

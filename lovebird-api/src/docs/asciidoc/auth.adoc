@@ -1,0 +1,41 @@
+== 인증 · 인가
+
+=== oidc 회원가입 (apple, google, kakao)
+
+==== `Success`
+
+operation::1000-sign-up-oidc[snippets='http-request,http-response,request-fields,response-fields']
+
+==== `Fail` (이미 가입한 회원)
+
+operation::1201-sign-up-oidc[snippets='http-request,http-response,request-fields,response-fields']
+
+=== Naver 회원가입
+
+==== `Success`
+
+operation::1000-sign-up-naver[snippets='http-request,http-response,request-fields,response-fields']
+
+==== `Fail` (이미 가입한 회원)
+
+operation::1201-sign-up-naver[snippets='http-request,http-response,request-fields,response-fields']
+
+=== oidc 로그인 (apple, google, kakao)
+
+==== `Success`
+
+operation::1000-sign-in-oidc[snippets='http-request,http-response,request-fields,response-fields']
+
+==== `Fail` (가입하지 않은 회원)
+
+operation::1202-sign-in-oidc[snippets='http-request,http-response,request-fields,response-fields']
+
+=== Naver 로그인
+
+==== `Success`
+
+operation::1000-sign-in-naver[snippets='http-request,http-response,request-fields,response-fields']
+
+==== `Fail` (가입하지 않은 회원)
+
+operation::1202-sign-in-naver[snippets='http-request,http-response,request-fields,response-fields']
