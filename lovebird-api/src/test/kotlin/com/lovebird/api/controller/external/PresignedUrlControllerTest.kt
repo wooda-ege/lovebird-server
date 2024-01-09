@@ -23,6 +23,7 @@ import com.lovebird.common.enums.ReturnCode
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
+@WebMvcTest(PresignedUrlController::class)
 class PresignedUrlControllerTest(
 	@MockkBean(relaxed = true)
 	private val presignedUrlService: PresignedUrlService,
