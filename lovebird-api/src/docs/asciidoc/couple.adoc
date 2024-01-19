@@ -1,0 +1,35 @@
+== Couple
+
+=== 연동 코드 발급
+
+==== `Success`
+
+operation::1000-get-couple-code[snippets='http-request,http-response,request-headers,response-fields']
+
+=== 커플 연동
+
+==== `Success` (커플 연동)
+
+operation::1000-link-couple[snippets='http-request,http-response,request-headers,request-fields,response-fields']
+
+==== `Success` (애플 테스트)
+
+operation::1000-link-apple[snippets='http-request,http-response,request-headers,request-fields,response-fields']
+
+==== `Fail` (유효하지 않은 연동코드)
+
+operation::8000-wrong-code[snippets='http-response,response-fields']
+
+==== `Fail` (이미 연동한 유저)
+
+operation::1300-already-code[snippets='http-response,response-fields']
+
+==== `Fail` (스스로 연동하려는 경우)
+
+operation::1301-self-code[snippets='http-response,response-fields']
+
+=== 연동 여부 확인
+
+==== `Success`
+
+operation::1000-couple-check-url[snippets='http-request,http-response,request-headers,response-fields']
