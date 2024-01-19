@@ -10,8 +10,6 @@ import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
@@ -32,9 +30,9 @@ class DiaryController(
 	fun save(
 		@AuthorizedUser user: User,
 		@RequestBody request: DiaryCreateRequest
-	): ResponseEntity<ApiResponse<Void>> {
+	): ApiResponse<Void> {
 		diaryService.save(request.toParam(user))
-		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
+		return ApiResponse.success()
 	}
 
 	@GetMapping("/memory-date")

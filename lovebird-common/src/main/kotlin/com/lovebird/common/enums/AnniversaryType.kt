@@ -15,5 +15,6 @@ enum class AnniversaryType {
 	SEVEN_YEARS,
 	EIGHT_YEARS,
 	NINE_YEARS,
-	TEN_YEARS;
+	TEN_YEARS,
+	BIRTHDAY
 }

@@ -73,7 +73,7 @@ class AuthControllerTest(
 				every { authService.signUpUserUsingOidc(any()) } returns response
 
 				mockMvc.perform(request)
-					.andExpect(status().isCreated)
+					.andExpect(status().isOk)
 					.andExpectData(
 						jsonPath("$.code") shouldBe ReturnCode.SUCCESS.code,
 						jsonPath("$.message") shouldBe ReturnCode.SUCCESS.message,
@@ -113,7 +113,7 @@ class AuthControllerTest(
 				every { authService.signUpUserUsingOidc(any()) } throws LbException(ReturnCode.DUPLICATE_SIGN_UP)
 
 				mockMvc.perform(request)
-					.andExpect(status().isOk)
+					.andExpect(status().isBadRequest)
 					.andExpectData(
 						jsonPath("$.code") shouldBe ReturnCode.DUPLICATE_SIGN_UP.code,
 						jsonPath("$.message") shouldBe ReturnCode.DUPLICATE_SIGN_UP.message
@@ -167,7 +167,7 @@ class AuthControllerTest(
 				every { authService.signUpUserUsingNaver(any()) } returns response
 
 				mockMvc.perform(request)
-					.andExpect(status().isCreated)
+					.andExpect(status().isOk)
 					.andExpectData(
 						jsonPath("$.code") shouldBe ReturnCode.SUCCESS.code,
 						jsonPath("$.message") shouldBe ReturnCode.SUCCESS.message,
@@ -208,7 +208,7 @@ class AuthControllerTest(
 				every { authService.signUpUserUsingNaver(any()) } throws LbException(ReturnCode.DUPLICATE_SIGN_UP)
 
 				mockMvc.perform(request)
-					.andExpect(status().isOk)
+					.andExpect(status().isBadRequest)
 					.andExpectData(
 						jsonPath("$.code") shouldBe ReturnCode.DUPLICATE_SIGN_UP.code,
 						jsonPath("$.message") shouldBe ReturnCode.DUPLICATE_SIGN_UP.message
@@ -289,7 +289,7 @@ class AuthControllerTest(
 				every { authService.signInUsingOidc(any()) } throws LbException(ReturnCode.NOT_EXIST_USER)
 
 				mockMvc.perform(request)
-					.andExpect(status().isOk)
+					.andExpect(status().isBadRequest)
 					.andExpectData(
 						jsonPath("$.code") shouldBe ReturnCode.NOT_EXIST_USER.code,
 						jsonPath("$.message") shouldBe ReturnCode.NOT_EXIST_USER.message
@@ -364,7 +364,7 @@ class AuthControllerTest(
 				every { authService.signInUsingNaver(any()) } throws LbException(ReturnCode.NOT_EXIST_USER)
 
 				mockMvc.perform(request)
-					.andExpect(status().isOk)
+					.andExpect(status().isBadRequest)
 					.andExpectData(
 						jsonPath("$.code") shouldBe ReturnCode.NOT_EXIST_USER.code,
 						jsonPath("$.message") shouldBe ReturnCode.NOT_EXIST_USER.message

@@ -3,6 +3,8 @@ package com.lovebird.api.controller
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
 import com.lovebird.common.response.ApiResponse
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -16,8 +18,10 @@ import java.sql.SQLException
 class GlobalControllerAdvice {
 
 	@ExceptionHandler(LbException::class)
-	fun handleLbException(e: LbException): ApiResponse<Void> {
-		return ApiResponse.fail(e.getReturnCode())
+	fun handleLbException(e: LbException): ResponseEntity<ApiResponse<Void>> {
+		return ResponseEntity
+			.status(HttpStatus.BAD_REQUEST)
+			.body(ApiResponse.fail(e.getReturnCode()))
 	}
 
 	@ExceptionHandler(
@@ -29,14 +33,18 @@ class GlobalControllerAdvice {
 			MethodArgumentTypeMismatchException::class
 		]
 	)
-	fun handleRequestException(e: Exception): ApiResponse<Void> {
-		return ApiResponse.fail(ReturnCode.WRONG_PARAMETER)
+	fun handleRequestException(e: Exception): ResponseEntity<ApiResponse<Void>> {
+		return ResponseEntity
+			.status(HttpStatus.BAD_REQUEST)
+			.body(ApiResponse.fail(ReturnCode.WRONG_PARAMETER))
 	}
 
 	@ExceptionHandler(
 		value = [SQLException::class]
 	)
-	fun handleServerException(e: SQLException): ApiResponse<Void> {
-		return ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR)
+	fun handleServerException(e: SQLException): ResponseEntity<ApiResponse<Void>> {
+		return ResponseEntity
+			.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))
 	}
 }
