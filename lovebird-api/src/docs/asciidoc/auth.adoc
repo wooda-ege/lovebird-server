@@ -1,4 +1,4 @@
-== 인증 · 인가
+== Auth
 
 === oidc 회원가입 (apple, google, kakao)
 

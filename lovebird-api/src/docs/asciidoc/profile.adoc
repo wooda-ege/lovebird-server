@@ -1,0 +1,10 @@
+== Profile
+
+=== 조회
+
+==== `Success`
+
+operation::1000-profile-url[snippets='http-request,http-response,request-headers,response-fields']
+
+=== 수정
+operation::1000-update-profile-url[snippets='http-request,http-response,request-headers,request-fields,response-fields']

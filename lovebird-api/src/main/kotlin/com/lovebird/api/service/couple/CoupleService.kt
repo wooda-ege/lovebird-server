@@ -33,7 +33,7 @@ class CoupleService(
 		}
 
 		if (user1 == user2) {
-			throw LbException(ReturnCode.WRONG_PARAMETER)
+			throw LbException(ReturnCode.CAN_NOT_LINK_SELF)
 		}
 	}
 

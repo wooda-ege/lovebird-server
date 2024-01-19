@@ -17,8 +17,8 @@ data class ApiResponse<T>(
 			)
 		}
 
-		fun <T> fail(returnCode: ReturnCode): ApiResponse<T> {
-			return ApiResponse(returnCode.code, returnCode.message, null)
+		fun <T> fail(returnCode: ReturnCode, data: T? = null): ApiResponse<T> {
+			return ApiResponse(returnCode.code, returnCode.message, data)
 		}
 
 		fun <T> error(returnCode: ReturnCode): ApiResponse<T> {
