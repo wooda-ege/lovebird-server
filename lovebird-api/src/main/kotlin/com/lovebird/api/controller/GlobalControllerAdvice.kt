@@ -6,6 +6,7 @@ import com.lovebird.common.response.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.validation.BindingResult
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingServletRequestParameterException
@@ -27,7 +28,6 @@ class GlobalControllerAdvice {
 	@ExceptionHandler(
 		value = [
 			HttpMessageNotReadableException::class,
-			MethodArgumentNotValidException::class,
 			HttpRequestMethodNotSupportedException::class,
 			MissingServletRequestParameterException::class,
 			MethodArgumentTypeMismatchException::class
@@ -37,6 +37,18 @@ class GlobalControllerAdvice {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(ApiResponse.fail(ReturnCode.WRONG_PARAMETER))
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException::class)
+	fun badRequestExHandler(bindingResult: BindingResult): ResponseEntity<ApiResponse<*>> {
+		return ResponseEntity
+			.status(HttpStatus.BAD_REQUEST)
+			.body(
+				ApiResponse.fail(
+					ReturnCode.WRONG_PARAMETER,
+					bindingResult.fieldErrors
+				)
+			)
 	}
 
 	@ExceptionHandler(
