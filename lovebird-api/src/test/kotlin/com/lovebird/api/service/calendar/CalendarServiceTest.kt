@@ -3,6 +3,7 @@ package com.lovebird.api.service.calendar
 import com.lovebird.api.common.base.ServiceDescribeSpec
 import com.lovebird.api.dto.param.calendar.CalendarListParam
 import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
+import com.lovebird.api.dto.request.calendar.CalendarListRequest
 import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
@@ -20,6 +21,7 @@ import com.lovebird.domain.repository.reader.CoupleEntryReader
 import com.lovebird.domain.repository.writer.CalendarEventWriter
 import com.lovebird.domain.repository.writer.CalendarWriter
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldBeIn
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.startWith
@@ -55,7 +57,13 @@ class CalendarServiceTest : ServiceDescribeSpec({
 			val calendarDetailResponse: CalendarDetailResponse = getCalendarDetailResponse(getCalendar(1L, 1L))
 
 			it("해당 id에 대한 캘린더 정보가 반한된다") {
+				//data class 상태 검증
 				calendarService.findById(1L) shouldBe calendarDetailResponse
+
+				//행위 검증
+				verify(exactly = 1) {
+					calendarReader.findEntityById(1L)
+				}
 			}
 		}
 
@@ -67,15 +75,24 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					calendarService.findById(1)
 				}
 
+				//예외 상태 검증
 				exception.getMsg() should startWith(ReturnCode.WRONG_PARAMETER.message)
 				exception.getCode() should startWith(ReturnCode.WRONG_PARAMETER.code)
+
+				//행위 검증
+				verify(exactly = 1) {
+					calendarReader.findEntityById(1L)
+				}
 			}
 		}
 	}
 
 	describe("캘린더를 유저정보로 검색할때") {
+		val request = getCalendarListRequest(2023, 12)
+		val user: User = getUser(1L)
+		val param = request.toParam(user)
+
 		context("존재하는 유저 정보가 주어졌을때") {
-			val param = CalendarListParam(2023, 12, getUser(1L))
 			val user: User = param.user
 
 			it("파트너가 존재한다면 캘린더 조회에 성공한다") {
@@ -89,8 +106,18 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					calendarReader.findCalendarsByDate(param.toRequestParam(coupleEntry.partner))
 				} returns calendarListResponseParam
 
-				calendarService.findCalendarsByMonthAndUser(param) should {
-					CalendarListResponse(calendarListResponseParam)
+				val response = calendarService.findCalendarsByMonthAndUser(param)
+
+				//상태 검증
+				response shouldBe CalendarListResponse.of(calendarListResponseParam)
+				response.calendars.forEach {
+					it.userId shouldBeIn arrayListOf(partnerId, user.id!!)
+				}
+
+				//행위 검증
+				verify(exactly = 1) {
+					coupleEntryReader.findByUser(param.user)
+					calendarReader.findCalendarsByDate(param.toRequestParam(coupleEntry.partner))
 				}
 			}
 
@@ -103,8 +130,18 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					calendarReader.findCalendarsByDate(param.toRequestParam())
 				} returns calendarListResponseParam
 
-				calendarService.findCalendarsByMonthAndUser(param) should {
-					CalendarListResponse(calendarListResponseParam)
+				val response = calendarService.findCalendarsByMonthAndUser(param)
+
+				//상태 검증
+				response shouldBe CalendarListResponse.of(calendarListResponseParam)
+				response.calendars.forEach {
+					it.userId shouldBe user.id!!
+				}
+
+				//행위 검증
+				verify(exactly = 1) {
+					coupleEntryReader.findByUser(param.user)
+					calendarReader.findCalendarsByDate(param.toRequestParam())
 				}
 			}
 		}
@@ -303,6 +340,10 @@ class CalendarServiceTest : ServiceDescribeSpec({
 				startTime = null,
 				endTime = null
 			)
+		}
+
+		fun getCalendarListRequest(year: Int?, month: Int?): CalendarListRequest {
+			return CalendarListRequest(year, month)
 		}
 	}
 }
