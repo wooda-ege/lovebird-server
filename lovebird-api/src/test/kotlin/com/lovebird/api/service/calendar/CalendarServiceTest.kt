@@ -50,19 +50,18 @@ class CalendarServiceTest : ServiceDescribeSpec({
 		clearMocks(calendarReader, coupleEntryReader, calendarWriter, calendarEventReader, calendarEventWriter)
 	}
 
-
 	describe("캘린더를 ID로 찾는 로직") {
 		context("존재하는 id가 주어졌다면") {
 			every { calendarReader.findEntityById(1L) } returns getCalendar(1L, 1L)
 			val calendarDetailResponse: CalendarDetailResponse = getCalendarDetailResponse(getCalendar(1L, 1L))
 
 			it("해당 id에 대한 캘린더 정보가 반한된다") {
-				//data class 상태 검증
+				// data class 상태 검증
 				calendarService.findById(1L).should {
 					calendarDetailResponse
 				}
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarReader.findEntityById(1L)
 				}
@@ -77,11 +76,11 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					calendarService.findById(1)
 				}
 
-				//예외 상태 검증
+				// 예외 상태 검증
 				exception.getMsg() should startWith(ReturnCode.WRONG_PARAMETER.message)
 				exception.getCode() should startWith(ReturnCode.WRONG_PARAMETER.code)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarReader.findEntityById(1L)
 				}
@@ -110,7 +109,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 
 				val response = calendarService.findCalendarsByMonthAndUser(param)
 
-				//상태 검증
+				// 상태 검증
 				response should {
 					CalendarListResponse.of(calendarListResponseParam)
 				}
@@ -118,7 +117,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					it.userId shouldBeIn arrayListOf(partnerId, user.id!!)
 				}
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(param.user)
 					calendarReader.findCalendarsByDate(param.toRequestParam(coupleEntry.partner))
@@ -136,13 +135,13 @@ class CalendarServiceTest : ServiceDescribeSpec({
 
 				val response = calendarService.findCalendarsByMonthAndUser(param)
 
-				//상태 검증
+				// 상태 검증
 				response should { CalendarListResponse.of(calendarListResponseParam) }
 				response.calendars.forEach {
 					it.userId shouldBe user.id!!
 				}
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(param.user)
 					calendarReader.findCalendarsByDate(param.toRequestParam())
@@ -161,7 +160,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 
 				calendarService.save(request, user)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarWriter.save(any())
 					coupleEntryReader.findByUser(user)
@@ -174,7 +173,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 
 				calendarService.save(request, user)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarWriter.save(any())
 					coupleEntryReader.findByUser(user)
@@ -197,7 +196,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 			it("캘린더 업데이트에 성공한다") {
 				calendarService.update(request.toParam(calendar.id!!, user))
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarReader.findEntityById(calendar.id!!)
 					calendarEventReader.findCalendarEventsByCalendar(calendar)
@@ -214,11 +213,11 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					calendarService.update(request.toParam(calendar.id!!, user))
 				}
 
-				//예외 상태 검증
+				// 예외 상태 검증
 				exception.getMsg() should startWith(ReturnCode.INVALID_MEMBER.message)
 				exception.getCode() should startWith(ReturnCode.INVALID_MEMBER.code)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarReader.findEntityById(calendar.id!!)
 				}
@@ -236,7 +235,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 			it("삭제에 성공한다") {
 				calendarService.delete(calendar.id!!, user)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarReader.findEntityById(calendar.id!!)
 					calendarEventReader.findCalendarEventsByCalendar(calendar)
@@ -255,11 +254,11 @@ class CalendarServiceTest : ServiceDescribeSpec({
 					calendarService.delete(calendar.id!!, user)
 				}
 
-				//예외 상태 검증
+				// 예외 상태 검증
 				exception.getMsg() should startWith(ReturnCode.INVALID_MEMBER.message)
 				exception.getCode() should startWith(ReturnCode.INVALID_MEMBER.code)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					calendarReader.findEntityById(calendar.id!!)
 				}
@@ -326,7 +325,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 				memo = "test",
 				color = Color.PRIMARY,
 				alarm = Alarm.NONE,
-				startDate = LocalDate.of(2024,1, 2),
+				startDate = LocalDate.of(2024, 1, 2),
 				endDate = null,
 				startTime = null,
 				endTime = null
@@ -339,7 +338,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 				memo = "test",
 				color = Color.PRIMARY,
 				alarm = Alarm.NONE,
-				startDate = LocalDate.of(2024,1, 2),
+				startDate = LocalDate.of(2024, 1, 2),
 				endDate = LocalDate.of(2024, 1, 2),
 				startTime = null,
 				endTime = null
