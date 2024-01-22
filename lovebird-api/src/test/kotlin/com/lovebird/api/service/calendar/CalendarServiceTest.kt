@@ -58,7 +58,9 @@ class CalendarServiceTest : ServiceDescribeSpec({
 
 			it("해당 id에 대한 캘린더 정보가 반한된다") {
 				//data class 상태 검증
-				calendarService.findById(1L) shouldBe calendarDetailResponse
+				calendarService.findById(1L).should {
+					calendarDetailResponse
+				}
 
 				//행위 검증
 				verify(exactly = 1) {
@@ -109,7 +111,9 @@ class CalendarServiceTest : ServiceDescribeSpec({
 				val response = calendarService.findCalendarsByMonthAndUser(param)
 
 				//상태 검증
-				response shouldBe CalendarListResponse.of(calendarListResponseParam)
+				response should {
+					CalendarListResponse.of(calendarListResponseParam)
+				}
 				response.calendars.forEach {
 					it.userId shouldBeIn arrayListOf(partnerId, user.id!!)
 				}
@@ -133,7 +137,7 @@ class CalendarServiceTest : ServiceDescribeSpec({
 				val response = calendarService.findCalendarsByMonthAndUser(param)
 
 				//상태 검증
-				response shouldBe CalendarListResponse.of(calendarListResponseParam)
+				response should { CalendarListResponse.of(calendarListResponseParam) }
 				response.calendars.forEach {
 					it.userId shouldBe user.id!!
 				}
