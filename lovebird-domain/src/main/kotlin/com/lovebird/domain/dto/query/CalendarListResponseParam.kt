@@ -10,10 +10,10 @@ data class CalendarListResponseParam(
 	val userId: Long,
 	val title: String,
 	val memo: String?,
+	val color: Enum<Color>,
+	val alarm: Enum<Alarm>,
 	val startDate: LocalDate,
 	val endDate: LocalDate,
 	val startTime: LocalTime?,
 	val endTime: LocalTime?,
-	val color: Enum<Color>,
-	val alarm: Enum<Alarm>
 )
