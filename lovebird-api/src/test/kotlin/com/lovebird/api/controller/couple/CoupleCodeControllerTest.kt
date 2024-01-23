@@ -21,12 +21,13 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.HttpHeaders.*
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType.*
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.restdocs.ManualRestDocumentation
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
 @WebMvcTest(CoupleCodeController::class)
@@ -70,7 +71,7 @@ class CoupleCodeControllerTest(
 						successResponseBody(
 							"data.coupleCode" type STRING means "커플 코드",
 							"data.remainSeconds" type NUMBER means "남은 시간(초)"
-						),
+						)
 					)
 			}
 		}
@@ -105,7 +106,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						successResponseBody("data.partnerId" type NUMBER means "파트너 아이디"),
+						successResponseBody("data.partnerId" type NUMBER means "파트너 아이디")
 					)
 			}
 		}

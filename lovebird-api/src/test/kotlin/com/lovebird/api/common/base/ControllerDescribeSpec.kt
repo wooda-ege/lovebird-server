@@ -42,7 +42,7 @@ abstract class ControllerDescribeSpec(
 			return responseBody(
 				"code" type STRING means "응답 코드",
 				"message" type STRING means "응답 메시지",
-				"data" type OBJECT means "응답 데이터" isOptional dataOptional,
+				"data" type OBJECT means "응답 데이터" isOptional dataOptional
 			).and(fields.map { it.descriptor })
 		}
 	}

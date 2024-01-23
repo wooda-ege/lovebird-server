@@ -15,5 +15,5 @@ data class CalendarListResponseParam(
 	val startDate: LocalDate,
 	val endDate: LocalDate,
 	val startTime: LocalTime?,
-	val endTime: LocalTime?,
+	val endTime: LocalTime?
 )

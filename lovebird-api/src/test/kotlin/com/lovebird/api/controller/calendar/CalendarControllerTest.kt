@@ -2,7 +2,6 @@ package com.lovebird.api.controller.calendar
 
 import com.lovebird.api.common.base.ControllerDescribeSpec
 import com.lovebird.api.common.base.ServiceDescribeSpec
-import com.lovebird.api.controller.profile.ProfileControllerTest
 import com.lovebird.api.dto.request.calendar.CalendarListRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
@@ -30,9 +29,9 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
 import org.springframework.restdocs.payload.FieldDescriptor
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDate
 
@@ -42,7 +41,7 @@ class CalendarControllerTest(
 	private val calendarService: CalendarService,
 	@Autowired
 	private val context: WebApplicationContext
-): ControllerDescribeSpec({
+) : ControllerDescribeSpec({
 
 	val baseUrl = "/api/v1/calendars"
 	val restDocumentation = ManualRestDocumentation()
@@ -104,14 +103,13 @@ class CalendarControllerTest(
 						),
 						successResponseBody(
 							"data.calendars" type ARRAY means "캘린더 목록",
-							"data.totalCount" type NUMBER means "캘린더 개수")
+							"data.totalCount" type NUMBER means "캘린더 개수"
+						)
 							.andWithPrefix("data.calendars[].", getCalendarDetailResponseSnippet())
 					)
 			}
 		}
 	}
-
-
 }) {
 	companion object {
 		fun getCalendarDetailResponse(): CalendarDetailResponse {
