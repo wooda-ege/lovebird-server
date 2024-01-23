@@ -12,7 +12,7 @@ data class CalendarDetailResponse(
 	val color: String,
 	val alarm: String,
 	val startDate: LocalDate,
-	val endDate: LocalDate? = null,
+	val endDate: LocalDate,
 	val startTime: LocalTime? = null,
 	val endTime: LocalTime? = null
 ) {

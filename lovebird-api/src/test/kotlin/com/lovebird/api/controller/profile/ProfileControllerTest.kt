@@ -8,12 +8,12 @@ import com.lovebird.api.service.profile.ProfileService
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.NUMBER
 import com.lovebird.api.utils.restdocs.OBJECT
+import com.lovebird.api.utils.restdocs.RestDocsField
 import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.andDocument
 import com.lovebird.api.utils.restdocs.headerMeans
 import com.lovebird.api.utils.restdocs.requestBody
 import com.lovebird.api.utils.restdocs.requestHeaders
-import com.lovebird.api.utils.restdocs.responseBody
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
 import com.lovebird.api.utils.shouldBe
@@ -29,6 +29,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
+import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
@@ -82,24 +83,7 @@ class ProfileControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
-							"data.userId" type NUMBER means "유저 아이디",
-							"data.partnerId" type NUMBER means "파트너 아이디" isOptional true,
-							"data.email" type STRING means "이메일",
-							"data.nickname" type STRING means "닉네임",
-							"data.partnerNickname" type STRING means "파트너 닉네임" isOptional true,
-							"data.firstDate" type STRING means "사귄 날짜" isOptional true,
-							"data.birthday" type STRING means "생년월일" isOptional true,
-							"data.dayCount" type NUMBER means "사귄 일수" isOptional true,
-							"data.nextAnniversary" type OBJECT means "다음 기념일" isOptional true,
-							"data.nextAnniversary.kind" type STRING means "다음 기념일 종류" isOptional true,
-							"data.nextAnniversary.anniversaryDate" type STRING means "다음 기념일 날짜" isOptional true,
-							"data.profileImageUrl" type STRING means "프로필 이미지 URL" isOptional true,
-							"data.partnerImageUrl" type STRING means "파트너 프로필 이미지 URL" isOptional true
-						)
+						successResponseBody().and(getProfileDetailResponseSnippet())
 					)
 			}
 		}
@@ -138,11 +122,7 @@ class ProfileControllerTest(
 							"firstDate" type STRING means "수정할 사귄 날짜" isOptional true,
 							"gender" type STRING means "수정할 성별" isOptional true
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isOptional true
-						)
+						successResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -174,6 +154,28 @@ class ProfileControllerTest(
 				firstDate = LocalDate.now(),
 				gender = Gender.UNKNOWN
 			)
+		}
+
+		fun getProfileDetailResponseSnippet(): List<FieldDescriptor> {
+			return responseProfileDetailResponse(
+				"data.userId" type NUMBER means "유저 아이디",
+				"data.partnerId" type NUMBER means "파트너 아이디" isOptional true,
+				"data.email" type STRING means "이메일",
+				"data.nickname" type STRING means "닉네임",
+				"data.partnerNickname" type STRING means "파트너 닉네임" isOptional true,
+				"data.firstDate" type STRING means "사귄 날짜" isOptional true,
+				"data.birthday" type STRING means "생년월일" isOptional true,
+				"data.dayCount" type NUMBER means "사귄 일수" isOptional true,
+				"data.nextAnniversary" type OBJECT means "다음 기념일" isOptional true,
+				"data.nextAnniversary.kind" type STRING means "다음 기념일 종류" isOptional true,
+				"data.nextAnniversary.anniversaryDate" type STRING means "다음 기념일 날짜" isOptional true,
+				"data.profileImageUrl" type STRING means "프로필 이미지 URL" isOptional true,
+				"data.partnerImageUrl" type STRING means "파트너 프로필 이미지 URL" isOptional true
+			)
+		}
+
+		private fun responseProfileDetailResponse(vararg fields: RestDocsField): List<FieldDescriptor> {
+			return fields.map { it.descriptor }
 		}
 	}
 }

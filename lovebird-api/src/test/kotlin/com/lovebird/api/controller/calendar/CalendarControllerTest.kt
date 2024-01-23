@@ -52,7 +52,7 @@ class CalendarControllerTest(
 					.andExpect(status().isOk)
 					.andDocument(
 						"1000-calendar",
-						successResponseSnippet()
+						successResponseBody()
 							.and(getCalendarDetailResponseSnippet())
 					)
 			}
@@ -80,13 +80,13 @@ class CalendarControllerTest(
 				"data.id" type NUMBER means "캘린더 아이디",
 				"data.userId" type NUMBER means "유저 아이디",
 				"data.title" type STRING means "제목",
-				"data.memo" type STRING means "메모",
+				"data.memo" type STRING means "메모" isOptional true,
 				"data.color" type STRING means "색깔 상태",
 				"data.alarm" type STRING means "알람 상태",
 				"data.startDate" type DATE means "시작 날짜",
 				"data.endDate" type DATE means "종료 날짜",
-				"data.startTime" type DATETIME means "시작 시간",
-				"data.endTime" type DATETIME means "종료 시간"
+				"data.startTime" type DATETIME means "시작 시간" isOptional true,
+				"data.endTime" type DATETIME means "종료 시간" isOptional true
 			)
 		}
 

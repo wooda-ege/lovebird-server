@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.lovebird.api.config.WebMvcConfig
 import com.lovebird.api.utils.restdocs.OBJECT
+import com.lovebird.api.utils.restdocs.RestDocsField
 import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.responseBody
 import com.lovebird.api.utils.restdocs.type
@@ -37,12 +38,12 @@ abstract class ControllerDescribeSpec(
 
 		fun <T> any(type: Class<T>): T = Mockito.any(type)
 
-		fun successResponseSnippet(): ResponseFieldsSnippet {
+		fun successResponseBody(vararg fields: RestDocsField, dataOptional: Boolean = false): ResponseFieldsSnippet {
 			return responseBody(
 				"code" type STRING means "응답 코드",
 				"message" type STRING means "응답 메시지",
-				"data" type OBJECT means "응답 데이터",
-			)
+				"data" type OBJECT means "응답 데이터" isOptional dataOptional,
+			).and(fields.map { it.descriptor })
 		}
 	}
 }

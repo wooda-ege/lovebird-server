@@ -7,13 +7,11 @@ import com.lovebird.api.dto.response.couple.CoupleLinkResponse
 import com.lovebird.api.service.couple.CoupleCodeService
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.NUMBER
-import com.lovebird.api.utils.restdocs.OBJECT
 import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.andDocument
 import com.lovebird.api.utils.restdocs.headerMeans
 import com.lovebird.api.utils.restdocs.requestBody
 import com.lovebird.api.utils.restdocs.requestHeaders
-import com.lovebird.api.utils.restdocs.responseBody
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
 import com.lovebird.api.utils.shouldBe
@@ -23,13 +21,12 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.http.HttpHeaders.*
 import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.http.MediaType.*
 import org.springframework.restdocs.ManualRestDocumentation
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
 
 @WebMvcTest(CoupleCodeController::class)
@@ -70,13 +67,10 @@ class CoupleCodeControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						successResponseBody(
 							"data.coupleCode" type STRING means "커플 코드",
 							"data.remainSeconds" type NUMBER means "남은 시간(초)"
-						)
+						),
 					)
 			}
 		}
@@ -111,12 +105,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
-							"data.partnerId" type NUMBER means "파트너 아이디"
-						)
+						successResponseBody("data.partnerId" type NUMBER means "파트너 아이디"),
 					)
 			}
 		}
@@ -128,6 +117,7 @@ class CoupleCodeControllerTest(
 				.header(AUTHORIZATION, "Bearer access-token")
 				.content(requestJson)
 				.contentType(APPLICATION_JSON)
+
 			it("1000 SUCCESS") {
 				every { coupleCodeService.linkCouple(any()) } returns response
 
@@ -147,12 +137,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
-							"data.partnerId" type NUMBER means "파트너 아이디"
-						)
+						successResponseBody("data.partnerId" type NUMBER means "파트너 아이디")
 					)
 			}
 		}
@@ -182,11 +167,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isOptional true
-						)
+						successResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -216,11 +197,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isOptional true
-						)
+						successResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -250,11 +227,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isOptional true
-						)
+						successResponseBody(dataOptional = true)
 					)
 			}
 		}
