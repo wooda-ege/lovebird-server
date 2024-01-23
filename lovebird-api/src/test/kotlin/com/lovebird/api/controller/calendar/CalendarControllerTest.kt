@@ -69,7 +69,7 @@ class CalendarControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						successResponseBody()
+						envelopeResponseBody()
 							.andWithPrefix("data.", getCalendarDetailResponseSnippet())
 					)
 			}
@@ -103,7 +103,7 @@ class CalendarControllerTest(
 							"year" type NUMBER means "년도(Year)",
 							"month" type NUMBER means "월(Month)"
 						),
-						successResponseBody(
+						envelopeResponseBody(
 							"data.calendars" type ARRAY means "캘린더 목록",
 							"data.totalCount" type NUMBER means "캘린더 개수"
 						)
@@ -142,7 +142,7 @@ class CalendarControllerTest(
 							"startTime" type DATETIME means "일정 시작시간" isOptional true,
 							"endTime" type DATETIME means "일정 종료 시간" isOptional true
 						),
-						successResponseBody(dataOptional = true)
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -178,7 +178,7 @@ class CalendarControllerTest(
 							"startTime" type DATETIME means "일정 시작시간" isOptional true,
 							"endTime" type DATETIME means "일정 종료 시간" isOptional true
 						),
-						successResponseBody()
+						envelopeResponseBody()
 					)
 			}
 		}
@@ -200,7 +200,7 @@ class CalendarControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						successResponseBody()
+						envelopeResponseBody()
 					)
 			}
 		}

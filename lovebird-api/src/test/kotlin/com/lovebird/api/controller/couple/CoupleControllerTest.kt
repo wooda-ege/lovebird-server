@@ -61,7 +61,7 @@ class CoupleControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						successResponseBody("data.linkedFlag" type BOOLEAN means "연동 여부")
+						envelopeResponseBody("data.linkedFlag" type BOOLEAN means "연동 여부")
 					)
 			}
 		}

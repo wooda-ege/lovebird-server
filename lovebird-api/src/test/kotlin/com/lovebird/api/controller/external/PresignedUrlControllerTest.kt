@@ -78,7 +78,7 @@ class PresignedUrlControllerTest(
 						requestBody(
 							"filename" type STRING means "파일 이름" isOptional false
 						),
-						successResponseBody(
+						envelopeResponseBody(
 							"data.presignedUrl" type STRING means "업로드용 Presigned Url",
 							"data.filename" type STRING means "파일 새 이름"
 						)
@@ -128,7 +128,7 @@ class PresignedUrlControllerTest(
 							"filenames" type ARRAY means "파일 이름 리스트" isOptional false,
 							"diaryId" type NUMBER means "다이어리 ID" isOptional false
 						),
-						successResponseBody(
+						envelopeResponseBody(
 							"data.presignedUrls" type ARRAY means "Presigned Url 리스트",
 							"data.presignedUrls[].presignedUrl" type STRING means "Presigned Url",
 							"data.presignedUrls[].filename" type STRING means "파일 이름",

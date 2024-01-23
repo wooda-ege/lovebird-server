@@ -68,7 +68,7 @@ class CoupleCodeControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						successResponseBody(
+						envelopeResponseBody(
 							"data.coupleCode" type STRING means "커플 코드",
 							"data.remainSeconds" type NUMBER means "남은 시간(초)"
 						)
@@ -106,7 +106,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						successResponseBody("data.partnerId" type NUMBER means "파트너 아이디")
+						envelopeResponseBody("data.partnerId" type NUMBER means "파트너 아이디")
 					)
 			}
 		}
@@ -138,7 +138,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						successResponseBody("data.partnerId" type NUMBER means "파트너 아이디")
+						envelopeResponseBody("data.partnerId" type NUMBER means "파트너 아이디")
 					)
 			}
 		}
@@ -168,7 +168,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						successResponseBody(dataOptional = true)
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -198,7 +198,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						successResponseBody(dataOptional = true)
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -228,7 +228,7 @@ class CoupleCodeControllerTest(
 						requestBody(
 							"coupleCode" type STRING means "커플 연동 코드"
 						),
-						successResponseBody(dataOptional = true)
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}

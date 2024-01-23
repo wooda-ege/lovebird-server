@@ -83,7 +83,7 @@ class ProfileControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						successResponseBody().andWithPrefix("data.", getProfileDetailResponseSnippet())
+						envelopeResponseBody().andWithPrefix("data.", getProfileDetailResponseSnippet())
 					)
 			}
 		}
@@ -122,7 +122,7 @@ class ProfileControllerTest(
 							"firstDate" type STRING means "수정할 사귄 날짜" isOptional true,
 							"gender" type STRING means "수정할 성별" isOptional true
 						),
-						successResponseBody(dataOptional = true)
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}

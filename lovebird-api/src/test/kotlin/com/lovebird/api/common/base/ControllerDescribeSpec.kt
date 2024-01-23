@@ -38,7 +38,7 @@ abstract class ControllerDescribeSpec(
 
 		fun <T> any(type: Class<T>): T = Mockito.any(type)
 
-		fun successResponseBody(vararg fields: RestDocsField, dataOptional: Boolean = false): ResponseFieldsSnippet {
+		fun envelopeResponseBody(vararg fields: RestDocsField, dataOptional: Boolean = false): ResponseFieldsSnippet {
 			return responseBody(
 				"code" type STRING means "응답 코드",
 				"message" type STRING means "응답 메시지",
