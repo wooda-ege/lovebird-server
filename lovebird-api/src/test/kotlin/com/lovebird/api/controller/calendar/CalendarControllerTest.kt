@@ -2,7 +2,9 @@ package com.lovebird.api.controller.calendar
 
 import com.lovebird.api.common.base.ControllerDescribeSpec
 import com.lovebird.api.common.base.ServiceDescribeSpec
+import com.lovebird.api.dto.request.calendar.CalendarCreateRequest
 import com.lovebird.api.dto.request.calendar.CalendarListRequest
+import com.lovebird.api.dto.request.calendar.CalendarUpdateRequest
 import com.lovebird.api.dto.response.calendar.CalendarDetailResponse
 import com.lovebird.api.dto.response.calendar.CalendarListResponse
 import com.lovebird.api.service.calendar.CalendarService
@@ -110,6 +112,99 @@ class CalendarControllerTest(
 			}
 		}
 	}
+
+	describe("POST: /api/v1/calendars") {
+		context("유효한 요청이 전달 되면") {
+			val requestBody = getCalendarCreateRequest()
+			val requestJson = toJson(requestBody)
+			val request = request(HttpMethod.POST, baseUrl)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson)
+
+			it("1000 SUCCESS") {
+				every { calendarService.save(any(), any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isCreated)
+					.andDocument(
+						"1000-calendar-post",
+						requestHeaders(
+							"Authorization" headerMeans "액세스 토큰"
+						),
+						requestBody(
+							"title" type STRING means "제목",
+							"memo" type STRING means "메모" isOptional true,
+							"color" type STRING means "색깔",
+							"alarm" type STRING means "알람 종류" isOptional true,
+							"startDate" type DATE means "일정 시작일",
+							"endDate" type DATE means "일정 종료일" isOptional true,
+							"startTime" type DATETIME means "일정 시작시간" isOptional true,
+							"endTime" type DATETIME means "일정 종료 시간" isOptional true
+						),
+						successResponseBody(dataOptional = true)
+					)
+			}
+		}
+	}
+
+	describe("PUT : /api/v1/calendars/{id}") {
+		val url = "$baseUrl/1"
+		context("유효한 요청이 전달되면") {
+			val requestBody = getCalendarUpdateRequest()
+			val requestJson = toJson(requestBody)
+			val request = request(HttpMethod.PUT, url)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson)
+
+			it("1000 SUCCESS") {
+				every { calendarService.update(any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-calendar-put",
+						requestHeaders(
+							"Authorization" headerMeans "액세스 토큰"
+						),
+						requestBody(
+							"title" type STRING means "제목",
+							"memo" type STRING means "메모" isOptional true,
+							"color" type STRING means "색깔",
+							"alarm" type STRING means "알람 종류",
+							"startDate" type DATE means "일정 시작일",
+							"endDate" type DATE means "일정 종료일",
+							"startTime" type DATETIME means "일정 시작시간" isOptional true,
+							"endTime" type DATETIME means "일정 종료 시간" isOptional true
+						),
+						successResponseBody()
+					)
+			}
+		}
+	}
+
+	describe("DELETE : /api/v1/calendars/{id}") {
+		val url = "$baseUrl/1"
+		context("유효한 요청이 전달되면") {
+			val request = request(HttpMethod.DELETE, url)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
+
+			it("1000 SUCCESS") {
+				every { calendarService.delete(any(), any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-calendar-delete",
+						requestHeaders(
+							"Authorization" headerMeans "액세스 토큰"
+						),
+						successResponseBody()
+					)
+			}
+		}
+	}
 }) {
 	companion object {
 		fun getCalendarDetailResponse(): CalendarDetailResponse {
@@ -133,19 +228,45 @@ class CalendarControllerTest(
 				"userId" type NUMBER means "유저 아이디",
 				"title" type STRING means "제목",
 				"memo" type STRING means "메모" isOptional true,
-				"color" type STRING means "색깔 상태",
-				"alarm" type STRING means "알람 상태",
-				"startDate" type DATE means "시작 날짜",
-				"endDate" type DATE means "종료 날짜",
-				"startTime" type DATETIME means "시작 시간" isOptional true,
-				"endTime" type DATETIME means "종료 시간" isOptional true
+				"color" type STRING means "색깔",
+				"alarm" type STRING means "알람 종류",
+				"startDate" type DATE means "일정 시작일",
+				"endDate" type DATE means "일정 종료일",
+				"startTime" type DATETIME means "일정 시작시간" isOptional true,
+				"endTime" type DATETIME means "일정 종료 시간" isOptional true
 			)
 		}
 
-		fun getCalendarListRequest(): CalendarListRequest {
+		private fun getCalendarListRequest(): CalendarListRequest {
 			return CalendarListRequest(
 				year = 2023,
 				month = 12
+			)
+		}
+
+		private fun getCalendarCreateRequest(): CalendarCreateRequest {
+			return CalendarCreateRequest(
+				title = "캘린더 제목",
+				memo = "중요함",
+				color = Color.PRIMARY,
+				alarm = Alarm.NONE,
+				startDate = LocalDate.of(2023, 12, 24),
+				endDate = null,
+				startTime = null,
+				endTime = null
+			)
+		}
+
+		private fun getCalendarUpdateRequest(): CalendarUpdateRequest {
+			return CalendarUpdateRequest(
+				title = "캘린더 제목",
+				memo = "중요함",
+				color = Color.PRIMARY,
+				alarm = Alarm.NONE,
+				startDate = LocalDate.of(2023, 12, 24),
+				endDate = LocalDate.of(2023, 12, 25),
+				startTime = null,
+				endTime = null
 			)
 		}
 
