@@ -11,7 +11,7 @@ data class CalendarListResponseParam(
 	val title: String,
 	val memo: String?,
 	val startDate: LocalDate,
-	val endDate: LocalDate?,
+	val endDate: LocalDate,
 	val startTime: LocalTime?,
 	val endTime: LocalTime?,
 	val color: Enum<Color>,
