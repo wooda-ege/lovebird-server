@@ -1,0 +1,31 @@
+== Calendar
+
+=== 캘린더 상세 조회
+
+==== `Success`
+
+operation::1000-calendar[snippets='http-request,http-response,request-headers,response-fields']
+
+=== 캘린더 년도 및 월별 상세 조회
+
+==== `Success`
+
+operation::1000-calendar-list[snippets='http-request,http-response,request-headers,response-fields']
+
+=== 캘린더 작성
+
+==== `Success`
+
+operation::1000-calendar-post[snippets='http-request,http-response,request-headers,response-fields']
+
+=== 캘린더 수정
+
+==== `Success`
+
+operation::1000-calendar-put[snippets='http-request,http-response,request-headers,response-fields']
+
+=== 캘린더 삭제
+
+==== `Success`
+
+operation::1000-calendar-delete[snippets='http-request,http-response,request-headers,response-fields']

@@ -22,12 +22,12 @@ class CalendarQueryRepository(
 					calendar.user.id,
 					calendar.title,
 					calendar.memo,
+					calendar.color,
+					calendar.alarm,
 					calendar.startDate,
 					calendar.endDate,
 					calendar.startTime,
-					calendar.endTime,
-					calendar.color,
-					calendar.alarm
+					calendar.endTime
 				)
 			)
 			.from(calendar)

@@ -9,13 +9,11 @@ import com.lovebird.api.service.external.PresignedUrlService
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.ARRAY
 import com.lovebird.api.utils.restdocs.NUMBER
-import com.lovebird.api.utils.restdocs.OBJECT
 import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.andDocument
 import com.lovebird.api.utils.restdocs.headerMeans
 import com.lovebird.api.utils.restdocs.requestBody
 import com.lovebird.api.utils.restdocs.requestHeaders
-import com.lovebird.api.utils.restdocs.responseBody
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
 import com.lovebird.api.utils.shouldBe
@@ -80,10 +78,7 @@ class PresignedUrlControllerTest(
 						requestBody(
 							"filename" type STRING means "파일 이름" isOptional false
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						envelopeResponseBody(
 							"data.presignedUrl" type STRING means "업로드용 Presigned Url",
 							"data.filename" type STRING means "파일 새 이름"
 						)
@@ -133,10 +128,7 @@ class PresignedUrlControllerTest(
 							"filenames" type ARRAY means "파일 이름 리스트" isOptional false,
 							"diaryId" type NUMBER means "다이어리 ID" isOptional false
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						envelopeResponseBody(
 							"data.presignedUrls" type ARRAY means "Presigned Url 리스트",
 							"data.presignedUrls[].presignedUrl" type STRING means "Presigned Url",
 							"data.presignedUrls[].filename" type STRING means "파일 이름",

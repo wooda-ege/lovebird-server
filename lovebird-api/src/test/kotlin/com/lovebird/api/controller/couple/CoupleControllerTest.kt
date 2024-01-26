@@ -5,12 +5,9 @@ import com.lovebird.api.dto.response.couple.CoupleCheckResponse
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.BOOLEAN
-import com.lovebird.api.utils.restdocs.OBJECT
-import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.andDocument
 import com.lovebird.api.utils.restdocs.headerMeans
 import com.lovebird.api.utils.restdocs.requestHeaders
-import com.lovebird.api.utils.restdocs.responseBody
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
 import com.lovebird.api.utils.shouldBe
@@ -64,12 +61,7 @@ class CoupleControllerTest(
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
-							"data.linkedFlag" type BOOLEAN means "연동 여부"
-						)
+						envelopeResponseBody("data.linkedFlag" type BOOLEAN means "연동 여부")
 					)
 			}
 		}

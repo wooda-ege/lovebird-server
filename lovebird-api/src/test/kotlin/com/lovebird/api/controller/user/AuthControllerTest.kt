@@ -8,11 +8,9 @@ import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.BOOLEAN
-import com.lovebird.api.utils.restdocs.OBJECT
 import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.andDocument
 import com.lovebird.api.utils.restdocs.requestBody
-import com.lovebird.api.utils.restdocs.responseBody
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
 import com.lovebird.api.utils.shouldBe
@@ -93,10 +91,7 @@ class AuthControllerTest(
 							"gender" type STRING means "성별",
 							"idToken" type STRING means "소셜 로그인 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						envelopeResponseBody(
 							"data.accessToken" type STRING means "액세스 토큰",
 							"data.refreshToken" type STRING means "리프레시 토큰"
 						)
@@ -131,11 +126,7 @@ class AuthControllerTest(
 							"gender" type STRING means "성별",
 							"idToken" type STRING means "소셜 로그인 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isIgnored true
-						)
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}
@@ -188,10 +179,7 @@ class AuthControllerTest(
 							"code" type STRING means "인가 코드",
 							"state" type STRING means "상태"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						envelopeResponseBody(
 							"data.accessToken" type STRING means "액세스 토큰",
 							"data.refreshToken" type STRING means "리프레시 토큰"
 						)
@@ -227,11 +215,7 @@ class AuthControllerTest(
 							"code" type STRING means "인가 코드",
 							"state" type STRING means "상태"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isIgnored true
-						)
+						envelopeResponseBody()
 					)
 			}
 		}
@@ -268,10 +252,7 @@ class AuthControllerTest(
 							"provider" type STRING means "소셜 제공자",
 							"idToken" type STRING means "소셜 로그인 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						envelopeResponseBody(
 							"data.accessToken" type STRING means "액세스 토큰",
 							"data.refreshToken" type STRING means "리프레시 토큰",
 							"data.linkedFlag" type BOOLEAN means "커플 연동 여부"
@@ -300,11 +281,7 @@ class AuthControllerTest(
 							"provider" type STRING means "소셜 제공자",
 							"idToken" type STRING means "소셜 로그인 토큰"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isIgnored true
-						)
+						envelopeResponseBody()
 					)
 			}
 		}
@@ -343,10 +320,7 @@ class AuthControllerTest(
 							"code" type STRING means "인가 코드",
 							"state" type STRING means "상태"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터",
+						envelopeResponseBody(
 							"data.accessToken" type STRING means "액세스 토큰",
 							"data.refreshToken" type STRING means "리프레시 토큰",
 							"data.linkedFlag" type BOOLEAN means "커플 연동 여부"
@@ -376,11 +350,7 @@ class AuthControllerTest(
 							"code" type STRING means "인가 코드",
 							"state" type STRING means "상태"
 						),
-						responseBody(
-							"code" type STRING means "응답 코드",
-							"message" type STRING means "응답 메시지",
-							"data" type OBJECT means "응답 데이터" isIgnored true
-						)
+						envelopeResponseBody()
 					)
 			}
 		}
