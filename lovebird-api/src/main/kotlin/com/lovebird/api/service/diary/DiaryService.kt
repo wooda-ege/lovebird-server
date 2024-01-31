@@ -7,13 +7,14 @@ import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.provider.AesEncryptProvider.decryptString
-import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleResponseParam
+import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
+import com.lovebird.domain.repository.reader.CoupleEntryReader
 import com.lovebird.domain.repository.reader.DiaryReader
 import com.lovebird.domain.repository.writer.DiaryWriter
 import org.springframework.stereotype.Service
@@ -24,12 +25,13 @@ class DiaryService(
 	private val diaryReader: DiaryReader,
 	private val diaryWriter: DiaryWriter,
 	private val diaryImageService: DiaryImageService,
-	private val coupleService: CoupleService
+	private val coupleEntryReader: CoupleEntryReader
 ) {
 
 	@Transactional(readOnly = true)
 	fun findPageByCursor(request: DiaryListRequest.SearchByCursorRequest, user: User): DiaryListResponse {
-		val partner: User? = coupleService.findPartnerByUser(user)
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+		val partner: User? = coupleEntry?.partner
 
 		return when (request.searchType) {
 			DiarySearchType.BEFORE -> {
@@ -70,7 +72,8 @@ class DiaryService(
 
 	@Transactional(readOnly = true)
 	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
-		val partner: User? = coupleService.findPartnerByUser(user)
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+		val partner: User? = coupleEntry?.partner
 		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
 		diaries.forEach {
