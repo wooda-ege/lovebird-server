@@ -13,11 +13,6 @@ data class DiaryCreateParam(
 	var content: String?,
 	val imageUrls: List<String>?
 ) {
-	fun encrypt() {
-		this.title = encryptString(this.title)
-		this.place = this.place?.let { encryptString(it) }
-		this.content = this.content?.let { encryptString(it) }
-	}
 
 	fun toEntity(): Diary {
 		return Diary(

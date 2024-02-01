@@ -7,7 +7,7 @@ import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.provider.AesEncryptProvider.decryptString
-import com.lovebird.api.util.DecryptUtils
+import com.lovebird.api.util.DiaryUtils
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
@@ -27,7 +27,7 @@ class DiaryService(
 	private val diaryWriter: DiaryWriter,
 	private val diaryImageService: DiaryImageService,
 	private val coupleEntryReader: CoupleEntryReader,
-	private val decryptUtils: DecryptUtils
+	private val diaryUtils: DiaryUtils
 ) {
 
 	@Transactional(readOnly = true)
@@ -47,7 +47,7 @@ class DiaryService(
 
 	@Transactional
 	fun save(param: DiaryCreateParam) {
-		param.encrypt()
+		diaryUtils.encryptDiaryCreateParam(param)
 
 		val diary: Diary = diaryWriter.save(param.toEntity())
 		param.imageUrls?.let { diaryImageService.saveAll(diary, it) }
@@ -95,14 +95,14 @@ class DiaryService(
 
 	private fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findBeforeNowUsingCursor(param)
-		decryptUtils.decryptDiaries(diaries)
+		diaryUtils.decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
 	}
 
 	private fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findAfterNowUsingCursor(param)
-		decryptUtils.decryptDiaries(diaries)
+		diaryUtils.decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
 	}
