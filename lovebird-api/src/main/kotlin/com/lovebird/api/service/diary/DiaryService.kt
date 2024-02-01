@@ -17,6 +17,7 @@ import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.CoupleEntryReader
 import com.lovebird.domain.repository.reader.DiaryReader
+import com.lovebird.domain.repository.writer.DiaryImageWriter
 import com.lovebird.domain.repository.writer.DiaryWriter
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional
 class DiaryService(
 	private val diaryReader: DiaryReader,
 	private val diaryWriter: DiaryWriter,
-	private val diaryImageService: DiaryImageService,
+	private val diaryImageWriter: DiaryImageWriter,
 	private val coupleEntryReader: CoupleEntryReader,
 	private val diaryUtils: DiaryUtils
 ) {
@@ -50,7 +51,7 @@ class DiaryService(
 		diaryUtils.encryptDiaryCreateParam(param)
 
 		val diary: Diary = diaryWriter.save(param.toEntity())
-		param.imageUrls?.let { diaryImageService.saveAll(diary, it) }
+		param.imageUrls?.let { diaryImageWriter.saveAll(diary, it) }
 	}
 
 	@Transactional
@@ -61,14 +62,16 @@ class DiaryService(
 		diaryWriter.update(diary, param.toDomainParam())
 
 		param.imageUrls?.let {
-			diaryImageService.updateAll(diary, it)
+			// TODO: 2023/12/12 : komment : 일기 작성 폼 변경 후 refactoring 예정
+			diaryImageWriter.deleteAll(diary)
+			diaryImageWriter.saveAll(diary, it)
 		}
 	}
 
 	@Transactional
 	fun delete(diaryId: Long) {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
-		diaryImageService.deleteAll(diary)
+		diaryImageWriter.deleteAll(diary)
 		diaryWriter.delete(diary)
 	}
 
