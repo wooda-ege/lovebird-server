@@ -1,7 +1,7 @@
 FROM azul/zulu-openjdk:19-latest
 WORKDIR /app
 
-COPY build/libs/lovebird-api-1.0.0-SNAPSHOT.jar .
+COPY build/libs/lovebird-api-1.0.2-SNAPSHOT.jar .
 
 EXPOSE 8080
 
