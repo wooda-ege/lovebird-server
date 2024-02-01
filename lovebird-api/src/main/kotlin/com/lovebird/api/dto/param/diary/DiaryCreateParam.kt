@@ -1,6 +1,5 @@
 package com.lovebird.api.dto.param.diary
 
-import com.lovebird.api.provider.AesEncryptProvider.encryptString
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
 import java.time.LocalDate

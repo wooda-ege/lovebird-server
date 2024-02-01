@@ -106,16 +106,18 @@ object DiaryTestFixture {
 	fun getDiarySimpleResponseList(user: User, partner: User?, size: Int): List<DiarySimpleResponseParam> {
 		val diaries = arrayListOf<DiarySimpleResponseParam>()
 
-		for(i in 1..size) {
-			diaries.add(DiarySimpleResponseParam(
-				diaryId = i.toLong(),
-				userId = getRandomUserId(user, partner),
-				title = "제목$i",
-				memoryDate = LocalDate.now(),
-				place = "장소$i",
-				content = "내용$i",
-				imageUrl = "imageURL$i",
-			))
+		for (i in 1..size) {
+			diaries.add(
+				DiarySimpleResponseParam(
+					diaryId = i.toLong(),
+					userId = getRandomUserId(user, partner),
+					title = "제목$i",
+					memoryDate = LocalDate.now(),
+					place = "장소$i",
+					content = "내용$i",
+					imageUrl = "imageURL$i"
+				)
+			)
 		}
 
 		return diaries

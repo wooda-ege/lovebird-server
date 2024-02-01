@@ -2,7 +2,6 @@ package com.lovebird.api.util
 
 import com.lovebird.api.dto.param.diary.DiaryCreateParam
 import com.lovebird.api.dto.param.diary.DiaryUpdateParam
-import com.lovebird.api.provider.AesEncryptProvider
 import com.lovebird.api.provider.AesEncryptProvider.decryptString
 import com.lovebird.api.provider.AesEncryptProvider.encryptString
 import com.lovebird.domain.dto.query.DiaryResponseParam

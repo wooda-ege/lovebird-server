@@ -26,8 +26,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
 
-class DiaryServiceTest(
-) : ServiceDescribeSpec({
+class DiaryServiceTest() : ServiceDescribeSpec({
 	val diaryReader = mockk<DiaryReader>(relaxed = true)
 	val diaryWriter = mockk<DiaryWriter>(relaxed = true)
 	val diaryImageWriter = mockk<DiaryImageWriter>(relaxed = true)
@@ -59,11 +58,11 @@ class DiaryServiceTest(
 			every { diaryReader.findBeforeNowUsingCursor(any()) } returns diaries
 
 			it("커서 기준 이전 다이어리들을 호출한다") {
-				//상태 검증
+				// 상태 검증
 				diaryService.findPageByCursor(searchByCursorRequest, user)
 					.shouldBeEqualToComparingFields(DiaryListResponse.of(diaries))
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findBeforeNowUsingCursor(any())
@@ -79,11 +78,11 @@ class DiaryServiceTest(
 			every { diaryReader.findAfterNowUsingCursor(any()) } returns diaries
 
 			it("커서 기준 이후 다이어리들을 호출한다.") {
-				//상태 검증
+				// 상태 검증
 				diaryService.findPageByCursor(searchByCursorRequest, user)
 					.shouldBeEqualToComparingFields(DiaryListResponse.of(diaries))
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAfterNowUsingCursor(any())
@@ -107,7 +106,7 @@ class DiaryServiceTest(
 			it("다이어리와 이미지 모두 저장한다") {
 				diaryService.save(param)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryUtils.encryptDiaryCreateParam(param)
 					diaryWriter.save(any())
@@ -124,7 +123,7 @@ class DiaryServiceTest(
 			it("다이어리만 저장한다") {
 				diaryService.save(param)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryUtils.encryptDiaryCreateParam(param)
 					diaryWriter.save(any())
@@ -149,7 +148,7 @@ class DiaryServiceTest(
 				exception.getMsg() should startWith(ReturnCode.WRONG_PARAMETER.message)
 				exception.getCode() should startWith(ReturnCode.WRONG_PARAMETER.code)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
 				}
@@ -166,7 +165,7 @@ class DiaryServiceTest(
 			it("다이어리만 업데이트 한다") {
 				diaryService.update(param)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
 					diaryUtils.encryptDiaryUpdateParam(param)
@@ -188,7 +187,7 @@ class DiaryServiceTest(
 			it("다이어리와 이미지 모두 업데이트 한다") {
 				diaryService.update(param)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
 					diaryUtils.encryptDiaryUpdateParam(param)
@@ -215,7 +214,7 @@ class DiaryServiceTest(
 				exception.getMsg() should startWith(ReturnCode.WRONG_PARAMETER.message)
 				exception.getCode() should startWith(ReturnCode.WRONG_PARAMETER.code)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(1L)
 				}
@@ -231,7 +230,7 @@ class DiaryServiceTest(
 			it("다이어리와 이미지를 모두 삭제한다") {
 				diaryService.delete(1L)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(1L)
 					diaryImageWriter.deleteAll(diary)
@@ -255,11 +254,11 @@ class DiaryServiceTest(
 
 			it("조회에 성공한다") {
 
-				//상태 검증
+				// 상태 검증
 				diaryService.findAllByMemoryDate(request, user)
 					.shouldBeEqualToComparingFields(DiarySimpleListResponse.of(diaries))
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAllByMemoryDate(any())
@@ -275,11 +274,11 @@ class DiaryServiceTest(
 
 			it("조회에 성공한다") {
 
-				//상태 검증
+				// 상태 검증
 				diaryService.findAllByMemoryDate(request, user)
 					.shouldBeEqualToComparingFields(DiarySimpleListResponse.of(diaries))
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAllByMemoryDate(any())
@@ -302,7 +301,7 @@ class DiaryServiceTest(
 				exception.getMsg() should startWith(ReturnCode.WRONG_PARAMETER.message)
 				exception.getCode() should startWith(ReturnCode.WRONG_PARAMETER.code)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(1L)
 				}
@@ -317,12 +316,12 @@ class DiaryServiceTest(
 
 			it("다이어리 상세 조회에 성공한다") {
 
-				//상태 검증
+				// 상태 검증
 				diaryService.findDetailById(diary.id!!).shouldBeEqualToComparingFields(
 					DiaryDetailResponse.of(diary)
 				)
 
-				//행위 검증
+				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(diary.id!!)
 					diaryUtils.decryptDiary(diary)

@@ -6,7 +6,6 @@ import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
-import com.lovebird.api.provider.AesEncryptProvider.decryptString
 import com.lovebird.api.util.DiaryUtils
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
