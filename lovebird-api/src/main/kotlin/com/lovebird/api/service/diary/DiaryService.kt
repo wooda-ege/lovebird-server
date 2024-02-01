@@ -81,11 +81,7 @@ class DiaryService(
 		val partner: User? = coupleEntry?.partner
 		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
-		diaries.forEach {
-			it.title = decryptString(it.title)
-			it.place = it.place?.let { place -> decryptString(place) }
-			it.content = it.content?.let { content -> decryptString(content) }
-		}
+		diaryUtils.decryptDiariesOfSimple(diaries)
 
 		return DiarySimpleListResponse.of(diaries)
 	}
