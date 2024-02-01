@@ -1,5 +1,7 @@
 package com.lovebird.domain.repository.reader
 
+import com.lovebird.common.enums.ReturnCode
+import com.lovebird.common.exception.LbException
 import com.lovebird.domain.annotation.Reader
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
@@ -8,7 +10,6 @@ import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.repository.jpa.DiaryJpaRepository
 import com.lovebird.domain.repository.query.DiaryQueryRepository
-import jakarta.persistence.EntityNotFoundException
 
 @Reader
 class DiaryReader(
@@ -17,7 +18,7 @@ class DiaryReader(
 ) {
 
 	fun findEntityById(id: Long): Diary {
-		return diaryJpaRepository.findById(id).orElseThrow { throw EntityNotFoundException() }
+		return diaryJpaRepository.findById(id).orElseThrow { throw LbException(ReturnCode.WRONG_PARAMETER) }
 	}
 
 	fun findBeforeNowUsingCursor(param: DiaryListRequestParam): List<DiaryResponseParam> {
