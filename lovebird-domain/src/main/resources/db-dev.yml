@@ -1,0 +1,21 @@
+spring.config.activate.on-profile: dev
+
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+storage:
+  datasource:
+    core:
+      jdbc-url: ${DEV_RDS_HOST}
+      username: ${DEV_RDS_USERNAME}
+      password: ${DEV_RDS_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+      data-source-properties:
+        rewriteBatchedStatements: true

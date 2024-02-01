@@ -6,7 +6,7 @@ cloud:
     s3-bucket: ${DEV_S3_BUCKET_NAME}
     region:
       static:
-        ap-northeast-2
+        ${DEV_S3_REGION}
     stack:
       auto:
         false

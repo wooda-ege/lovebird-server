@@ -4,8 +4,8 @@ spring:
             on-profile: dev
 
 jwt:
-    access-header: Authorization
-    refresh-header: Refresh
+    access-header: ${ACCESS_HEADER}
+    refresh-header: ${REFRESH_HEADER}
     secret: ${DEV_JWT_SECRET}
     expiration:
         access-token: 432000
