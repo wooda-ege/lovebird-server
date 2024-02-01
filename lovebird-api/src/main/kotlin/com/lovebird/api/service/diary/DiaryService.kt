@@ -58,7 +58,7 @@ class DiaryService(
 	fun update(param: DiaryUpdateParam) {
 		val diary: Diary = diaryReader.findEntityById(param.diaryId)
 
-		param.encrypt()
+		diaryUtils.encryptDiaryUpdateParam(param)
 		diaryWriter.update(diary, param.toDomainParam())
 
 		param.imageUrls?.let {
