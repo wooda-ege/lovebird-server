@@ -1,7 +1,7 @@
 # Lovebird - 커플 공유 일기 앱 <a href="https://apps.apple.com/kr/app/lovebird-%EC%BB%A4%ED%94%8C-%EA%B3%B5%EC%9C%A0-%EC%9D%BC%EA%B8%B0-%EC%95%B1/id6462698149"><img src="https://github.com/wooda-ege/lovebird-server/assets/56003992/266fec4b-ad69-4f3c-af5c-5870dedc5c15" align="left" width="100"></a>
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fwooda-ege%2Flovebird-server&count_bg=%2328DBE6&title_bg=%232D3540&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-[![Github Action](https://github.com/wooda-ege/lovebird-server/actions/workflows/ci-develop.yml/badge.svg)](https://github.com/depromeet/street-drop-server/actions)
+[![Github Action](https://github.com/wooda-ege/lovebird-server/actions/workflows/cd-develop.yml/badge.svg)](https://github.com/wooda-ege/lovebird-server/actions)
 
 <br>
 
@@ -23,7 +23,7 @@
 
 ## Trouble Shooting
 
-- #### [(2024.01.06) Lovebird 프로젝트에 멀티 모듈을 도입한 건에 대하여](https://komment.dev/posts/(Spring-Boot)-%EC%82%AC%EC%9D%B4%EB%93%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EB%A9%80%ED%8B%B0-%EB%AA%A8%EB%93%88%EC%9D%84-%EB%8F%84%EC%9E%85%ED%95%9C-%EA%B1%B4%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/)
+- #### [(2024.01.06) Lovebird 프로젝트에 멀티 모듈을 도입한 건에 대하여](https://komment.dev/posts/(Spring-Boot)-%EC%82%AC%EC%9D%B4%EB%93%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EB%A9%80%ED%8B%B0-%EB%AA%A8%EB%93%88%EC%9D%84-%EB%8F%84%EC%9E%85%ED%95%9C-%EA%B1%B4%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/)
 - #### [(2023.12.29) Kotlin DSL과 Kotest로 Rest Docs 리팩토링 하기](https://komment.dev/posts/(Kotlin)-Kotlin-DSL%EA%B3%BC-Kotest%EB%A1%9C-Rest-Docs-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%ED%95%98%EA%B8%B0/)
 - #### [(2023.12.15) Query Plan 분석을 통해 적절한 인덱스를 생성하자](https://komment.dev/posts/(Spring-Boot)-Query-Plan-%EB%B6%84%EC%84%9D%EC%9D%84-%ED%86%B5%ED%95%B4-%EC%A0%81%EC%A0%88%ED%95%9C-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%98%EC%9E%90/)
 
