@@ -133,8 +133,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.DEV_S3_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.DEV_S3_SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.DEV_IAM_KEY }}
+          aws-secret-access-key: ${{ secrets.DEV_IAM_SECRET }}
           aws-region: ${{ env.AWS_S3_REGION }}
 
       - name: Upload to AWS S3
