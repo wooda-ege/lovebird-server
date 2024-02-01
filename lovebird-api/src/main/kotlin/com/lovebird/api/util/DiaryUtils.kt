@@ -2,10 +2,12 @@ package com.lovebird.api.util
 
 import com.lovebird.api.dto.param.diary.DiaryCreateParam
 import com.lovebird.api.dto.param.diary.DiaryUpdateParam
+import com.lovebird.api.provider.AesEncryptProvider
 import com.lovebird.api.provider.AesEncryptProvider.decryptString
 import com.lovebird.api.provider.AesEncryptProvider.encryptString
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleResponseParam
+import com.lovebird.domain.entity.Diary
 import org.springframework.stereotype.Component
 
 @Component
@@ -25,6 +27,12 @@ object DiaryUtils {
 			it.place = it.place?.let { place -> decryptString(place) }
 			it.content = it.content?.let { content -> decryptString(content) }
 		}
+	}
+
+	fun decryptDiary(diary: Diary) {
+		diary.title = decryptString(diary.title)
+		diary.place = diary.place?.let { decryptString(it) }
+		diary.content = diary.content?.let { decryptString(it) }
 	}
 
 	fun encryptDiaryCreateParam(param: DiaryCreateParam) {

@@ -89,6 +89,9 @@ class DiaryService(
 	@Transactional(readOnly = true)
 	fun findDetailById(diaryId: Long): DiaryDetailResponse {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
+
+		diaryUtils.decryptDiary(diary)
+
 		return DiaryDetailResponse.of(diary)
 	}
 
