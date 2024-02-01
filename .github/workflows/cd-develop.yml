@@ -23,9 +23,7 @@ env:
   CODEDEPLOY_APPLICATION_NAME: ${{ secrets.DEV_AWS_CODEDEPLOY_APPLICATION_NAME }}
   CODEDEPLOY_DEPLOYMENT_GROUP_NAME: ${{ secrets.DEV_AWS_CODEDEPLOY_DEPLOYMENT_GROUP_NAME }}
 
-permissions:
-  id-token: write
-  contents: read
+permissions: write-all
 
 jobs:
   build:
