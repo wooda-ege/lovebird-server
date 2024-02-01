@@ -6,14 +6,14 @@ import java.time.LocalDate
 
 data class DiaryUpdateParam(
 	val diaryId: Long,
-	var title: String?,
-	val memoryDate: LocalDate?,
+	var title: String,
+	val memoryDate: LocalDate,
 	var place: String?,
 	var content: String?,
 	val imageUrls: List<String>?
 ) {
 	fun encrypt() {
-		this.title = this.title?.let { encryptString(it) }
+		this.title = encryptString(this.title)
 		this.place = this.place?.let { encryptString(it) }
 		this.content = this.content?.let { encryptString(it) }
 	}
