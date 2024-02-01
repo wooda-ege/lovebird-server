@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.lovebird"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.2-SNAPSHOT"
 
 java.sourceCompatibility = JavaVersion.valueOf("VERSION_${property("javaVersion")}")
 
