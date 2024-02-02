@@ -4,8 +4,8 @@ import com.lovebird.api.dto.param.diary.DiaryUpdateParam
 import java.time.LocalDate
 
 data class DiaryUpdateRequest(
-	val title: String?,
-	val memoryDate: LocalDate?,
+	val title: String,
+	val memoryDate: LocalDate,
 	val place: String?,
 	val content: String?,
 	val imageUrls: List<String>?

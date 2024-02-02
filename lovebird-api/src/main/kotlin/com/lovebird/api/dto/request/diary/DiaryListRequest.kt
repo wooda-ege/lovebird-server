@@ -23,7 +23,7 @@ sealed class DiaryListRequest(
 	data class SearchByCursorRequest(
 		override val memoryDate: LocalDate,
 		val searchType: DiarySearchType,
-		val diaryId: Long,
+		val diaryId: Long?,
 		val pageSize: Long
 	) : DiaryListRequest(memoryDate) {
 		fun toParam(userId: Long, partnerId: Long?): DiaryListRequestParam {
