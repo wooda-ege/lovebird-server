@@ -1,0 +1,11 @@
+== Diary
+
+=== `Success`
+
+=== 데이트 날짜 기준 다이어리 조회
+
+operation::1000-diary-list-memory-date[snippets='http-request,request-headers,query-parameters,http-response,response-fields']
+
+== 커서 기반 다이어리 리스트 조회
+
+operation::1000-diary-list-cursor[snippets='http-request,request-headers,query-parameters,http-response,response-fields']
