@@ -1,6 +1,7 @@
 package com.lovebird.api.controller.diary
 
 import com.lovebird.api.common.base.ControllerDescribeSpec
+import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.diary.DiaryService
@@ -15,6 +16,7 @@ import com.lovebird.api.utils.restdocs.andDocument
 import com.lovebird.api.utils.restdocs.headerMeans
 import com.lovebird.api.utils.restdocs.pathMeans
 import com.lovebird.api.utils.restdocs.queryParameters
+import com.lovebird.api.utils.restdocs.requestBody
 import com.lovebird.api.utils.restdocs.requestHeaders
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
 import org.springframework.restdocs.payload.FieldDescriptor
@@ -55,7 +58,7 @@ class DiaryControllerTest(
 			val request = request(HttpMethod.GET, url)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
 
-			val user = CommonTestFixture.getUser(1L)
+			val user = CommonTestFixture.getUser(1L, "providerUniqueId")
 			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user, null, 5)
 			val response = DiarySimpleListResponse.of(diaries)
 
@@ -84,7 +87,7 @@ class DiaryControllerTest(
 	}
 
 	describe("GET : /api/v1/diaries/cursor?memoryDate=$memoryDate&searchType=BEFORE&pageSize=10") {
-		val url = "$baseUrl/cursor?memoryDate=$memoryDate&searchType=BEFORE&diaryId=&pageSize=10"
+		val url = "$baseUrl/cursor?memoryDate=$memoryDate&searchType=BEFORE&diaryId=-1&pageSize=10"
 
 		context("커서 기반으로 다이어리 목록을 요청하면") {
 			val request = request(HttpMethod.GET, url)
@@ -106,7 +109,7 @@ class DiaryControllerTest(
 						queryParameters(
 							"memoryDate" pathMeans "데이트 날짜",
 							"searchType" pathMeans "커서 기준 BEFORE 또는 AFTER",
-							"diaryId" pathMeans "커서(다이어리) 아이디 -> 초기 요청 시 값이 없어도 됨 단, KEY 값은 존재해야함",
+							"diaryId" pathMeans "커서(다이어리) 아이디 -> 초기 요청 시 값: -1 로 보내면 됩니다",
 							"pageSize" pathMeans "요청할 다이어리 목록 최대 크기"
 						),
 						envelopeResponseBody(
@@ -122,15 +125,115 @@ class DiaryControllerTest(
 	}
 
 	describe("GET : /api/v1/diaries/{diaryId}") {
+		val user = CommonTestFixture.getUser(1L, "uniqueProviderId")
+		val diary = DiaryTestFixture.getDiaryByUser(user)
+		val url = "$baseUrl/${diary.id}"
+
+		context("다이어리 아이디로 요청하면") {
+			val request = request(HttpMethod.GET, url)
+			val response = DiaryDetailResponse.of(diary)
+
+			it("1000 SUCCESS") {
+				every { diaryService.findDetailById(any()) } returns response
+
+				mockMvc
+					.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-detail-diary",
+						envelopeResponseBody(
+							"data.diaryId" type NUMBER means "다이어리 아이디",
+							"data.userId" type NUMBER means "유저 아이디",
+							"data.title" type STRING means "제목",
+							"data.memoryDate" type DATE means "데이트 날짜",
+							"data.place" type STRING means "장소",
+							"data.content" type STRING means "내용",
+							"data.imageUrls" type ARRAY means "이미지 URL 목록"
+						)
+					)
+			}
+		}
 	}
 
 	describe("POST : /api/v1/diaries") {
+		context("다이어리 정보를 정확히 입력했다면") {
+			val requestBody = DiaryTestFixture.getDiaryCreateRequest()
+			val requestJson = toJson(requestBody)
+			val request = request(HttpMethod.POST, baseUrl)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson)
+
+			it("1000 SUCCESS") {
+				every { diaryService.save(any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-diary-create",
+						requestHeaders(
+							"Authorization" headerMeans "액세스 토큰"
+						),
+						requestBody(
+							"title" type STRING means "다이어리 제목",
+							"memoryDate" type DATE means "데이트 날짜",
+							"place" type STRING means "장소" isOptional true,
+							"content" type STRING means "내용" isOptional true,
+							"imageUrls" type ARRAY means "이미지 URL 목록" isOptional true
+						),
+						envelopeResponseBody(dataOptional = true)
+					)
+			}
+		}
 	}
 
 	describe("PUT : /api/v1/diaries/{diaryId}") {
+		val url = "$baseUrl/1"
+
+		context("다이어리 수정 요청을 한다면") {
+			val requestBody = DiaryTestFixture.getDiaryUpdateRequest()
+			val requestJson = toJson(requestBody)
+			val request = request(HttpMethod.PUT, url)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson)
+
+			it("1000 SUCCESS") {
+				every { diaryService.update(any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-diary-update",
+						requestBody(
+							"title" type STRING means "다이어리 제목",
+							"memoryDate" type DATE means "데이트 날짜",
+							"place" type STRING means "장소" isOptional true,
+							"content" type STRING means "내용" isOptional true,
+							"imageUrls" type ARRAY means "이미지 URL 목록" isOptional true
+						),
+						envelopeResponseBody(dataOptional = true)
+					)
+			}
+		}
 	}
 
 	describe("DELETE : /api/v1/diaries/{diaryId}") {
+		val url = "$baseUrl/1"
+
+		context("다이어리 삭제 요청을 한다면") {
+			val request = request(HttpMethod.DELETE, url)
+
+			it("1000 SUCCESS") {
+				every { diaryService.delete(any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-diary-delete",
+						envelopeResponseBody(dataOptional = true)
+					)
+			}
+		}
 	}
 }) {
 	companion object {

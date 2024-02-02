@@ -488,6 +488,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_캘린더_삭제">8.5. 캘린더 삭제</a></li>
 </ul>
 </li>
+<li><a href="#_diary">9. Diary</a>
+<ul class="sectlevel2">
+<li><a href="#_success_13">9.1. <code>Success</code></a></li>
+<li><a href="#_데이트_날짜_기준_다이어리_조회">9.2. 데이트 날짜 기준 다이어리 조회</a></li>
+<li><a href="#_커서_기반_다이어리_리스트_조회">9.3. 커서 기반 다이어리 리스트 조회</a></li>
+<li><a href="#_다이어리_상세_조회">9.4. 다이어리 상세 조회</a></li>
+<li><a href="#_다이어리_생성">9.5. 다이어리 생성</a></li>
+<li><a href="#_다이어리_수정">9.6. 다이어리 수정</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -3543,11 +3553,823 @@ Content-Length: 88
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_diary"><a class="link" href="#_diary">9. Diary</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_success_13"><a class="link" href="#_success_13">9.1. <code>Success</code></a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="_데이트_날짜_기준_다이어리_조회"><a class="link" href="#_데이트_날짜_기준_다이어리_조회">9.2. 데이트 날짜 기준 다이어리 조회</a></h3>
+<div class="sect3">
+<h4 id="_데이트_날짜_기준_다이어리_조회_http_request"><a class="link" href="#_데이트_날짜_기준_다이어리_조회_http_request">9.2.1. HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/memory-date?memoryDate=2024-02-02 HTTP/1.1
+Authorization: Bearer access-token
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_데이트_날짜_기준_다이어리_조회_request_headers"><a class="link" href="#_데이트_날짜_기준_다이어리_조회_request_headers">9.2.2. Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_데이트_날짜_기준_다이어리_조회_query_parameters"><a class="link" href="#_데이트_날짜_기준_다이어리_조회_query_parameters">9.2.3. Query parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_데이트_날짜_기준_다이어리_조회_http_response"><a class="link" href="#_데이트_날짜_기준_다이어리_조회_http_response">9.2.4. HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 1125
+
+{
+  "code" : "1000",
+  "message" : "요청에 성공하셨습니다.",
+  "data" : {
+    "diaries" : [ {
+      "diaryId" : 1,
+      "userId" : 1,
+      "title" : "제목1",
+      "memoryDate" : "2024-02-02",
+      "place" : "장소1",
+      "content" : "내용1",
+      "imageUrl" : "imageURL1"
+    }, {
+      "diaryId" : 2,
+      "userId" : 1,
+      "title" : "제목2",
+      "memoryDate" : "2024-02-02",
+      "place" : "장소2",
+      "content" : "내용2",
+      "imageUrl" : "imageURL2"
+    }, {
+      "diaryId" : 3,
+      "userId" : 1,
+      "title" : "제목3",
+      "memoryDate" : "2024-02-02",
+      "place" : "장소3",
+      "content" : "내용3",
+      "imageUrl" : "imageURL3"
+    }, {
+      "diaryId" : 4,
+      "userId" : 1,
+      "title" : "제목4",
+      "memoryDate" : "2024-02-02",
+      "place" : "장소4",
+      "content" : "내용4",
+      "imageUrl" : "imageURL4"
+    }, {
+      "diaryId" : 5,
+      "userId" : 1,
+      "title" : "제목5",
+      "memoryDate" : "2024-02-02",
+      "place" : "장소5",
+      "content" : "내용5",
+      "imageUrl" : "imageURL5"
+    } ],
+    "totalCount" : 5
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_데이트_날짜_기준_다이어리_조회_response_fields"><a class="link" href="#_데이트_날짜_기준_다이어리_조회_response_fields">9.2.5. Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">캘린더 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].diaryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].place</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">장소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_커서_기반_다이어리_리스트_조회"><a class="link" href="#_커서_기반_다이어리_리스트_조회">9.3. 커서 기반 다이어리 리스트 조회</a></h3>
+<div class="sect3">
+<h4 id="_커서_기반_다이어리_리스트_조회_http_request"><a class="link" href="#_커서_기반_다이어리_리스트_조회_http_request">9.3.1. HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/cursor?memoryDate=2024-02-02&amp;searchType=BEFORE&amp;diaryId=-1&amp;pageSize=10 HTTP/1.1
+Authorization: Bearer access-token
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_커서_기반_다이어리_리스트_조회_request_headers"><a class="link" href="#_커서_기반_다이어리_리스트_조회_request_headers">9.3.2. Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_커서_기반_다이어리_리스트_조회_query_parameters"><a class="link" href="#_커서_기반_다이어리_리스트_조회_query_parameters">9.3.3. Query parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>searchType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서 기준 BEFORE 또는 AFTER</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>diaryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서(다이어리) 아이디 &#8594; 초기 요청 시 값: -1 로 보내면 됩니다</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청할 다이어리 목록 최대 크기</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_커서_기반_다이어리_리스트_조회_http_response"><a class="link" href="#_커서_기반_다이어리_리스트_조회_http_response">9.3.4. HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 2058
+
+{
+  "code" : "1000",
+  "message" : "요청에 성공하셨습니다.",
+  "data" : {
+    "diaries" : [ {
+      "diaryId" : 1,
+      "userId" : 1,
+      "title" : "제목1",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용1",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 2,
+      "userId" : 2,
+      "title" : "제목2",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용2",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 3,
+      "userId" : 3,
+      "title" : "제목3",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용3",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 4,
+      "userId" : 4,
+      "title" : "제목4",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용4",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 5,
+      "userId" : 5,
+      "title" : "제목5",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용5",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 6,
+      "userId" : 6,
+      "title" : "제목6",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용6",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 7,
+      "userId" : 7,
+      "title" : "제목7",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용7",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 8,
+      "userId" : 8,
+      "title" : "제목8",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용8",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 9,
+      "userId" : 9,
+      "title" : "제목9",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용9",
+      "imageUrls" : [ ]
+    }, {
+      "diaryId" : 10,
+      "userId" : 10,
+      "title" : "제목10",
+      "memoryDate" : "2024-02-02",
+      "place" : null,
+      "content" : "내용10",
+      "imageUrls" : [ ]
+    } ],
+    "totalCount" : 10,
+    "diaryId" : 10,
+    "memoryDate" : "2024-02-02"
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_커서_기반_다이어리_리스트_조회_response_fields"><a class="link" href="#_커서_기반_다이어리_리스트_조회_response_fields">9.3.5. Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">캘린더 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서(다이어리 아이디) 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서(다이어리 아이디) 기준 데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].diaryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].place</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">장소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaries[].imageUrls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다이어리_상세_조회"><a class="link" href="#_다이어리_상세_조회">9.4. 다이어리 상세 조회</a></h3>
+<div class="sect3">
+<h4 id="_다이어리_상세_조회_http_request"><a class="link" href="#_다이어리_상세_조회_http_request">9.4.1. HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_상세_조회_http_response"><a class="link" href="#_다이어리_상세_조회_http_response">9.4.2. HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 268
+
+{
+  "code" : "1000",
+  "message" : "요청에 성공하셨습니다.",
+  "data" : {
+    "diaryId" : 1,
+    "userId" : 1,
+    "title" : "다이어리 제목",
+    "memoryDate" : "2024-02-02",
+    "place" : "장소",
+    "content" : "내용",
+    "imageUrls" : [ ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_상세_조회_response_fields"><a class="link" href="#_다이어리_상세_조회_response_fields">9.4.3. Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.diaryId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.place</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">장소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.imageUrls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다이어리_생성"><a class="link" href="#_다이어리_생성">9.5. 다이어리 생성</a></h3>
+<div class="sect3">
+<h4 id="_다이어리_생성_http_request"><a class="link" href="#_다이어리_생성_http_request">9.5.1. HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/diaries HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer access-token
+Content-Length: 160
+Host: localhost:8080
+
+{
+  "title" : "다이어리 제목",
+  "memoryDate" : "2024-02-02",
+  "place" : "장소",
+  "content" : "내용",
+  "imageUrls" : [ "imageUrl1", "imageUrl2" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_생성_request_body"><a class="link" href="#_다이어리_생성_request_body">9.5.2. Request body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "title" : "다이어리 제목",
+  "memoryDate" : "2024-02-02",
+  "place" : "장소",
+  "content" : "내용",
+  "imageUrls" : [ "imageUrl1", "imageUrl2" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_생성_request_headers"><a class="link" href="#_다이어리_생성_request_headers">9.5.3. Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_생성_request_fields"><a class="link" href="#_다이어리_생성_request_fields">9.5.4. Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>place</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">장소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageUrls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_생성_http_response"><a class="link" href="#_다이어리_생성_http_response">9.5.5. HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 88
+
+{
+  "code" : "1000",
+  "message" : "요청에 성공하셨습니다.",
+  "data" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_생성_response_fields"><a class="link" href="#_다이어리_생성_response_fields">9.5.6. Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_다이어리_수정"><a class="link" href="#_다이어리_수정">9.6. 다이어리 수정</a></h3>
+<div class="sect3">
+<h4 id="_다이어리_수정_http_request"><a class="link" href="#_다이어리_수정_http_request">9.6.1. HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/v1/diaries/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 174
+Host: localhost:8080
+
+{
+  "title" : "다이어리 제목 수정",
+  "memoryDate" : "2024-02-02",
+  "place" : "장소",
+  "content" : "내용 수정",
+  "imageUrls" : [ "imageUrl1", "imageUrl2" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_수정_request_body"><a class="link" href="#_다이어리_수정_request_body">9.6.2. Request body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "title" : "다이어리 제목 수정",
+  "memoryDate" : "2024-02-02",
+  "place" : "장소",
+  "content" : "내용 수정",
+  "imageUrls" : [ "imageUrl1", "imageUrl2" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_수정_request_fields"><a class="link" href="#_다이어리_수정_request_fields">9.6.3. Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다이어리 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memoryDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이트 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>place</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">장소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageUrls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_다이어리_수정_http_response"><a class="link" href="#_다이어리_수정_http_response">9.6.4. HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 88
+
+{
+  "code" : "1000",
+  "message" : "요청에 성공하셨습니다.",
+  "data" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0.2-SNAPSHOT<br>
-Last updated 2024-01-26 14:39:40 +0900
+Last updated 2024-02-02 17:59:44 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

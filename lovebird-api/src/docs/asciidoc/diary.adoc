@@ -6,6 +6,22 @@
 
 operation::1000-diary-list-memory-date[snippets='http-request,request-headers,query-parameters,http-response,response-fields']
 
-== 커서 기반 다이어리 리스트 조회
+=== 커서 기반 다이어리 리스트 조회
 
 operation::1000-diary-list-cursor[snippets='http-request,request-headers,query-parameters,http-response,response-fields']
+
+=== 다이어리 상세 조회
+
+operation::1000-detail-diary[snippets='http-request,http-response,response-fields']
+
+=== 다이어리 생성
+
+operation::1000-diary-create[snippets='http-request,request-body,request-headers,request-fields,http-response,response-fields']
+
+=== 다이어리 수정
+
+operation::1000-diary-update[snippets='http-request,request-body,request-fields,http-response,response-fields']
+
+=== 다이어리 삭제
+
+operation::1000-diary-delete[snippets='http-request,http-response,response-body,response-fields']

@@ -2,7 +2,9 @@ package com.lovebird.api.utils
 
 import com.lovebird.api.dto.param.diary.DiaryCreateParam
 import com.lovebird.api.dto.param.diary.DiaryUpdateParam
+import com.lovebird.api.dto.request.diary.DiaryCreateRequest
 import com.lovebird.api.dto.request.diary.DiaryListRequest
+import com.lovebird.api.dto.request.diary.DiaryUpdateRequest
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleResponseParam
@@ -49,6 +51,26 @@ object DiaryTestFixture {
 			memoryDate = param.memoryDate,
 			content = param.content,
 			place = param.place
+		)
+	}
+
+	fun getDiaryCreateRequest(): DiaryCreateRequest {
+		return DiaryCreateRequest(
+			title = "다이어리 제목",
+			memoryDate = LocalDate.now(),
+			place = "장소",
+			content = "내용",
+			imageUrls = mutableListOf("imageUrl1", "imageUrl2")
+		)
+	}
+
+	fun getDiaryUpdateRequest(): DiaryUpdateRequest {
+		return DiaryUpdateRequest(
+			title = "다이어리 제목 수정",
+			memoryDate = LocalDate.now(),
+			place = "장소",
+			content = "내용 수정",
+			imageUrls = mutableListOf("imageUrl1", "imageUrl2")
 		)
 	}
 
