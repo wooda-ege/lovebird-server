@@ -7,9 +7,7 @@ import com.lovebird.api.provider.AesEncryptProvider.encryptString
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.Diary
-import org.springframework.stereotype.Component
 
-@Component
 object DiaryUtils {
 
 	fun decryptDiaries(diaries: List<DiaryResponseParam>) {

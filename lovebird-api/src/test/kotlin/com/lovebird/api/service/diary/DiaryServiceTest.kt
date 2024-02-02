@@ -19,43 +19,42 @@ import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.should
 import io.kotest.matchers.string.startWith
 import io.mockk.Runs
-import io.mockk.clearMocks
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import java.time.LocalDate
 
-class DiaryServiceTest() : ServiceDescribeSpec({
+class DiaryServiceTest : ServiceDescribeSpec({
 	val diaryReader = mockk<DiaryReader>(relaxed = true)
 	val diaryWriter = mockk<DiaryWriter>(relaxed = true)
 	val diaryImageWriter = mockk<DiaryImageWriter>(relaxed = true)
 	val coupleEntryReader = mockk<CoupleEntryReader>(relaxed = true)
-	val diaryUtils = mockk<DiaryUtils>(relaxed = true)
+	mockkObject(DiaryUtils)
 	val diaryService = DiaryService(
 		diaryReader = diaryReader,
 		diaryWriter = diaryWriter,
 		diaryImageWriter = diaryImageWriter,
 		coupleEntryReader = coupleEntryReader,
-		diaryUtils = diaryUtils
 	)
 
 	afterEach {
-		clearMocks(diaryReader, diaryWriter, diaryImageWriter, coupleEntryReader, diaryUtils)
+		clearAllMocks()
 	}
 
 	describe("다이어리 커서 기반 페이지네이션") {
 		val coupleEntry = getCoupleEntry()
 		val user = coupleEntry.user
 		val pageSize: Long = 5
-		// decrypt 에 대한 dependency 제거
-		every { diaryUtils.decryptDiaries(any()) } just Runs
 
 		context("현재 커서 기반 이전 다이어리 요청이라면") {
 			val searchByCursorRequest = DiaryTestFixture.getSearchByCursorRequest(DiarySearchType.BEFORE, pageSize)
 			val diaries = DiaryTestFixture.getDiaries(pageSize)
 			every { coupleEntryReader.findByUser(user) } returns coupleEntry
 			every { diaryReader.findBeforeNowUsingCursor(any()) } returns diaries
+			every { DiaryUtils.decryptDiaries(any()) } just Runs
 
 			it("커서 기준 이전 다이어리들을 호출한다") {
 				// 상태 검증
@@ -66,7 +65,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findBeforeNowUsingCursor(any())
-					diaryUtils.decryptDiaries(diaries)
+					DiaryUtils.decryptDiaries(diaries)
 				}
 			}
 		}
@@ -76,6 +75,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 			val diaries = DiaryTestFixture.getDiaries(pageSize)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry()
 			every { diaryReader.findAfterNowUsingCursor(any()) } returns diaries
+			every { DiaryUtils.decryptDiaries(any()) } just Runs
 
 			it("커서 기준 이후 다이어리들을 호출한다.") {
 				// 상태 검증
@@ -86,7 +86,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAfterNowUsingCursor(any())
-					diaryUtils.decryptDiaries(diaries)
+					DiaryUtils.decryptDiaries(diaries)
 				}
 			}
 		}
@@ -94,7 +94,6 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 
 	describe("다이어리를 저장할때") {
 		val user = getUser(1L)
-		every { diaryUtils.encryptDiaryCreateParam(any()) } just Runs
 
 		context("이미지들이 존재한다면") {
 			val imageUrls = arrayListOf("imageUrl1", "imageUrl2", "imageUrl3")
@@ -102,13 +101,14 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 			val diary = DiaryTestFixture.getDiaryByCreateParam(param, user)
 			every { diaryWriter.save(any()) } returns diary
 			every { diaryImageWriter.saveAll(diary, imageUrls) } just Runs
+			every { DiaryUtils.encryptDiaryCreateParam(any()) } just Runs
 
 			it("다이어리와 이미지 모두 저장한다") {
 				diaryService.save(param)
 
 				// 행위 검증
 				verify(exactly = 1) {
-					diaryUtils.encryptDiaryCreateParam(param)
+					DiaryUtils.encryptDiaryCreateParam(param)
 					diaryWriter.save(any())
 					diaryImageWriter.saveAll(diary, imageUrls)
 				}
@@ -119,13 +119,14 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 			val param = DiaryTestFixture.getCreateParam(imageUrls = null, user = user)
 			val diary = DiaryTestFixture.getDiaryByCreateParam(param, user)
 			every { diaryWriter.save(any()) } returns diary
+			every { DiaryUtils.encryptDiaryCreateParam(any()) } just Runs
 
 			it("다이어리만 저장한다") {
 				diaryService.save(param)
 
 				// 행위 검증
 				verify(exactly = 1) {
-					diaryUtils.encryptDiaryCreateParam(param)
+					DiaryUtils.encryptDiaryCreateParam(param)
 					diaryWriter.save(any())
 				}
 			}
@@ -159,7 +160,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 			val param = DiaryTestFixture.getUpdateParam(null)
 			val diary = DiaryTestFixture.getDiaryByUpdateParam(param = param, user = user)
 			every { diaryReader.findEntityById(param.diaryId) } returns diary
-			every { diaryUtils.encryptDiaryUpdateParam(param) } just Runs
+			every { DiaryUtils.encryptDiaryUpdateParam(param) } just Runs
 			every { diaryWriter.update(diary, any()) } just Runs
 
 			it("다이어리만 업데이트 한다") {
@@ -168,7 +169,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
-					diaryUtils.encryptDiaryUpdateParam(param)
+					DiaryUtils.encryptDiaryUpdateParam(param)
 					diaryWriter.update(diary, any())
 				}
 			}
@@ -179,7 +180,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 			val param = DiaryTestFixture.getUpdateParam(imageUrls = imageUrls)
 			val diary = DiaryTestFixture.getDiaryByUpdateParam(param = param, user = user)
 			every { diaryReader.findEntityById(param.diaryId) } returns diary
-			every { diaryUtils.encryptDiaryUpdateParam(param) } just Runs
+			every { DiaryUtils.encryptDiaryUpdateParam(param) } just Runs
 			every { diaryWriter.update(diary, any()) } just Runs
 			every { diaryImageWriter.deleteAll(diary) } just Runs
 			every { diaryImageWriter.saveAll(diary, imageUrls) } just Runs
@@ -190,7 +191,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
-					diaryUtils.encryptDiaryUpdateParam(param)
+					DiaryUtils.encryptDiaryUpdateParam(param)
 					diaryWriter.update(diary, any())
 					diaryImageWriter.deleteAll(diary)
 					diaryImageWriter.saveAll(diary, imageUrls)
@@ -245,12 +246,12 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 		val user = getUser(1L)
 		val partner = getUser(2L)
 		val size = 5
-		every { diaryUtils.decryptDiariesOfSimple(any()) } just Runs
 
 		context("파트너가 존재하지 않아도") {
 			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user = user, partner = null, size = size)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry(user = user, partner = user)
 			every { diaryReader.findAllByMemoryDate(any()) } returns diaries
+			every { DiaryUtils.decryptDiariesOfSimple(any()) } just Runs
 
 			it("조회에 성공한다") {
 
@@ -262,7 +263,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAllByMemoryDate(any())
-					diaryUtils.decryptDiariesOfSimple(diaries)
+					DiaryUtils.decryptDiariesOfSimple(any())
 				}
 			}
 		}
@@ -271,6 +272,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user = user, partner = partner, size = size)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry(user = user, partner = partner)
 			every { diaryReader.findAllByMemoryDate(any()) } returns diaries
+			every { DiaryUtils.decryptDiariesOfSimple(any()) } just Runs
 
 			it("조회에 성공한다") {
 
@@ -282,7 +284,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAllByMemoryDate(any())
-					diaryUtils.decryptDiariesOfSimple(diaries)
+					DiaryUtils.decryptDiariesOfSimple(any())
 				}
 			}
 		}
@@ -311,7 +313,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 		context("id가 존재한다면") {
 			val user = getUser(1L)
 			val diary = DiaryTestFixture.getDiaryByUser(user)
-			every { diaryUtils.decryptDiary(diary) } just Runs
+			every { DiaryUtils.decryptDiary(diary) } just Runs
 			every { diaryReader.findEntityById(diary.id!!) } returns diary
 
 			it("다이어리 상세 조회에 성공한다") {
@@ -324,7 +326,7 @@ class DiaryServiceTest() : ServiceDescribeSpec({
 				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(diary.id!!)
-					diaryUtils.decryptDiary(diary)
+					DiaryUtils.decryptDiary(diary)
 				}
 			}
 		}
