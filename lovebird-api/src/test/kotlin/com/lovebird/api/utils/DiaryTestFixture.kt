@@ -74,11 +74,11 @@ object DiaryTestFixture {
 		)
 	}
 
-	fun getSearchByCursorRequest(searchType: DiarySearchType, pageSize: Long): DiaryListRequest.SearchByCursorRequest {
+	fun getSearchByCursorRequest(searchType: DiarySearchType, diaryId: Long, pageSize: Long): DiaryListRequest.SearchByCursorRequest {
 		return DiaryListRequest.SearchByCursorRequest(
 			memoryDate = LocalDate.now(),
 			searchType = searchType,
-			diaryId = null,
+			diaryId = diaryId,
 			pageSize = pageSize
 		)
 	}
