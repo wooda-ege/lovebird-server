@@ -6,10 +6,10 @@ import org.springframework.test.util.ReflectionTestUtils
 
 object CommonTestFixture {
 
-	fun getUser(id: Long): User {
+	fun getUser(id: Long, providerId: String): User {
 		val user = User(
 			provider = Provider.APPLE,
-			providerId = "test-provider",
+			providerId = providerId,
 			deviceToken = "test-token"
 		)
 		ReflectionTestUtils.setField(user, "id", id)

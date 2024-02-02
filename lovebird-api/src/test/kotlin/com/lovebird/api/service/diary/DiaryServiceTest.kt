@@ -37,7 +37,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 		diaryReader = diaryReader,
 		diaryWriter = diaryWriter,
 		diaryImageWriter = diaryImageWriter,
-		coupleEntryReader = coupleEntryReader,
+		coupleEntryReader = coupleEntryReader
 	)
 
 	afterEach {
