@@ -50,7 +50,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 		val pageSize: Long = 5
 
 		context("현재 커서 기반 이전 다이어리 요청이라면") {
-			val searchByCursorRequest = DiaryTestFixture.getSearchByCursorRequest(DiarySearchType.BEFORE, pageSize)
+			val searchByCursorRequest = DiaryTestFixture.getSearchByCursorRequest(DiarySearchType.BEFORE, -1, pageSize)
 			val diaries = DiaryTestFixture.getDiaries(pageSize)
 			every { coupleEntryReader.findByUser(user) } returns coupleEntry
 			every { diaryReader.findBeforeNowUsingCursor(any()) } returns diaries
@@ -71,7 +71,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 		}
 
 		context("현재 커서 기반 이후 다이어리 요청이라면") {
-			val searchByCursorRequest = DiaryTestFixture.getSearchByCursorRequest(DiarySearchType.AFTER, pageSize)
+			val searchByCursorRequest = DiaryTestFixture.getSearchByCursorRequest(DiarySearchType.AFTER, -1, pageSize)
 			val diaries = DiaryTestFixture.getDiaries(pageSize)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry()
 			every { diaryReader.findAfterNowUsingCursor(any()) } returns diaries
