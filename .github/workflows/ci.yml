@@ -65,7 +65,7 @@ jobs:
 
       - name: Upload test coverage
         id: jacoco
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./codecov.xml

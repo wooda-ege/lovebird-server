@@ -88,7 +88,7 @@ tasks.bootJar {
 tasks.withType<JacocoReport> {
 	reports {
 		html.required.set(true)
-		xml.required.set(false)
+		xml.required.set(true)
 		csv.required.set(false)
 	}
 
