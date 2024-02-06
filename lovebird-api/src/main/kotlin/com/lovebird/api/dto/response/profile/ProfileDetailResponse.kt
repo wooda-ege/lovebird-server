@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit
 
 data class ProfileDetailResponse(
 	val userId: Long,
-	val partnerId: Long,
+	val partnerId: Long?,
 	val email: String,
 	val nickname: String,
 	val partnerNickname: String?,

@@ -37,6 +37,6 @@ class CoupleCode(
 	}
 
 	fun getRemainSeconds(): Long {
-		return ChronoUnit.SECONDS.between(createdAt, LocalDateTime.now())
+		return ChronoUnit.SECONDS.between(createdAt, LocalDateTime.now()) + 86400
 	}
 }

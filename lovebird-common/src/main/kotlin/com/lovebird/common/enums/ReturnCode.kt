@@ -18,6 +18,7 @@ enum class ReturnCode(val code: String, val message: String) {
 
 	// 커플 관련
 	ALREADY_EXIST_COUPLE("1300", "이미 커플 연동을 한 유저입니다."),
+	CAN_NOT_LINK_SELF("1301", "자기 자신과는 커플 연동을 할 수 없습니다."),
 
 	// 캘린더 관련
 	INVALID_MEMBER("1400", "유효하지 않은 사용자 정보입니다."),

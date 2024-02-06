@@ -1,0 +1,160 @@
+name: Lovebird CD (develop branch)
+
+on:
+  push:
+    branches:
+      - develop
+#    paths:
+#      - lovebird-api/**
+#      - lovebird-client/**
+#      - lovebird-external/**
+#      - lovebird-domain/**
+#      - lovebird-common/**
+
+env:
+  MAIN_RESOURCE_PATH: ./lovebird-api/src/main/resources/application.yml
+  DEV_RESOURCE_PATH: ./lovebird-api/src/main/resources/application-dev.yml
+  CLIENT_RESOURCE_PATH: ./lovebird-client/src/main/resources/client-dev.yml
+  DOMAIN_RESOURCE_PATH: ./lovebird-domain/src/main/resources/db-dev.yml
+  S3_RESOURCE_PATH: ./lovebird-external/s3/src/main/resources/s3-dev.yml
+  FIREBASE_SDK_PATH: ./lovebird-external/fcm/src/main/resources/firebase/lovebird-firebase-admin-sdk.json
+  AWS_S3_REGION: ${{ secrets.DEV_S3_REGION }}
+  AWS_S3_BUCKET_NAME: ${{ secrets.DEV_DEPLOY_S3_BUCKET_NAME }}
+  CODEDEPLOY_APPLICATION_NAME: ${{ secrets.DEV_AWS_CODEDEPLOY_APPLICATION_NAME }}
+  CODEDEPLOY_DEPLOYMENT_GROUP_NAME: ${{ secrets.DEV_AWS_CODEDEPLOY_DEPLOYMENT_GROUP_NAME }}
+
+permissions: write-all
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    environment: Development-CD
+
+    steps:
+      - name: Get Current Time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH:mm:ss
+          timezone: 'Asia/Seoul'
+
+      - name: Print Current Time
+        run: echo "Current Time=${{steps.current-time.outputs.formattedTime}}"
+        shell: bash
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 19
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'zulu'
+
+      # YML 파일에 환경변수 적용
+      - name: Set application yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.MAIN_RESOURCE_PATH }}
+        env:
+          spring.profiles.default: dev
+          apple.test-code: ${{ secrets.APPLE_TEST_CODE }}
+          aes.secret-key: ${{ secrets.AES_SECRET_KEY }}
+
+      - name: Set application-dev yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.DEV_RESOURCE_PATH }}
+        env:
+          jwt.access-header: ${{ secrets.ACCESS_HEADER }}
+          jwt.refresh-header: ${{ secrets.REFRESH_HEADER }}
+          jwt.secret: ${{ secrets.DEV_JWT_SECRET }}
+
+      - name: Set client-dev yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.CLIENT_RESOURCE_PATH }}
+        env:
+          oauth.google.client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+          oauth.naver.client-id: ${{ secrets.NAVER_CLIENT_ID }}
+          oauth.naver.client-secret: ${{ secrets.NAVER_CLIENT_SECRET }}
+
+      - name: Set domain-dev yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.DOMAIN_RESOURCE_PATH }}
+        env:
+          storage.datasource.core.jdbc-url: ${{ secrets.DEV_RDS_HOST }}
+          storage.datasource.core.username: ${{ secrets.DEV_RDS_USERNAME }}
+          storage.datasource.core.password: ${{ secrets.DEV_RDS_PASSWORD }}
+
+      - name: Set s3-dev yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.S3_RESOURCE_PATH }}
+        env:
+          cloud.aws.s3-bucket: ${{ secrets.DEV_S3_BUCKET_NAME }}
+          cloud.aws.credentials.access-key: ${{ secrets.DEV_S3_ACCESS_KEY }}
+          cloud.aws.credentials.secret-key: ${{ secrets.DEV_S3_SECRET_KEY }}
+          cloud.aws.region.static: ${{ env.DEV_S3_REGION }}
+
+      # Firebase Admin SDK 파일 생성
+      - name: create firebase directory
+        run: |
+          mkdir ./lovebird-external/fcm/src/main/resources/firebase
+
+      - name: create firebase sdk file
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: ${{ env.FIREBASE_SDK_PATH }}
+          json: ${{ secrets.FIREBASE_ADMIN_SDK }}
+
+      # Gradle 빌드
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: clean build
+
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Deploy
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.DEV_IAM_KEY }}
+          aws-secret-access-key: ${{ secrets.DEV_IAM_SECRET }}
+          aws-region: ${{ env.AWS_S3_REGION }}
+
+      - name: Upload to AWS S3
+        run: |
+          aws deploy push \
+            --application-name ${{ env.CODEDEPLOY_APPLICATION_NAME }} \
+            --ignore-hidden-files \
+            --s3-location s3://$AWS_S3_BUCKET_NAME/$GITHUB_SHA.zip \
+            --source .
+
+      - name: Deploy to AWS EC2 from S3
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ env.CODEDEPLOY_APPLICATION_NAME }} \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name ${{ env.CODEDEPLOY_DEPLOYMENT_GROUP_NAME }} \
+            --s3-location bucket=$AWS_S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+
+      - name: publish unit test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: build/test-results/**/*.xml

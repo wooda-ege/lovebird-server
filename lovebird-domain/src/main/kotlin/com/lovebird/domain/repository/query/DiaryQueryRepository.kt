@@ -129,13 +129,13 @@ class DiaryQueryRepository(
 
 	private fun eqUserId(userId: NumberPath<Long>): BooleanExpression = diary.user.id.eq(userId)
 
-	private fun eqMemoryDateAndGtDiaryId(memoryDate: LocalDate, diaryId: Long): BooleanExpression {
+	private fun eqMemoryDateAndGtDiaryId(memoryDate: LocalDate, diaryId: Long?): BooleanExpression {
 		return gtDiaryId(diaryId).and(eqMemoryDate(memoryDate))
 	}
 
 	private fun eqMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.eq(memoryDate)
 
-	private fun gtDiaryId(diaryId: Long): BooleanExpression = diary.id.gt(diaryId)
+	private fun gtDiaryId(diaryId: Long?): BooleanExpression = diary.id.gt(diaryId)
 
 	private fun ltMemoryDate(memoryDate: LocalDate): BooleanExpression = diary.memoryDate.lt(memoryDate)
 

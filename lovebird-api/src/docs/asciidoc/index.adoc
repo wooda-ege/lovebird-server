@@ -36,24 +36,18 @@
 |===
 | Status code | Usage
 
-| `200 OK`
+| `200 SUCCESS(OK)`
 | The request completed successfully
 
-| `201 Created`
-| A new resource has been created successfully.
+| `400 FAIL(BAD REQUEST)`
+| The request was failed.
 
-| `400 Bad Request`
-| The request was malformed.
-
-| `401 Unauthorized`
-| The request was unauthorized.
-
-| `404 Not Found`
-| The requested resource did not exist.
+| `500 ERROR(INTERNAL SERVER ERROR)`
+| The server encountered an unexpected condition which prevented it from fulfilling the request.
 |===
 
-[[overview_okgo_response_rule]]
-== Okgo Response Rule
+[[overview_Lovebird_response_rule]]
+== Lovebird Response Rule
 
 |===
 | code | message
@@ -82,6 +76,9 @@
 | `1300`
 | 이미 커플 연동을 한 유저입니다.
 
+| `1301`
+| 자기 자신과는 커플 연동을 할 수 없습니다.
+
 | `1400`
 | 유효하지 않은 사용자 정보입니다..
 
@@ -97,3 +94,7 @@
 
 include::presigned-url.adoc[]
 include::auth.adoc[]
+include::profile.adoc[]
+include::couple.adoc[]
+include::calendar.adoc[]
+include::diary.adoc[]

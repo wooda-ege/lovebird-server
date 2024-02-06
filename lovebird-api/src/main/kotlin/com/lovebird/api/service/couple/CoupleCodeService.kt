@@ -5,6 +5,7 @@ import com.lovebird.api.dto.response.couple.CoupleCodeResponse
 import com.lovebird.api.dto.response.couple.CoupleLinkResponse
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
+import com.lovebird.common.util.RandomUtils.generateCode
 import com.lovebird.domain.entity.CoupleCode
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.CoupleCodeReader
@@ -22,12 +23,9 @@ class CoupleCodeService(
 	private val appleTestCode: String
 ) {
 
-	private val ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz"
-
 	@Transactional
 	fun generateCodeIfNotExist(user: User): CoupleCodeResponse {
-		val coupleCode = findByUser(user) ?: save(user, generateCode())
-
+		val coupleCode: CoupleCode = findByUser(user) ?: save(user)
 		return CoupleCodeResponse(coupleCode.code, coupleCode.getRemainSeconds())
 	}
 
@@ -40,7 +38,7 @@ class CoupleCodeService(
 		val coupleCode: CoupleCode = findByCode(param.coupleCode)
 		coupleService.saveAllWithValidation(param.user, coupleCode.user)
 
-		return CoupleLinkResponse(coupleCode.id!!)
+		return CoupleLinkResponse(coupleCode.user.id!!)
 	}
 
 	private fun linkForAppleTest(user: User): CoupleLinkResponse {
@@ -48,19 +46,14 @@ class CoupleCodeService(
 		return CoupleLinkResponse(user.id!!)
 	}
 
-	private fun generateCode(): String {
-		var builder: StringBuilder
+	private fun getCode(): String {
+		var code: String
 
 		do {
-			builder = StringBuilder(8)
+			code = generateCode()
+		} while (existsByCode(code))
 
-			for (i in 0..7) {
-				val character = (Math.random() * ALPHA_NUMERIC_STRING.length).toInt()
-				builder.append(ALPHA_NUMERIC_STRING[character])
-			}
-		} while (!existsByCode(builder.toString()))
-
-		return builder.toString()
+		return code
 	}
 
 	private fun findByUser(user: User): CoupleCode? {
@@ -84,8 +77,8 @@ class CoupleCodeService(
 		}
 	}
 
-	private fun save(user: User, code: String): CoupleCode {
-		return coupleCodeWriter.save(CoupleCode(user, code))
+	private fun save(user: User): CoupleCode {
+		return coupleCodeWriter.save(CoupleCode(user, getCode()))
 	}
 
 	private fun delete(coupleCode: CoupleCode) {

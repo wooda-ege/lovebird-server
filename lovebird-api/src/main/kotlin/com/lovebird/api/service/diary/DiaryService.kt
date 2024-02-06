@@ -6,15 +6,21 @@ import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
-import com.lovebird.api.provider.AesEncryptProvider.decryptString
-import com.lovebird.api.service.couple.CoupleService
+import com.lovebird.api.util.DiaryUtils.decryptDiaries
+import com.lovebird.api.util.DiaryUtils.decryptDiariesOfSimple
+import com.lovebird.api.util.DiaryUtils.decryptDiary
+import com.lovebird.api.util.DiaryUtils.encryptDiaryCreateParam
+import com.lovebird.api.util.DiaryUtils.encryptDiaryUpdateParam
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleResponseParam
+import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
+import com.lovebird.domain.repository.reader.CoupleEntryReader
 import com.lovebird.domain.repository.reader.DiaryReader
+import com.lovebird.domain.repository.writer.DiaryImageWriter
 import com.lovebird.domain.repository.writer.DiaryWriter
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,13 +29,14 @@ import org.springframework.transaction.annotation.Transactional
 class DiaryService(
 	private val diaryReader: DiaryReader,
 	private val diaryWriter: DiaryWriter,
-	private val diaryImageService: DiaryImageService,
-	private val coupleService: CoupleService
+	private val diaryImageWriter: DiaryImageWriter,
+	private val coupleEntryReader: CoupleEntryReader
 ) {
 
 	@Transactional(readOnly = true)
 	fun findPageByCursor(request: DiaryListRequest.SearchByCursorRequest, user: User): DiaryListResponse {
-		val partner: User? = coupleService.findPartnerByUser(user)
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+		val partner: User? = coupleEntry?.partner
 
 		return when (request.searchType) {
 			DiarySearchType.BEFORE -> {
@@ -43,41 +50,40 @@ class DiaryService(
 
 	@Transactional
 	fun save(param: DiaryCreateParam) {
-		param.encrypt()
+		encryptDiaryCreateParam(param)
 
 		val diary: Diary = diaryWriter.save(param.toEntity())
-		param.imageUrls?.let { diaryImageService.saveAll(diary, it) }
+		param.imageUrls?.let { diaryImageWriter.saveAll(diary, it) }
 	}
 
 	@Transactional
 	fun update(param: DiaryUpdateParam) {
 		val diary: Diary = diaryReader.findEntityById(param.diaryId)
 
-		param.encrypt()
+		encryptDiaryUpdateParam(param)
 		diaryWriter.update(diary, param.toDomainParam())
 
 		param.imageUrls?.let {
-			diaryImageService.updateAll(diary, it)
+			// TODO: 2023/12/12 : komment : 일기 작성 폼 변경 후 refactoring 예정
+			diaryImageWriter.deleteAll(diary)
+			diaryImageWriter.saveAll(diary, it)
 		}
 	}
 
 	@Transactional
 	fun delete(diaryId: Long) {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
-		diaryImageService.deleteAll(diary)
+		diaryImageWriter.deleteAll(diary)
 		diaryWriter.delete(diary)
 	}
 
 	@Transactional(readOnly = true)
 	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
-		val partner: User? = coupleService.findPartnerByUser(user)
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+		val partner: User? = coupleEntry?.partner
 		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
-		diaries.forEach {
-			it.title = decryptString(it.title)
-			it.place = it.place?.let { place -> decryptString(place) }
-			it.content = it.content?.let { content -> decryptString(content) }
-		}
+		decryptDiariesOfSimple(diaries)
 
 		return DiarySimpleListResponse.of(diaries)
 	}
@@ -85,6 +91,9 @@ class DiaryService(
 	@Transactional(readOnly = true)
 	fun findDetailById(diaryId: Long): DiaryDetailResponse {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
+
+		decryptDiary(diary)
+
 		return DiaryDetailResponse.of(diary)
 	}
 
@@ -100,13 +109,5 @@ class DiaryService(
 		decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
-	}
-
-	private fun decryptDiaries(diaries: List<DiaryResponseParam>) {
-		diaries.forEach {
-			it.title = decryptString(it.title)
-			it.place = it.place?.let { place -> decryptString(place) }
-			it.content = it.content?.let { content -> decryptString(content) }
-		}
 	}
 }

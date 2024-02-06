@@ -8,7 +8,6 @@ import com.lovebird.domain.entity.Profile
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.jpa.ProfileJpaRepository
 import com.lovebird.domain.repository.query.ProfileQueryRepository
-import jakarta.persistence.EntityNotFoundException
 
 @Reader
 class ProfileReader(
@@ -17,7 +16,7 @@ class ProfileReader(
 ) {
 
 	fun findEntityByUser(user: User): Profile {
-		return profileJpaRepository.findByUser(user) ?: throw EntityNotFoundException()
+		return profileJpaRepository.findByUser(user) ?: throw LbException(ReturnCode.NOT_EXIST_PROFILE)
 	}
 
 	fun findDetailParamByUser(user: User): ProfileDetailResponseParam {

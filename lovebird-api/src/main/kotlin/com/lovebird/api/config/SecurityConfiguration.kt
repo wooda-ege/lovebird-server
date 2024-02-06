@@ -42,7 +42,10 @@ class SecurityConfiguration(
 	private fun setAuthorizePath(): Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> {
 		return Customizer {
 			it
-				.requestMatchers(AntPathRequestMatcher("/docs/**", "/api/v1/auth/**")).permitAll()
+				.requestMatchers(
+					AntPathRequestMatcher("/api/v1/auth/**"),
+					AntPathRequestMatcher("/docs/index.html")
+				).permitAll()
 				.requestMatchers("/api/v1/**").hasAnyRole("USER", "ADMIN")
 				.anyRequest().authenticated()
 		}

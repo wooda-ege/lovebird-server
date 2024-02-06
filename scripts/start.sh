@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECT_ROOT="/home/ubuntu/app/lovebird-api"
-API_DOCS_ROOT="/home/ubuntu/app/src/main/resources/static/docs/index.html"
+#API_DOCS_ROOT="/home/ubuntu/app/src/main/resources/static/docs/index.html"
 
 APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
@@ -12,7 +12,7 @@ CONTAINER_NAME="lovebird"
 
 TIME_NOW=$(date +%c)
 
-chmod -R 755 $API_DOCS_ROOT
+#chmod -R 755 $API_DOCS_ROOT
 
 cd $PROJECT_ROOT
 

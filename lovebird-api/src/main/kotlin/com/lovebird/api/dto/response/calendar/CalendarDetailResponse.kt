@@ -11,8 +11,8 @@ data class CalendarDetailResponse(
 	val memo: String? = null,
 	val color: String,
 	val alarm: String,
-	val statDate: LocalDate,
-	val endDate: LocalDate? = null,
+	val startDate: LocalDate,
+	val endDate: LocalDate,
 	val startTime: LocalTime? = null,
 	val endTime: LocalTime? = null
 ) {
