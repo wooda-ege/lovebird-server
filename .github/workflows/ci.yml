@@ -65,7 +65,7 @@ jobs:
 
       - name: Upload test coverage
         id: jacoco
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./lovebird-api/build/reports/jacoco/test
