@@ -68,6 +68,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./codecov.xml
           directory: ./lovebird-api/build/reports/jacoco/test
           fail_ci_if_error: true
         continue-on-error: true
