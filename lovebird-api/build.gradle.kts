@@ -1,6 +1,7 @@
 description = "api module"
 
 plugins {
+	id("jacoco")
 	id("org.asciidoctor.jvm.convert")
 }
 
@@ -79,6 +80,64 @@ tasks.build {
 tasks.bootJar {
 	dependsOn(tasks.asciidoctor)
 	dependsOn(tasks.getByName("copyHtml"))
+}
+
+/**
+ * Jacoco
+ */
+tasks.withType<JacocoReport> {
+	reports {
+		html.required.set(true)
+		xml.required.set(false)
+		csv.required.set(false)
+	}
+
+	finalizedBy("jacocoTestCoverageVerification")
+}
+
+tasks.withType<JacocoCoverageVerification> {
+	violationRules {
+		rule {
+			enabled = true
+			element = "CLASS"
+
+			limit {
+				counter = "LINE"
+				value = "COVEREDRATIO"
+				minimum = "0.00".toBigDecimal()
+			}
+
+			limit {
+				counter = "LINE"
+				value = "TOTALCOUNT"
+				maximum = "200".toBigDecimal()
+			}
+
+			excludes = listOf()
+		}
+	}
+}
+
+val testCoverage by tasks.registering {
+	group = "verification"
+	description = "Runs the unit tests with coverage"
+
+	dependsOn(
+		":test",
+		":jacocoTestReport",
+		":jacocoTestCoverageVerification"
+	)
+
+	tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
+	tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
+}
+
+tasks.test {
+	extensions.configure(JacocoTaskExtension::class) {
+		destinationFile = file("$buildDir/jacoco/jacoco.exec")
+	}
+	outputs.dir(snippetsDir)
+	finalizedBy("jacocoTestReport")
 }
 
 tasks.getByName("bootJar") {
