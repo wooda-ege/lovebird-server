@@ -5,6 +5,10 @@ on:
     branches:
       - develop
       - master
+  push:
+    branches:
+      - develop
+      - master
 #    paths:
 #      - lovebird-api/**
 #      - lovebird-client/**
