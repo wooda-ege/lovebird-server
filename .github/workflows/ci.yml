@@ -5,12 +5,12 @@ on:
     branches:
       - develop
       - master
-    paths:
-      - lovebird-api/**
-      - lovebird-client/**
-      - lovebird-external/**
-      - lovebird-domain/**
-      - lovebird-common/**
+#    paths:
+#      - lovebird-api/**
+#      - lovebird-client/**
+#      - lovebird-external/**
+#      - lovebird-domain/**
+#      - lovebird-common/**
 
 permissions: write-all
 
