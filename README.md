@@ -1,6 +1,7 @@
 # Lovebird - 커플 공유 일기 앱 <a href="https://apps.apple.com/kr/app/lovebird-%EC%BB%A4%ED%94%8C-%EA%B3%B5%EC%9C%A0-%EC%9D%BC%EA%B8%B0-%EC%95%B1/id6462698149"><img src="https://github.com/wooda-ege/lovebird-server/assets/56003992/266fec4b-ad69-4f3c-af5c-5870dedc5c15" align="left" width="100"></a>
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fwooda-ege%2Flovebird-server&count_bg=%2328DBE6&title_bg=%232D3540&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![codecov](https://codecov.io/gh/wooda-ege/lovebird-server/graph/badge.svg?token=WMYRL0M1PU)](https://codecov.io/gh/wooda-ege/lovebird-server)
 [![Github Action](https://github.com/wooda-ege/lovebird-server/actions/workflows/cd-develop.yml/badge.svg)](https://github.com/wooda-ege/lovebird-server/actions)
 
 <br>
