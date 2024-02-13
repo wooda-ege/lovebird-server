@@ -29,6 +29,13 @@ class JwtValidator(
 		return UsernamePasswordAuthenticationToken(principalUser, "", principalUser.authorities)
 	}
 
+	fun getPrincipalUser(token: String): PrincipalUser {
+		val claims = getTokenClaims(token)
+		val user: User = userReader.findEntityById(claims.get("id", String::class.java).toLong())
+
+		return PrincipalUser.of(user)
+	}
+
 	@Suppress("UNCHECKED_CAST")
 	fun parseHeaders(token: String): Map<String, String> {
 		val header = token.split(".")[0]

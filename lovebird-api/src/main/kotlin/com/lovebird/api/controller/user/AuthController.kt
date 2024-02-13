@@ -1,7 +1,9 @@
 package com.lovebird.api.controller.user
 
+import com.lovebird.api.annotation.RefreshToken
 import com.lovebird.api.dto.request.user.SignInRequest
 import com.lovebird.api.dto.request.user.SignUpRequest
+import com.lovebird.api.dto.response.user.AccessTokenResponse
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.service.user.AuthService
@@ -39,5 +41,10 @@ class AuthController(
 	@PostMapping("/sign-in/naver")
 	fun signIn(@RequestBody request: SignInRequest.NaverUserRequest): ApiResponse<SignInResponse> {
 		return ApiResponse.success(authService.signInUsingNaver(request.toParam()))
+	}
+
+	@PostMapping("/access-token")
+	fun regenerateAccessToken(@RefreshToken refreshToken: String): ApiResponse<AccessTokenResponse> {
+		return ApiResponse.success(authService.recreateAccessToken(refreshToken))
 	}
 }
