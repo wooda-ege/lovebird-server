@@ -39,3 +39,9 @@ operation::1000-sign-in-naver[snippets='http-request,http-response,request-field
 ==== `Fail` (가입하지 않은 회원)
 
 operation::1202-sign-in-naver[snippets='http-request,http-response,request-fields,response-fields']
+
+=== Access Token 재발급
+
+==== `Success`
+
+operation::1000-recreate-access-token[snippets='http-request,http-response,request-headers,response-fields']
