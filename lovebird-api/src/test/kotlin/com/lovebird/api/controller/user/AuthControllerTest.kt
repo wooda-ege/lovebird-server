@@ -6,11 +6,14 @@ import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.service.user.AuthService
+import com.lovebird.api.utils.AuthTestFixture.getAccessTokenResponse
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.BOOLEAN
 import com.lovebird.api.utils.restdocs.STRING
 import com.lovebird.api.utils.restdocs.andDocument
+import com.lovebird.api.utils.restdocs.headerMeans
 import com.lovebird.api.utils.restdocs.requestBody
+import com.lovebird.api.utils.restdocs.requestHeaders
 import com.lovebird.api.utils.restdocs.restDocMockMvcBuild
 import com.lovebird.api.utils.restdocs.type
 import com.lovebird.api.utils.shouldBe
@@ -351,6 +354,37 @@ class AuthControllerTest(
 							"state" type STRING means "상태"
 						),
 						envelopeResponseBody()
+					)
+			}
+		}
+	}
+
+	describe("POST : /api/v1/auth/recreate-access-token") {
+		val url = "$baseUrl/access-token"
+		val refreshToken = "refresh-token"
+
+		context("정상적인 Refresh Token 일 때") {
+			val request = request(HttpMethod.POST, url)
+				.header("Refresh", refreshToken)
+
+			it("1000 SUCCESS") {
+				every { authService.recreateAccessToken(refreshToken) } returns getAccessTokenResponse()
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andExpectData(
+						jsonPath("$.code") shouldBe ReturnCode.SUCCESS.code,
+						jsonPath("$.message") shouldBe ReturnCode.SUCCESS.message,
+						jsonPath("$.data.accessToken") shouldBe "access-token"
+					)
+					.andDocument(
+						"1000-recreate-access-token",
+						requestHeaders(
+							"Refresh" headerMeans "리프레시 토큰"
+						),
+						envelopeResponseBody(
+							"data.accessToken" type STRING means "액세스 토큰"
+						)
 					)
 			}
 		}
