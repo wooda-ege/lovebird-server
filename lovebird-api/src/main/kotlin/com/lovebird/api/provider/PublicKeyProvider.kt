@@ -31,6 +31,6 @@ class PublicKeyProvider {
 	}
 
 	private fun decodeBase64(base64String: String): ByteArray {
-		return Base64.getDecoder().decode(base64String)
+		return Base64.getUrlDecoder().decode(base64String)
 	}
 }
