@@ -12,7 +12,6 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
@@ -23,7 +22,7 @@ import java.time.LocalDate
 @DynamicUpdate
 class Profile(
 	user: User,
-	imageUrl: String,
+	imageUrl: String?,
 	email: String,
 	nickname: String,
 	birthday: LocalDate?,
@@ -40,8 +39,8 @@ class Profile(
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	val user: User = user
 
-	@Column(name = "image_url", nullable = false)
-	var imageUrl: String = imageUrl
+	@Column(name = "image_url")
+	var imageUrl: String? = imageUrl
 
 	@Column(name = "email", nullable = false)
 	var email: String = email
@@ -58,9 +57,6 @@ class Profile(
 	@Column(name = "gender", nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	var gender: Gender = gender
-
-	@OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
-	val anniversaries: List<Anniversary> = mutableListOf()
 
 	fun update(param: ProfileUpdateRequestParam) {
 		param.imageUrl?.let { this.imageUrl = it }
