@@ -10,7 +10,7 @@ import java.time.LocalDate
 sealed class SignUpRequest(
 	open val provider: Provider,
 	open val deviceToken: String? = null,
-	open val imageUrl: String,
+	open val imageUrl: String?,
 	open val email: String,
 	open val nickname: String,
 	open val birthday: LocalDate?,
@@ -21,7 +21,7 @@ sealed class SignUpRequest(
 	data class OidcUserRequest(
 		override val provider: Provider,
 		override val deviceToken: String?,
-		override val imageUrl: String,
+		override val imageUrl: String?,
 		override val email: String,
 		override val nickname: String,
 		override val birthday: LocalDate?,
@@ -62,7 +62,7 @@ sealed class SignUpRequest(
 	data class NaverUserRequest(
 		override val provider: Provider,
 		override val deviceToken: String?,
-		override val imageUrl: String,
+		override val imageUrl: String?,
 		override val email: String,
 		override val nickname: String,
 		override val birthday: LocalDate?,

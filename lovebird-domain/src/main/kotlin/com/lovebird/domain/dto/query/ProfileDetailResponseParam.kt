@@ -1,6 +1,5 @@
 package com.lovebird.domain.dto.query
 
-import com.lovebird.common.enums.AnniversaryType
 import java.time.LocalDate
 
 data class ProfileDetailResponseParam(
@@ -11,8 +10,7 @@ data class ProfileDetailResponseParam(
 	val partnerNickname: String?,
 	val firstDate: LocalDate?,
 	val birthday: LocalDate?,
-	val nextAnniversaryType: AnniversaryType?,
-	val nextAnniversaryDate: LocalDate?,
+	val partnerBirthday: LocalDate?,
 	val profileImageUrl: String,
 	val partnerImageUrl: String?
 )
