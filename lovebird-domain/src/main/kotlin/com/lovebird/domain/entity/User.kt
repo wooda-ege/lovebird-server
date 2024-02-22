@@ -17,7 +17,6 @@ import org.hibernate.annotations.DynamicUpdate
 
 @Entity
 @Table(name = "users")
-@DynamicUpdate
 class User(
 	provider: Provider,
 	providerId: String,

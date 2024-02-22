@@ -14,12 +14,10 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDate
 
 @Entity
 @Table(name = "profile")
-@DynamicUpdate
 class Profile(
 	user: User,
 	imageUrl: String?,
