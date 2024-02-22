@@ -19,7 +19,7 @@ import java.sql.SQLException
 class GlobalControllerAdvice {
 
 	@ExceptionHandler(LbException::class)
-	fun handleLbException(e: LbException): ResponseEntity<ApiResponse<Void>> {
+	fun handleLbException(e: LbException): ResponseEntity<ApiResponse<Unit>> {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(ApiResponse.fail(e.getReturnCode()))
@@ -33,7 +33,7 @@ class GlobalControllerAdvice {
 			MethodArgumentTypeMismatchException::class
 		]
 	)
-	fun handleRequestException(e: Exception): ResponseEntity<ApiResponse<Void>> {
+	fun handleRequestException(e: Exception): ResponseEntity<ApiResponse<Unit>> {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(ApiResponse.fail(ReturnCode.WRONG_PARAMETER))
@@ -54,7 +54,7 @@ class GlobalControllerAdvice {
 	@ExceptionHandler(
 		value = [SQLException::class]
 	)
-	fun handleServerException(e: SQLException): ResponseEntity<ApiResponse<Void>> {
+	fun handleServerException(e: SQLException): ResponseEntity<ApiResponse<Unit>> {
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))

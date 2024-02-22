@@ -2100,7 +2100,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 484
+Content-Length: 534
 
 {
   "code" : "1000",
@@ -2112,11 +2112,13 @@ Content-Length: 484
     "nickname" : "test",
     "partnerNickname" : "test2",
     "firstDate" : "2024-01-01",
-    "birthday" : "2024-02-13",
+    "birthday" : "2024-02-21",
+    "partnerBirthday" : "2024-02-21",
     "dayCount" : 48,
     "nextAnniversary" : {
-      "kind" : "BIRTHDAY",
-      "anniversaryDate" : "2024-02-13"
+      "kind" : "DAY",
+      "seq" : 3,
+      "anniversaryDate" : "2024-10-27"
     },
     "profileImageUrl" : "profile image url",
     "partnerImageUrl" : "partner profile image url"
@@ -2213,6 +2215,11 @@ Content-Length: 484
 <td class="tableblock halign-left valign-top"><p class="tableblock">생년월일</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.partnerBirthday</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파트너 생년월일</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.dayCount</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사귄 일수</p></td>
@@ -2226,6 +2233,11 @@ Content-Length: 484
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.nextAnniversary.kind</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">다음 기념일 종류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.nextAnniversary.seq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 기념일 순서</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.nextAnniversary.anniversaryDate</code></p></td>
@@ -2263,8 +2275,8 @@ Host: localhost:8080
   "imageUrl" : "test-image-url",
   "email" : "test-email",
   "nickname" : "test-nickname",
-  "birthday" : "2024-02-13",
-  "firstDate" : "2024-02-13",
+  "birthday" : "2024-02-21",
+  "firstDate" : "2024-02-21",
   "gender" : "UNKNOWN"
 }</code></pre>
 </div>
@@ -3663,7 +3675,7 @@ Content-Length: 88
 <h4 id="_데이트_날짜_기준_다이어리_조회_http_request"><a class="link" href="#_데이트_날짜_기준_다이어리_조회_http_request">9.2.1. HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/memory-date?memoryDate=2024-02-13 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/memory-date?memoryDate=2024-02-21 HTTP/1.1
 Authorization: Bearer access-token
 Host: localhost:8080</code></pre>
 </div>
@@ -3727,7 +3739,7 @@ Content-Length: 1125
       "diaryId" : 1,
       "userId" : 1,
       "title" : "제목1",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : "장소1",
       "content" : "내용1",
       "imageUrl" : "imageURL1"
@@ -3735,7 +3747,7 @@ Content-Length: 1125
       "diaryId" : 2,
       "userId" : 1,
       "title" : "제목2",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : "장소2",
       "content" : "내용2",
       "imageUrl" : "imageURL2"
@@ -3743,7 +3755,7 @@ Content-Length: 1125
       "diaryId" : 3,
       "userId" : 1,
       "title" : "제목3",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : "장소3",
       "content" : "내용3",
       "imageUrl" : "imageURL3"
@@ -3751,7 +3763,7 @@ Content-Length: 1125
       "diaryId" : 4,
       "userId" : 1,
       "title" : "제목4",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : "장소4",
       "content" : "내용4",
       "imageUrl" : "imageURL4"
@@ -3759,7 +3771,7 @@ Content-Length: 1125
       "diaryId" : 5,
       "userId" : 1,
       "title" : "제목5",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : "장소5",
       "content" : "내용5",
       "imageUrl" : "imageURL5"
@@ -3856,7 +3868,7 @@ Content-Length: 1125
 <h4 id="_커서_기반_다이어리_리스트_조회_http_request"><a class="link" href="#_커서_기반_다이어리_리스트_조회_http_request">9.3.1. HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/cursor?memoryDate=2024-02-13&amp;searchType=BEFORE&amp;diaryId=-1&amp;pageSize=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/diaries/cursor?memoryDate=2024-02-21&amp;searchType=BEFORE&amp;diaryId=-1&amp;pageSize=10 HTTP/1.1
 Authorization: Bearer access-token
 Host: localhost:8080</code></pre>
 </div>
@@ -3932,7 +3944,7 @@ Content-Length: 2058
       "diaryId" : 1,
       "userId" : 1,
       "title" : "제목1",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용1",
       "imageUrls" : [ ]
@@ -3940,7 +3952,7 @@ Content-Length: 2058
       "diaryId" : 2,
       "userId" : 2,
       "title" : "제목2",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용2",
       "imageUrls" : [ ]
@@ -3948,7 +3960,7 @@ Content-Length: 2058
       "diaryId" : 3,
       "userId" : 3,
       "title" : "제목3",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용3",
       "imageUrls" : [ ]
@@ -3956,7 +3968,7 @@ Content-Length: 2058
       "diaryId" : 4,
       "userId" : 4,
       "title" : "제목4",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용4",
       "imageUrls" : [ ]
@@ -3964,7 +3976,7 @@ Content-Length: 2058
       "diaryId" : 5,
       "userId" : 5,
       "title" : "제목5",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용5",
       "imageUrls" : [ ]
@@ -3972,7 +3984,7 @@ Content-Length: 2058
       "diaryId" : 6,
       "userId" : 6,
       "title" : "제목6",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용6",
       "imageUrls" : [ ]
@@ -3980,7 +3992,7 @@ Content-Length: 2058
       "diaryId" : 7,
       "userId" : 7,
       "title" : "제목7",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용7",
       "imageUrls" : [ ]
@@ -3988,7 +4000,7 @@ Content-Length: 2058
       "diaryId" : 8,
       "userId" : 8,
       "title" : "제목8",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용8",
       "imageUrls" : [ ]
@@ -3996,7 +4008,7 @@ Content-Length: 2058
       "diaryId" : 9,
       "userId" : 9,
       "title" : "제목9",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용9",
       "imageUrls" : [ ]
@@ -4004,14 +4016,14 @@ Content-Length: 2058
       "diaryId" : 10,
       "userId" : 10,
       "title" : "제목10",
-      "memoryDate" : "2024-02-13",
+      "memoryDate" : "2024-02-21",
       "place" : null,
       "content" : "내용10",
       "imageUrls" : [ ]
     } ],
     "totalCount" : 10,
     "diaryId" : 10,
-    "memoryDate" : "2024-02-13"
+    "memoryDate" : "2024-02-21"
   }
 }</code></pre>
 </div>
@@ -4133,7 +4145,7 @@ Content-Length: 268
     "diaryId" : 1,
     "userId" : 1,
     "title" : "다이어리 제목",
-    "memoryDate" : "2024-02-13",
+    "memoryDate" : "2024-02-21",
     "place" : "장소",
     "content" : "내용",
     "imageUrls" : [ ]
@@ -4226,7 +4238,7 @@ Host: localhost:8080
 
 {
   "title" : "다이어리 제목",
-  "memoryDate" : "2024-02-13",
+  "memoryDate" : "2024-02-21",
   "place" : "장소",
   "content" : "내용",
   "imageUrls" : [ "imageUrl1", "imageUrl2" ]
@@ -4240,7 +4252,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "title" : "다이어리 제목",
-  "memoryDate" : "2024-02-13",
+  "memoryDate" : "2024-02-21",
   "place" : "장소",
   "content" : "내용",
   "imageUrls" : [ "imageUrl1", "imageUrl2" ]
@@ -4377,7 +4389,7 @@ Host: localhost:8080
 
 {
   "title" : "다이어리 제목 수정",
-  "memoryDate" : "2024-02-13",
+  "memoryDate" : "2024-02-21",
   "place" : "장소",
   "content" : "내용 수정",
   "imageUrls" : [ "imageUrl1", "imageUrl2" ]
@@ -4391,7 +4403,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "title" : "다이어리 제목 수정",
-  "memoryDate" : "2024-02-13",
+  "memoryDate" : "2024-02-21",
   "place" : "장소",
   "content" : "내용 수정",
   "imageUrls" : [ "imageUrl1", "imageUrl2" ]

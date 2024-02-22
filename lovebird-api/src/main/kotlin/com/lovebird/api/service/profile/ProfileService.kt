@@ -28,7 +28,7 @@ class ProfileService(
 
 	@Transactional(readOnly = true)
 	fun findDetailByUser(user: User): ProfileDetailResponse {
-		return ProfileDetailResponse.of(profileReader.findDetailParamByUser(user))
+		return ProfileDetailResponse.from(profileReader.findDetailParamByUser(user))
 	}
 
 	private fun findByUser(user: User): Profile {

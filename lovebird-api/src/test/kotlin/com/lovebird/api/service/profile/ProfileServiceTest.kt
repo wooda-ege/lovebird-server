@@ -3,7 +3,6 @@ package com.lovebird.api.service.profile
 import com.lovebird.api.common.base.ServiceDescribeSpec
 import com.lovebird.api.dto.param.profile.ProfileCreateParam
 import com.lovebird.api.dto.response.profile.ProfileDetailResponse
-import com.lovebird.common.enums.AnniversaryType
 import com.lovebird.common.enums.Gender
 import com.lovebird.common.enums.Provider
 import com.lovebird.common.enums.ReturnCode
@@ -79,7 +78,7 @@ class ProfileServiceTest : ServiceDescribeSpec({
 			it("상세 조회를 성공한다.") {
 				val detailResponse: ProfileDetailResponse = profileService.findDetailByUser(user)
 
-				detailResponse shouldBe ProfileDetailResponse.of(getDetailParam())
+				detailResponse shouldBe ProfileDetailResponse.from(getDetailParam())
 			}
 		}
 
@@ -126,8 +125,7 @@ class ProfileServiceTest : ServiceDescribeSpec({
 				partnerNickname = "test-partner-nickname",
 				firstDate = LocalDate.of(2021, 1, 1),
 				birthday = LocalDate.of(1998, 5, 6),
-				nextAnniversaryType = AnniversaryType.ONE_HUNDRED,
-				nextAnniversaryDate = LocalDate.of(2021, 5, 6),
+				partnerBirthday = LocalDate.of(1998, 3, 16),
 				profileImageUrl = "test-profile-image-url",
 				partnerImageUrl = "test-partner-image-url"
 			)

@@ -1,9 +1,10 @@
 package com.lovebird.api.dto.response.profile
 
 import com.lovebird.api.dto.request.profile.AnniversaryResponse
+import com.lovebird.api.util.ProfileUtils.getNextAnniversary
+import com.lovebird.common.util.DateUtils.betweenDays
 import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 data class ProfileDetailResponse(
 	val userId: Long,
@@ -13,14 +14,14 @@ data class ProfileDetailResponse(
 	val partnerNickname: String?,
 	val firstDate: LocalDate?,
 	val birthday: LocalDate?,
+	val partnerBirthday: LocalDate?,
 	val dayCount: Long?,
 	val nextAnniversary: AnniversaryResponse?,
 	val profileImageUrl: String,
 	val partnerImageUrl: String?
 ) {
 	companion object {
-		@JvmStatic
-		fun of(param: ProfileDetailResponseParam): ProfileDetailResponse {
+		fun from(param: ProfileDetailResponseParam): ProfileDetailResponse {
 			return ProfileDetailResponse(
 				userId = param.userId,
 				partnerId = param.partnerId,
@@ -29,10 +30,9 @@ data class ProfileDetailResponse(
 				partnerNickname = param.partnerNickname,
 				firstDate = param.firstDate,
 				birthday = param.birthday,
-				dayCount = param.firstDate?.let { ChronoUnit.DAYS.between(it, LocalDate.now()) + 1 },
-				nextAnniversary = param.nextAnniversaryType?.let {
-					AnniversaryResponse(it, param.nextAnniversaryDate!!)
-				},
+				partnerBirthday = param.partnerBirthday,
+				dayCount = param.firstDate?.let { betweenDays(it, LocalDate.now()) + 1 },
+				nextAnniversary = param.firstDate?.let { getNextAnniversary(it) },
 				profileImageUrl = param.profileImageUrl,
 				partnerImageUrl = param.partnerImageUrl
 			)
