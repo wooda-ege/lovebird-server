@@ -124,6 +124,37 @@ class DiaryControllerTest(
 		}
 	}
 
+	describe("GET : /api/v1/diaries") {
+		val user = CommonTestFixture.getUser(1L, "uniqueProviderId")
+		val url = "$baseUrl"
+
+		context("다이어리 전체 조회 요청한다면") {
+			val request = request(HttpMethod.GET, url)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
+			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user, null, 5)
+			val response = DiarySimpleListResponse.of(diaries)
+
+			it("1000 SUCCESS") {
+				every { diaryService.findAll(any()) } returns response
+
+				mockMvc
+					.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-diary-list-all",
+						requestHeaders(
+							"Authorization" headerMeans "액세스 토큰"
+						),
+						envelopeResponseBody(
+							"data.diaries" type ARRAY means "다이어리 목록",
+							"data.totalCount" type NUMBER means "캘린더 개수"
+						)
+							.andWithPrefix("data.diaries[].", getSimpleDiaryDetailResponseSnippet())
+					)
+			}
+		}
+	}
+
 	describe("GET : /api/v1/diaries/{diaryId}") {
 		val user = CommonTestFixture.getUser(1L, "uniqueProviderId")
 		val diary = DiaryTestFixture.getDiaryByUser(user)
