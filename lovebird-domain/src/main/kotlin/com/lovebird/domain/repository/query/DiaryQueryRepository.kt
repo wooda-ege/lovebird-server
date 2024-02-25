@@ -4,6 +4,7 @@ import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleRequestParam
 import com.lovebird.domain.dto.query.DiarySimpleResponseParam
+import com.lovebird.domain.dto.query.QDiarySimpleResponseParam
 import com.lovebird.domain.entity.QDiary
 import com.lovebird.domain.entity.QDiary.diary
 import com.lovebird.domain.entity.QDiaryImage.diaryImage
@@ -94,15 +95,14 @@ class DiaryQueryRepository(
 	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiarySimpleResponseParam> {
 		return queryFactory
 			.select(
-				Projections.constructor(
-					DiarySimpleResponseParam::class.java,
+				QDiarySimpleResponseParam(
 					diary.id,
 					diary.user.id,
 					diary.title,
 					diary.memoryDate,
 					diary.place,
 					diary.content,
-					diary.diaryImages.get(0)
+					diary.diaryImages.get(0).imageUrl
 				)
 			)
 			.from(diary)
@@ -116,15 +116,14 @@ class DiaryQueryRepository(
 	fun findAll(userId: Long, partnerId: Long?): List<DiarySimpleResponseParam> {
 		return queryFactory
 			.select(
-				Projections.constructor(
-					DiarySimpleResponseParam::class.java,
+				QDiarySimpleResponseParam(
 					diary.id,
 					diary.user.id,
 					diary.title,
 					diary.memoryDate,
 					diary.place,
 					diary.content,
-					diary.diaryImages.get(0)
+					diary.diaryImages.get(0).imageUrl
 				)
 			)
 			.from(diary)
