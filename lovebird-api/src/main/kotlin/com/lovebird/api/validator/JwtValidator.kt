@@ -24,7 +24,7 @@ class JwtValidator(
 	fun getAuthentication(token: String): Authentication {
 		val claims = getTokenClaims(token)
 		val user: User = userReader.findEntityById(claims.get("id", String::class.java).toLong())
-		val principalUser: PrincipalUser = PrincipalUser.of(user)
+		val principalUser: PrincipalUser = PrincipalUser.from(user)
 
 		return UsernamePasswordAuthenticationToken(principalUser, "", principalUser.authorities)
 	}
@@ -33,7 +33,7 @@ class JwtValidator(
 		val claims = getTokenClaims(token)
 		val user: User = userReader.findEntityById(claims.get("id", String::class.java).toLong())
 
-		return PrincipalUser.of(user)
+		return PrincipalUser.from(user)
 	}
 
 	@Suppress("UNCHECKED_CAST")
@@ -58,6 +58,7 @@ class JwtValidator(
 				.parseClaimsJws(token)
 				.body
 		} catch (e: RuntimeException) {
+			println(e.message)
 			throw LbException(ReturnCode.WRONG_JWT_TOKEN)
 		}
 	}

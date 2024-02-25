@@ -13,4 +13,21 @@ data class ProfileDetailResponseParam(
 	val partnerBirthday: LocalDate?,
 	val profileImageUrl: String,
 	val partnerImageUrl: String?
-)
+) {
+	companion object {
+		fun of(user: ProfileUserResponseParam, partner: ProfilePartnerResponseParam?): ProfileDetailResponseParam {
+			return ProfileDetailResponseParam(
+				userId = user.userId,
+				partnerId = partner?.partnerId ?: 0,
+				email = user.email,
+				nickname = user.nickname,
+				partnerNickname = partner?.partnerNickname,
+				firstDate = user.firstDate,
+				birthday = user.birthday,
+				partnerBirthday = partner?.partnerBirthday,
+				profileImageUrl = user.profileImageUrl,
+				partnerImageUrl = partner?.partnerImageUrl
+			)
+		}
+	}
+}

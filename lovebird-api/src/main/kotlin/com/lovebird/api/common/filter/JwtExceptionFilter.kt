@@ -23,7 +23,7 @@ class JwtExceptionFilter : OncePerRequestFilter() {
 	}
 
 	fun setErrorResponse(returnCode: ReturnCode, response: HttpServletResponse) {
-		response.status = HttpStatus.UNAUTHORIZED.value()
+		response.status = HttpStatus.BAD_REQUEST.value()
 		response.contentType = "application/json; charset=UTF-8"
 
 		val result: ApiResponse<String> = ApiResponse.fail(returnCode)

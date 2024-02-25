@@ -33,10 +33,10 @@ class AuthService(
 ) {
 	@Transactional
 	fun signUpUserUsingOidc(request: SignUpRequest.OidcUserRequest): SignUpResponse {
-		val param = signUsingOidc(request.toUserRegisterParam())
+		val param: UserAuthParam = signUsingOidc(request.toUserRegisterParam())
 		profileService.save(request.toProfileCreateParam(param.user))
 
-		return SignUpResponse.of(jwtProvider.generateJwtToken(param.principalUser))
+		return SignUpResponse.from(jwtProvider.generateJwtToken(param.principalUser))
 	}
 
 	@Transactional
@@ -44,13 +44,13 @@ class AuthService(
 		val param = signUsingNaver(request.toUserRegisterParam())
 		profileService.save(request.toProfileCreateParam(param.user))
 
-		return SignUpResponse.of(jwtProvider.generateJwtToken(param.principalUser))
+		return SignUpResponse.from(jwtProvider.generateJwtToken(param.principalUser))
 	}
 
 	@Transactional(readOnly = true)
 	fun signInUsingOidc(param: SignInParam.OidcUserParam): SignInResponse {
 		val user = findUserByProviderId(getProviderId(param.provider, param.idToken))
-		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.of(user))
+		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.from(user))
 
 		return SignInResponse.of(jwtToken, coupleService.existByUser(user))
 	}
@@ -58,7 +58,7 @@ class AuthService(
 	@Transactional(readOnly = true)
 	fun signInUsingNaver(param: SignInParam.NaverUserParam): SignInResponse {
 		val user = findUserByProviderId(getProviderId(param.provider, NaverLoginParam(param.code, param.state)))
-		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.of(user))
+		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.from(user))
 
 		return SignInResponse.of(jwtToken, coupleService.existByUser(user))
 	}
@@ -75,7 +75,7 @@ class AuthService(
 		validateProviderId(oAuthParam.providerId)
 		val user: User = userService.save(param.toUserEntity(oAuthParam.providerId))
 
-		return UserAuthParam.of(user)
+		return UserAuthParam.from(user)
 	}
 
 	private fun signUsingNaver(param: SignUpParam.NaverUserParam): UserAuthParam {
@@ -83,7 +83,7 @@ class AuthService(
 		validateProviderId(oAuthParam.providerId)
 		val user: User = userService.save(param.toUserEntity(oAuthParam.providerId))
 
-		return UserAuthParam.of(user)
+		return UserAuthParam.from(user)
 	}
 
 	private fun validateProviderId(providerId: String) {

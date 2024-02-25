@@ -56,7 +56,7 @@ class JwtProvider(
 			.setSubject(principalUser.name)
 			.setClaims(claims)
 			.signWith(key, SignatureAlgorithm.HS512)
-			.setExpiration(Date(Date().time + validationSecond))
+			.setExpiration(Date(System.currentTimeMillis() + validationSecond))
 			.compact()
 	}
 }

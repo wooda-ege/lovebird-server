@@ -10,12 +10,12 @@ object DateUtils {
 		return LocalDateTime.of(startDate, startTime ?: LocalTime.MIDNIGHT)
 	}
 
-	fun getPlusDaysFromNow(days: Long): LocalDate {
-		return LocalDate.now().plusDays(days)
+	fun getPlusDaysFromNow(days: Long, firstDate: LocalDate): LocalDate {
+		return firstDate.plusDays(days)
 	}
 
-	fun getPlusYearsFromNow(years: Long): LocalDate {
-		return LocalDate.now().plusYears(years)
+	fun getPlusYearsFromNow(years: Long, firstDate: LocalDate): LocalDate {
+		return firstDate.plusYears(years)
 	}
 
 	fun betweenDays(startDate: LocalDate, endDate: LocalDate): Long {

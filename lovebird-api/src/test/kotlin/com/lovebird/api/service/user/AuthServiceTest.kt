@@ -66,7 +66,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 			it("회원가입에 성공한다") {
 				val response: SignUpResponse = authService.signUpUserUsingOidc(request)
 
-				response shouldBe SignUpResponse.of(jwtToken)
+				response shouldBe SignUpResponse.from(jwtToken)
 			}
 		}
 		context("이미 존재하는 User 일 때") {
@@ -107,7 +107,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 			it("회원가입에 성공한다") {
 				val response: SignUpResponse = authService.signUpUserUsingNaver(request)
 
-				response shouldBe SignUpResponse.of(jwtToken)
+				response shouldBe SignUpResponse.from(jwtToken)
 			}
 		}
 		context("이미 존재하는 User 일 때") {
