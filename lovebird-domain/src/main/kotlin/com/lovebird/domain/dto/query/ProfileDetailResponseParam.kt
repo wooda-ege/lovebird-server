@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 data class ProfileDetailResponseParam(
 	val userId: Long,
-	val partnerId: Long,
+	val partnerId: Long?,
 	val email: String,
 	val nickname: String,
 	val partnerNickname: String?,
@@ -18,7 +18,7 @@ data class ProfileDetailResponseParam(
 		fun of(user: ProfileUserResponseParam, partner: ProfilePartnerResponseParam?): ProfileDetailResponseParam {
 			return ProfileDetailResponseParam(
 				userId = user.userId,
-				partnerId = partner?.partnerId ?: 0,
+				partnerId = partner?.partnerId,
 				email = user.email,
 				nickname = user.nickname,
 				partnerNickname = partner?.partnerNickname,
