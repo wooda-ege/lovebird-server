@@ -8,7 +8,7 @@ jwt:
     refresh-header: Refresh
     secret: localocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocalocal
     expiration:
-        access-token: 432000
-        refresh-token: 6048000
+        access-token: 1814400000
+        refresh-token: 2592000000
     grant-type: Bearer
 

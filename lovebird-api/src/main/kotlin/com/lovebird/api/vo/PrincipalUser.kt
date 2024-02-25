@@ -42,7 +42,7 @@ class PrincipalUser(
 	override fun getIdToken(): OidcIdToken? = null
 
 	companion object {
-		fun of(user: User): PrincipalUser {
+		fun from(user: User): PrincipalUser {
 			return PrincipalUser(user, mutableMapOf("id" to user.id!!))
 		}
 	}

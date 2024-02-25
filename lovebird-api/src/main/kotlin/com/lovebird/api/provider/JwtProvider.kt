@@ -9,7 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
-import java.util.Date
+import java.util.*
 
 @Component
 class JwtProvider(
@@ -56,7 +56,7 @@ class JwtProvider(
 			.setSubject(principalUser.name)
 			.setClaims(claims)
 			.signWith(key, SignatureAlgorithm.HS512)
-			.setExpiration(Date(Date().time + validationSecond))
+			.setExpiration(Date(System.currentTimeMillis() + validationSecond))
 			.compact()
 	}
 }

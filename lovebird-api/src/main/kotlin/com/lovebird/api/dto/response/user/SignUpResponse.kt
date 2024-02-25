@@ -7,7 +7,7 @@ data class SignUpResponse(
 	val refreshToken: String
 ) {
 	companion object {
-		fun of(jwtToken: JwtToken): SignUpResponse {
+		fun from(jwtToken: JwtToken): SignUpResponse {
 			return SignUpResponse(
 				accessToken = jwtToken.accessToken,
 				refreshToken = jwtToken.refreshToken

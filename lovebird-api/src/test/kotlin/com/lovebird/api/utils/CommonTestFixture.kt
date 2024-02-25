@@ -19,6 +19,6 @@ object CommonTestFixture {
 
 	fun getPrincipalUser(id: Long, providerId: String): PrincipalUser {
 		val user = getUser(id, providerId)
-		return PrincipalUser.of(user)
+		return PrincipalUser.from(user)
 	}
 }
