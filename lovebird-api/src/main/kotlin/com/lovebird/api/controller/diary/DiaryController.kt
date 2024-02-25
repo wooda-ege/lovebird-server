@@ -43,6 +43,13 @@ class DiaryController(
 		return ApiResponse.success(diaryService.findAllByMemoryDate(request, user))
 	}
 
+	@GetMapping
+	fun findAll(
+		@AuthorizedUser user: User
+	): ApiResponse<DiarySimpleListResponse> {
+		return ApiResponse.success(diaryService.findAll(user))
+	}
+
 	@GetMapping("/cursor")
 	fun findAllByCursor(
 		@AuthorizedUser user: User,

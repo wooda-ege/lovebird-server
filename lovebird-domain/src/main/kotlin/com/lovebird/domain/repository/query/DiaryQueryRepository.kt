@@ -113,6 +113,28 @@ class DiaryQueryRepository(
 			.fetch()
 	}
 
+	fun findAll(userId: Long, partnerId: Long?): List<DiarySimpleResponseParam> {
+		return queryFactory
+			.select(
+				Projections.constructor(
+					DiarySimpleResponseParam::class.java,
+					diary.id,
+					diary.user.id,
+					diary.title,
+					diary.memoryDate,
+					diary.place,
+					diary.content,
+					diary.diaryImages.get(0)
+				)
+			)
+			.from(diary)
+			.innerJoin(user)
+			.on(eqUserId(user.id))
+			.where(eqCouple(userId, partnerId))
+			.orderBy(ascDiaryId())
+			.fetch()
+	}
+
 	private fun eqDiary(diary: QDiary): BooleanExpression = diary.eq(diary)
 
 	private fun eqCouple(userId: Long, partnerId: Long?): BooleanExpression {

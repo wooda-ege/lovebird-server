@@ -78,6 +78,17 @@ class DiaryService(
 	}
 
 	@Transactional(readOnly = true)
+	fun findAll(user: User): DiarySimpleListResponse {
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+		val partner: User? = coupleEntry?.partner
+		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAll(user.id!!, partner?.id)
+
+		decryptDiariesOfSimple(diaries)
+
+		return DiarySimpleListResponse.of(diaries)
+	}
+
+	@Transactional(readOnly = true)
 	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val partner: User? = coupleEntry?.partner

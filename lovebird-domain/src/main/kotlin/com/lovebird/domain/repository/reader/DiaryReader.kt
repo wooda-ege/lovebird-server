@@ -32,4 +32,8 @@ class DiaryReader(
 	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiarySimpleResponseParam> {
 		return diaryQueryRepository.findAllByMemoryDate(param)
 	}
+
+	fun findAll(userId: Long, partnerId: Long?): List<DiarySimpleResponseParam> {
+		return diaryQueryRepository.findAll(userId, partnerId)
+	}
 }
