@@ -2,9 +2,10 @@ package com.lovebird.domain.repository.query
 
 import com.lovebird.domain.dto.query.ProfilePartnerResponseParam
 import com.lovebird.domain.dto.query.ProfileUserResponseParam
+import com.lovebird.domain.dto.query.QProfilePartnerResponseParam
+import com.lovebird.domain.dto.query.QProfileUserResponseParam
 import com.lovebird.domain.entity.QCoupleEntry.coupleEntry
 import com.lovebird.domain.entity.QProfile.profile
-import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -17,8 +18,7 @@ class ProfileQueryRepository(
 	fun findDetailUserParamByUser(userId: Long): ProfileUserResponseParam? {
 		return queryFactory
 			.select(
-				Projections.constructor(
-					ProfileUserResponseParam::class.java,
+				QProfileUserResponseParam(
 					profile.user.id,
 					coupleEntry.id,
 					profile.email,
@@ -38,8 +38,7 @@ class ProfileQueryRepository(
 	fun findDetailPartnerParamByUser(partnerId: Long): ProfilePartnerResponseParam? {
 		return queryFactory
 			.select(
-				Projections.constructor(
-					ProfilePartnerResponseParam::class.java,
+				QProfilePartnerResponseParam(
 					profile.user.id,
 					profile.email,
 					profile.nickname,

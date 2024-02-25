@@ -2,8 +2,8 @@ package com.lovebird.domain.repository.query
 
 import com.lovebird.domain.dto.query.CalendarListResponseParam
 import com.lovebird.domain.dto.query.CalenderListRequestParam
+import com.lovebird.domain.dto.query.QCalendarListResponseParam
 import com.lovebird.domain.entity.QCalendar.calendar
-import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -16,8 +16,7 @@ class CalendarQueryRepository(
 	fun findCalendarsByDateAndUserIdAndPartnerId(param: CalenderListRequestParam): List<CalendarListResponseParam> {
 		return queryFactory
 			.select(
-				Projections.constructor(
-					CalendarListResponseParam::class.java,
+				QCalendarListResponseParam(
 					calendar.id,
 					calendar.user.id,
 					calendar.title,
