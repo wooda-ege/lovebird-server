@@ -27,8 +27,7 @@ class DiaryQueryRepository(
 	fun findBeforeNowUsingCursor(param: DiaryListRequestParam): List<DiaryResponseParam> {
 		return queryFactory
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.innerJoin(diary.user)
 			.where(
 				eqCouple(param.userId, param.partnerId),
 				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
@@ -61,8 +60,7 @@ class DiaryQueryRepository(
 	fun findAfterNowUsingCursor(param: DiaryListRequestParam): List<DiaryResponseParam> {
 		return queryFactory
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.innerJoin(diary.user)
 			.where(
 				eqCouple(param.userId, param.partnerId),
 				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
@@ -106,8 +104,7 @@ class DiaryQueryRepository(
 				)
 			)
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.innerJoin(diary.user)
 			.where(eqCouple(param.userId, param.partnerId), eqMemoryDate(param.memoryDate))
 			.orderBy(ascDiaryId())
 			.fetch()
@@ -127,8 +124,7 @@ class DiaryQueryRepository(
 				)
 			)
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.innerJoin(diary.user)
 			.where(eqCouple(userId, partnerId))
 			.orderBy(ascDiaryId())
 			.fetch()
