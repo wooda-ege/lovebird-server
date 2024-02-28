@@ -3,6 +3,7 @@ package com.lovebird.api.controller.diary
 import com.lovebird.api.common.base.ControllerDescribeSpec
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
+import com.lovebird.api.dto.response.diary.DiarySimpleResponse
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.api.utils.CommonTestFixture
 import com.lovebird.api.utils.DiaryTestFixture
@@ -27,9 +28,9 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
 import org.springframework.restdocs.payload.FieldDescriptor
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -59,7 +60,7 @@ class DiaryControllerTest(
 
 			val user = CommonTestFixture.getUser(1L, "providerUniqueId")
 			val diaries = DiaryTestFixture.getDiaryResponseList(user, null, 5)
-			val response = DiaryListResponse.of(diaries)
+			val response = DiarySimpleResponse.of(diaries)
 
 			it("1000 SUCCESS") {
 				every { diaryService.findAllByMemoryDate(any(), any()) } returns response
@@ -79,7 +80,7 @@ class DiaryControllerTest(
 							"data.diaries" type ARRAY means "다이어리 목록",
 							"data.totalCount" type NUMBER means "캘린더 개수"
 						)
-							.andWithPrefix("data.diaries[].", getSimpleDiaryDetailResponseSnippet())
+							.andWithPrefix("data.diaries[].", getDiaryDetailResponseSnippet())
 					)
 			}
 		}
@@ -131,7 +132,7 @@ class DiaryControllerTest(
 			val request = request(HttpMethod.GET, url)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
 			val diaries = DiaryTestFixture.getDiaryResponseList(user, null, 5)
-			val response = DiaryListResponse.of(diaries)
+			val response = DiarySimpleResponse.of(diaries)
 
 			it("1000 SUCCESS") {
 				every { diaryService.findAll(any()) } returns response
@@ -148,7 +149,7 @@ class DiaryControllerTest(
 							"data.diaries" type ARRAY means "다이어리 목록",
 							"data.totalCount" type NUMBER means "캘린더 개수"
 						)
-							.andWithPrefix("data.diaries[].", getSimpleDiaryDetailResponseSnippet())
+							.andWithPrefix("data.diaries[].", getDiaryDetailResponseSnippet())
 					)
 			}
 		}
@@ -267,18 +268,6 @@ class DiaryControllerTest(
 	}
 }) {
 	companion object {
-		fun getSimpleDiaryDetailResponseSnippet(): List<FieldDescriptor> {
-			return responseDiaryDetailResponse(
-				"diaryId" type NUMBER means "다이어리 아이디",
-				"userId" type NUMBER means "유저 아이디",
-				"title" type STRING means "제목",
-				"memoryDate" type DATE means "데이트 날짜",
-				"place" type STRING means "장소",
-				"content" type STRING means "내용",
-				"imageUrl" type STRING means "이미지 URL"
-			)
-		}
-
 		fun getDiaryDetailResponseSnippet(): List<FieldDescriptor> {
 			return responseDiaryDetailResponse(
 				"diaryId" type NUMBER means "다이어리 아이디",
