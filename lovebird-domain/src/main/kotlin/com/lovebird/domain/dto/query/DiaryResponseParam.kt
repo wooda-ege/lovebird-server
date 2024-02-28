@@ -16,15 +16,17 @@ data class DiaryResponseParam(
 	companion object {
 		fun of(transform: Map<Diary, List<String>>): List<DiaryResponseParam> {
 			return transform.entries.stream()
-				.map { entry -> DiaryResponseParam(
-					diaryId = entry.key.id!!,
-					userId = entry.key.user.id!!,
-					title = entry.key.title,
-					memoryDate = entry.key.memoryDate,
-					place = entry.key.place,
-					content = entry.key.content,
-					imageUrls = entry.value
-				) }.toList()
+				.map { entry ->
+					DiaryResponseParam(
+						diaryId = entry.key.id!!,
+						userId = entry.key.user.id!!,
+						title = entry.key.title,
+						memoryDate = entry.key.memoryDate,
+						place = entry.key.place,
+						content = entry.key.content,
+						imageUrls = entry.value
+					)
+				}.toList()
 		}
 	}
 }
