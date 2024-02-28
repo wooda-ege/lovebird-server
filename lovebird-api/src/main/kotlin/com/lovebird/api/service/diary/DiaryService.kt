@@ -5,7 +5,6 @@ import com.lovebird.api.dto.param.diary.DiaryUpdateParam
 import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
-import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.util.DiaryUtils.decryptDiaries
 import com.lovebird.api.util.DiaryUtils.decryptDiariesOfSimple
 import com.lovebird.api.util.DiaryUtils.decryptDiary
@@ -14,7 +13,6 @@ import com.lovebird.api.util.DiaryUtils.encryptDiaryUpdateParam
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
-import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
@@ -78,25 +76,26 @@ class DiaryService(
 	}
 
 	@Transactional(readOnly = true)
-	fun findAll(user: User): DiarySimpleListResponse {
+	fun findAll(user: User): DiaryListResponse {
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val partner: User? = coupleEntry?.partner
-		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAll(user.id!!, partner?.id)
+
+		val diaries: List<DiaryResponseParam> = diaryReader.findAll(user.id!!, partner?.id)
 
 		decryptDiariesOfSimple(diaries)
 
-		return DiarySimpleListResponse.of(diaries)
+		return DiaryListResponse.of(diaries)
 	}
 
 	@Transactional(readOnly = true)
-	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
+	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiaryListResponse {
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val partner: User? = coupleEntry?.partner
-		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
+		val diaries: List<DiaryResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
 		decryptDiariesOfSimple(diaries)
 
-		return DiarySimpleListResponse.of(diaries)
+		return DiaryListResponse.of(diaries)
 	}
 
 	@Transactional(readOnly = true)

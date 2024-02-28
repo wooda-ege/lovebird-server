@@ -6,7 +6,6 @@ import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.request.diary.DiaryUpdateRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
-import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
@@ -39,14 +38,14 @@ class DiaryController(
 	fun findAllByMemoryDate(
 		@AuthorizedUser user: User,
 		@ModelAttribute request: DiaryListRequest.SearchByMemoryDateRequest
-	): ApiResponse<DiarySimpleListResponse> {
+	): ApiResponse<DiaryListResponse> {
 		return ApiResponse.success(diaryService.findAllByMemoryDate(request, user))
 	}
 
 	@GetMapping
 	fun findAll(
 		@AuthorizedUser user: User
-	): ApiResponse<DiarySimpleListResponse> {
+	): ApiResponse<DiaryListResponse> {
 		return ApiResponse.success(diaryService.findAll(user))
 	}
 

@@ -6,7 +6,6 @@ import com.lovebird.domain.annotation.Reader
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleRequestParam
-import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.repository.jpa.DiaryJpaRepository
 import com.lovebird.domain.repository.query.DiaryQueryRepository
@@ -29,11 +28,11 @@ class DiaryReader(
 		return diaryQueryRepository.findAfterNowUsingCursor(param)
 	}
 
-	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiarySimpleResponseParam> {
+	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiaryResponseParam> {
 		return diaryQueryRepository.findAllByMemoryDate(param)
 	}
 
-	fun findAll(userId: Long, partnerId: Long?): List<DiarySimpleResponseParam> {
+	fun findAll(userId: Long, partnerId: Long?): List<DiaryResponseParam> {
 		return diaryQueryRepository.findAll(userId, partnerId)
 	}
 }
