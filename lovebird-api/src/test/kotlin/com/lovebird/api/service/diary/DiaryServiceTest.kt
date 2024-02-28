@@ -3,7 +3,6 @@ package com.lovebird.api.service.diary
 import com.lovebird.api.common.base.ServiceDescribeSpec
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
-import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.util.DiaryUtils
 import com.lovebird.api.utils.CoupleTestFixture.getCoupleEntry
 import com.lovebird.api.utils.DiaryTestFixture
@@ -248,7 +247,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 		val size = 5
 
 		context("파트너가 존재하지 않아도") {
-			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user = user, partner = null, size = size)
+			val diaries = DiaryTestFixture.getDiaryResponseList(user = user, partner = null, size = size)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry(user = user, partner = user)
 			every { diaryReader.findAllByMemoryDate(any()) } returns diaries
 			every { DiaryUtils.decryptDiariesOfSimple(any()) } just Runs
@@ -257,7 +256,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 
 				// 상태 검증
 				diaryService.findAllByMemoryDate(request, user)
-					.shouldBeEqualToComparingFields(DiarySimpleListResponse.of(diaries))
+					.shouldBeEqualToComparingFields(DiaryListResponse.of(diaries))
 
 				// 행위 검증
 				verify(exactly = 1) {
@@ -269,7 +268,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 		}
 
 		context("파트너가 존재한다면") {
-			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user = user, partner = partner, size = size)
+			val diaries = DiaryTestFixture.getDiaryResponseList(user = user, partner = partner, size = size)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry(user = user, partner = partner)
 			every { diaryReader.findAllByMemoryDate(any()) } returns diaries
 			every { DiaryUtils.decryptDiariesOfSimple(any()) } just Runs
@@ -278,7 +277,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 
 				// 상태 검증
 				diaryService.findAllByMemoryDate(request, user)
-					.shouldBeEqualToComparingFields(DiarySimpleListResponse.of(diaries))
+					.shouldBeEqualToComparingFields(DiaryListResponse.of(diaries))
 
 				// 행위 검증
 				verify(exactly = 1) {

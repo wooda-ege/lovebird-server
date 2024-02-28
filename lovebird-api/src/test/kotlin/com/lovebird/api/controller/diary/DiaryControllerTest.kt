@@ -3,7 +3,6 @@ package com.lovebird.api.controller.diary
 import com.lovebird.api.common.base.ControllerDescribeSpec
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
-import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.api.utils.CommonTestFixture
 import com.lovebird.api.utils.DiaryTestFixture
@@ -59,8 +58,8 @@ class DiaryControllerTest(
 				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
 
 			val user = CommonTestFixture.getUser(1L, "providerUniqueId")
-			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user, null, 5)
-			val response = DiarySimpleListResponse.of(diaries)
+			val diaries = DiaryTestFixture.getDiaryResponseList(user, null, 5)
+			val response = DiaryListResponse.of(diaries)
 
 			it("1000 SUCCESS") {
 				every { diaryService.findAllByMemoryDate(any(), any()) } returns response
@@ -131,8 +130,8 @@ class DiaryControllerTest(
 		context("다이어리 전체 조회 요청한다면") {
 			val request = request(HttpMethod.GET, url)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
-			val diaries = DiaryTestFixture.getDiarySimpleResponseList(user, null, 5)
-			val response = DiarySimpleListResponse.of(diaries)
+			val diaries = DiaryTestFixture.getDiaryResponseList(user, null, 5)
+			val response = DiaryListResponse.of(diaries)
 
 			it("1000 SUCCESS") {
 				every { diaryService.findAll(any()) } returns response
