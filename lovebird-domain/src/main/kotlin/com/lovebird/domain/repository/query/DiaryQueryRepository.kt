@@ -1,6 +1,4 @@
 package com.lovebird.domain.repository.query
-
-
 import java.time.LocalDate
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam

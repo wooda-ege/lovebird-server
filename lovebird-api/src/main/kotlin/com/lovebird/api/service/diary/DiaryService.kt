@@ -5,6 +5,7 @@ import com.lovebird.api.dto.param.diary.DiaryUpdateParam
 import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
+import com.lovebird.api.dto.response.diary.DiarySimpleResponse
 import com.lovebird.api.util.DiaryUtils.decryptDiaries
 import com.lovebird.api.util.DiaryUtils.decryptDiariesOfSimple
 import com.lovebird.api.util.DiaryUtils.decryptDiary
@@ -76,7 +77,7 @@ class DiaryService(
 	}
 
 	@Transactional(readOnly = true)
-	fun findAll(user: User): DiaryListResponse {
+	fun findAll(user: User): DiarySimpleResponse {
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val partner: User? = coupleEntry?.partner
 
@@ -84,18 +85,18 @@ class DiaryService(
 
 		decryptDiariesOfSimple(diaries)
 
-		return DiaryListResponse.of(diaries)
+		return DiarySimpleResponse.of(diaries)
 	}
 
 	@Transactional(readOnly = true)
-	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiaryListResponse {
+	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleResponse {
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val partner: User? = coupleEntry?.partner
 		val diaries: List<DiaryResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
 		decryptDiariesOfSimple(diaries)
 
-		return DiaryListResponse.of(diaries)
+		return DiarySimpleResponse.of(diaries)
 	}
 
 	@Transactional(readOnly = true)
