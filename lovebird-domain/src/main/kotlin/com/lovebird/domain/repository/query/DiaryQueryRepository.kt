@@ -1,5 +1,6 @@
 package com.lovebird.domain.repository.query
 import java.time.LocalDate
+import org.springframework.stereotype.Repository
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleRequestParam
@@ -13,7 +14,6 @@ import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.NumberPath
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.stereotype.Repository
 
 @Repository
 class DiaryQueryRepository(
