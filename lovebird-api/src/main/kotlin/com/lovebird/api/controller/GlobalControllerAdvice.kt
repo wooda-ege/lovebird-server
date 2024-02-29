@@ -1,12 +1,15 @@
 package com.lovebird.api.controller
 
+import com.lovebird.api.service.slack.SlackService
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
 import com.lovebird.common.response.ApiResponse
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingServletRequestParameterException
@@ -17,7 +20,9 @@ import java.sql.SQLException
 import kotlin.RuntimeException
 
 @RestControllerAdvice
-class GlobalControllerAdvice {
+class GlobalControllerAdvice(
+	private val slackService: SlackService
+) {
 
 	@ExceptionHandler(LbException::class)
 	fun handleLbException(e: LbException): ResponseEntity<ApiResponse<Unit>> {
@@ -40,14 +45,14 @@ class GlobalControllerAdvice {
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException::class)
-	fun handleMethodNotSupportedException(e: HttpRequestMethodNotSupportedException): ResponseEntity<ApiResponse<Unit>> {
+	fun handleMethodNotSupportedException(e: HttpRequestMethodNotSupportedException, request: HttpServletRequest): ResponseEntity<ApiResponse<Unit>> {
 		return ResponseEntity
 			.status(HttpStatus.METHOD_NOT_ALLOWED)
 			.body(ApiResponse.fail(ReturnCode.METHOD_NOT_ALLOWED))
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException::class)
-	fun badRequestExHandler(bindingResult: BindingResult): ResponseEntity<ApiResponse<*>> {
+	fun badRequestExHandler(bindingResult: BindingResult): ResponseEntity<ApiResponse<List<FieldError>>> {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(
@@ -61,7 +66,9 @@ class GlobalControllerAdvice {
 	@ExceptionHandler(
 		value = [SQLException::class]
 	)
-	fun handleServerException(e: SQLException): ResponseEntity<ApiResponse<Unit>> {
+	fun handleServerException(e: SQLException, request: HttpServletRequest): ResponseEntity<ApiResponse<Unit>> {
+		slackService.sendSlackForError(e, request)
+
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))
@@ -70,7 +77,9 @@ class GlobalControllerAdvice {
 	@ExceptionHandler(
 		value = [RuntimeException::class]
 	)
-	fun handleBusinessException(e: RuntimeException): ResponseEntity<ApiResponse<Unit>> {
+	fun handleBusinessException(e: RuntimeException, request: HttpServletRequest): ResponseEntity<ApiResponse<Unit>> {
+		slackService.sendSlackForError(e, request)
+
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))
