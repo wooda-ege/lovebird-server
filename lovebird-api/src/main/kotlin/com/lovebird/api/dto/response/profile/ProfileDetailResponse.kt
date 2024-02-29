@@ -17,7 +17,7 @@ data class ProfileDetailResponse(
 	val partnerBirthday: LocalDate?,
 	val dayCount: Long?,
 	val nextAnniversary: AnniversaryResponse?,
-	val profileImageUrl: String,
+	val profileImageUrl: String?,
 	val partnerImageUrl: String?
 ) {
 	companion object {
