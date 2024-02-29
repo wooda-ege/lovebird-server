@@ -633,6 +633,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 파라미터 입니다.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>8001</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">허용되지 않은 메소드 입니다..</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>9998</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">내부 서버 에러 입니다.</p></td>
 </tr>
@@ -3168,16 +3172,10 @@ Content-Length: 344
 <h5 id="_success_10_http_request"><a class="link" href="#_success_10_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/calendars HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/calendars?year=2024&amp;month=1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer access-token
-Content-Length: 35
-Host: localhost:8080
-
-{
-  "year" : 2023,
-  "month" : 12
-}</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -4585,7 +4583,7 @@ Content-Length: 88
 <div id="footer">
 <div id="footer-text">
 Version 1.0.2-SNAPSHOT<br>
-Last updated 2024-02-12 13:10:39 +0900
+Last updated 2024-02-29 13:58:42 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

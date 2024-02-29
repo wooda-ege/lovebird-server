@@ -10,5 +10,5 @@ data class ProfileUserResponseParam @QueryProjection constructor(
 	val nickname: String,
 	val firstDate: LocalDate?,
 	val birthday: LocalDate?,
-	val profileImageUrl: String
+	val profileImageUrl: String?
 )

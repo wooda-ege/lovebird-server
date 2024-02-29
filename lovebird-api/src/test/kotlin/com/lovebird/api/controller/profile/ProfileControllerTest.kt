@@ -77,7 +77,7 @@ class ProfileControllerTest(
 						jsonPath("$.data.nextAnniversary.kind") shouldBe response.nextAnniversary!!.kind.toString(),
 						jsonPath("$.data.nextAnniversary.seq") shouldBe response.nextAnniversary!!.seq.toString(),
 						jsonPath("$.data.nextAnniversary.anniversaryDate") shouldBe response.nextAnniversary!!.anniversaryDate.toString(),
-						jsonPath("$.data.profileImageUrl") shouldBe response.profileImageUrl,
+						jsonPath("$.data.profileImageUrl") shouldBe response.profileImageUrl!!,
 						jsonPath("$.data.partnerImageUrl") shouldBe response.partnerImageUrl!!
 					)
 					.andDocument(

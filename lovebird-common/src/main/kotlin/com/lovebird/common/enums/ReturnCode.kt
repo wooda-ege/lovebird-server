@@ -26,6 +26,7 @@ enum class ReturnCode(val code: String, val message: String) {
 
 	// 클라이언트 에러
 	WRONG_PARAMETER("8000", "잘못된 파라미터 입니다."),
+	METHOD_NOT_ALLOWED("8001", "허용되지 않은 메소드 입니다."),
 
 	// 서버 에러
 	INTERNAL_SERVER_ERROR("9998", "내부 서버 에러 입니다."),

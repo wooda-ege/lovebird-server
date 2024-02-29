@@ -29,7 +29,6 @@ class GlobalControllerAdvice {
 	@ExceptionHandler(
 		value = [
 			HttpMessageNotReadableException::class,
-			HttpRequestMethodNotSupportedException::class,
 			MissingServletRequestParameterException::class,
 			MethodArgumentTypeMismatchException::class
 		]
@@ -38,6 +37,13 @@ class GlobalControllerAdvice {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(ApiResponse.fail(ReturnCode.WRONG_PARAMETER))
+	}
+
+	@ExceptionHandler(HttpRequestMethodNotSupportedException::class)
+	fun handleMethodNotSupportedException(e: HttpRequestMethodNotSupportedException): ResponseEntity<ApiResponse<Unit>> {
+		return ResponseEntity
+			.status(HttpStatus.METHOD_NOT_ALLOWED)
+			.body(ApiResponse.fail(ReturnCode.METHOD_NOT_ALLOWED))
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException::class)
