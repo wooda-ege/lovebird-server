@@ -1,19 +1,19 @@
 package com.lovebird.domain.repository.query
-import java.time.LocalDate
-import org.springframework.stereotype.Repository
+
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleRequestParam
 import com.lovebird.domain.entity.Diary
-import com.lovebird.domain.entity.QDiary
 import com.lovebird.domain.entity.QDiary.diary
 import com.lovebird.domain.entity.QDiaryImage.diaryImage
-import com.querydsl.core.group.GroupBy.list
 import com.querydsl.core.group.GroupBy.groupBy
+import com.querydsl.core.group.GroupBy.list
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.NumberPath
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class DiaryQueryRepository(
@@ -73,8 +73,6 @@ class DiaryQueryRepository(
 
 		return DiaryResponseParam.of(transform)
 	}
-
-	private fun eqDiary(diary: QDiary): BooleanExpression = diary.eq(diary)
 
 	private fun eqCouple(userId: Long, partnerId: Long?): BooleanExpression {
 		val expression: BooleanExpression = eqUserId(userId)
