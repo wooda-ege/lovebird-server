@@ -11,3 +11,8 @@ jwt:
         access-token: ${JWT_ACCESS_TOKEN_EXPIRATION}
         refresh-token: ${JWT_REFRESH_TOKEN_EXPIRATION}
     grant-type: Bearer
+
+slack:
+    webhook:
+        is-enable: true
+        url: ${SLACK_WEBHOOK_URL}
