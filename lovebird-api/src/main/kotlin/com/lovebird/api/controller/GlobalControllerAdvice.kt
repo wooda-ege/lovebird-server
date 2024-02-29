@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import java.sql.SQLException
+import kotlin.RuntimeException
 
 @RestControllerAdvice
 class GlobalControllerAdvice {
@@ -55,6 +56,15 @@ class GlobalControllerAdvice {
 		value = [SQLException::class]
 	)
 	fun handleServerException(e: SQLException): ResponseEntity<ApiResponse<Unit>> {
+		return ResponseEntity
+			.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))
+	}
+
+	@ExceptionHandler(
+		value = [RuntimeException::class]
+	)
+	fun handleBusinessException(e: RuntimeException): ResponseEntity<ApiResponse<Unit>> {
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))
