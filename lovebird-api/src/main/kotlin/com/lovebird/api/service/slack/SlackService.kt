@@ -38,7 +38,7 @@ class SlackService(
 				SlackField().setTitle("Request User-Agent").setValue(request.getHeader("User-Agent"))
 			)
 		)
-		val profile = environment.getProperty("spring.profiles.active")
+		val profile = environment.getProperty("spring.profiles.default")
 		val slackMessage = SlackMessage()
 
 		slackMessage.setAttachments(listOf(slackAttachment))
