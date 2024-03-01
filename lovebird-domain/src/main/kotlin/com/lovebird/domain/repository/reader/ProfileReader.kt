@@ -3,7 +3,6 @@ package com.lovebird.domain.repository.reader
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
 import com.lovebird.domain.annotation.Reader
-import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import com.lovebird.domain.dto.query.ProfilePartnerResponseParam
 import com.lovebird.domain.dto.query.ProfileUserResponseParam
 import com.lovebird.domain.entity.Profile
@@ -21,12 +20,11 @@ class ProfileReader(
 		return profileJpaRepository.findByUser(user) ?: throw LbException(ReturnCode.NOT_EXIST_PROFILE)
 	}
 
-	fun findDetailParamByUser(user: User): ProfileDetailResponseParam {
-		val userParam: ProfileUserResponseParam = profileQueryRepository.findDetailUserParamByUser(user.id!!)
-			?: throw LbException(ReturnCode.NOT_EXIST_PROFILE)
-		val partnerParam: ProfilePartnerResponseParam? =
-			userParam.coupleEntryId?.let { profileQueryRepository.findDetailPartnerParamByUser(it) }
+	fun findUserProfileByUser(user: User): ProfileUserResponseParam {
+		return profileQueryRepository.findDetailUserParamByUser(user.id!!) ?: throw LbException(ReturnCode.NOT_EXIST_PROFILE)
+	}
 
-		return ProfileDetailResponseParam.of(userParam, partnerParam)
+	fun findPartnerProfileByUser(partnerId: Long): ProfilePartnerResponseParam? {
+		return profileQueryRepository.findDetailPartnerParamByUser(partnerId)
 	}
 }
