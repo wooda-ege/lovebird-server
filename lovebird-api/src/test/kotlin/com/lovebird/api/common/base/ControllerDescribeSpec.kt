@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.lovebird.api.config.WebMvcConfig
+import com.lovebird.api.service.slack.SlackService
 import com.lovebird.api.utils.restdocs.OBJECT
 import com.lovebird.api.utils.restdocs.RestDocsField
 import com.lovebird.api.utils.restdocs.STRING
@@ -26,6 +27,9 @@ abstract class ControllerDescribeSpec(
 
 	@MockkBean
 	protected lateinit var jwtValidator: JwtValidator
+
+	@MockkBean
+	protected lateinit var slackService: SlackService
 
 	companion object {
 		private val mapper: ObjectMapper = ObjectMapper()
