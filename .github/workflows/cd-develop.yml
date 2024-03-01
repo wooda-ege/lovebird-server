@@ -70,6 +70,7 @@ jobs:
           jwt.access-header: ${{ secrets.ACCESS_HEADER }}
           jwt.refresh-header: ${{ secrets.REFRESH_HEADER }}
           jwt.secret: ${{ secrets.DEV_JWT_SECRET }}
+          slack.webhook.url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Set client-dev yml file
         uses: microsoft/variable-substitution@v1

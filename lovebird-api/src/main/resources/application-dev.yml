@@ -12,3 +12,7 @@ jwt:
         refresh-token: 2592000000
     grant-type: Bearer
 
+slack:
+    webhook:
+        is-enable: true
+        url: ${SLACK_WEBHOOK_URL}
