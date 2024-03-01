@@ -37,7 +37,7 @@ class CalendarQueryRepository(
 	}
 
 	private fun eqUserIdOrEqPartnerId(calenderListRequestParam: CalenderListRequestParam): BooleanExpression {
-		return eqUserId(calenderListRequestParam.userId).or(eqUserId(calenderListRequestParam.partnerId))
+		return eqUserId(calenderListRequestParam.userId).or(calenderListRequestParam.partnerId?.let { eqUserId(it) })
 	}
 
 	private fun eqUserId(userId: Long?): BooleanExpression = calendar.user.id.eq(userId)
