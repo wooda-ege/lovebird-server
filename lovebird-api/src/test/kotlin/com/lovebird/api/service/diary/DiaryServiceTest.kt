@@ -23,7 +23,6 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
 import java.time.LocalDate
 
@@ -32,12 +31,14 @@ class DiaryServiceTest : ServiceDescribeSpec({
 	val diaryWriter = mockk<DiaryWriter>(relaxed = true)
 	val diaryImageWriter = mockk<DiaryImageWriter>(relaxed = true)
 	val coupleEntryReader = mockk<CoupleEntryReader>(relaxed = true)
-	mockkObject(DiaryUtils)
+	val diaryUtils = mockk<DiaryUtils>(relaxed = true)
+
 	val diaryService = DiaryService(
 		diaryReader = diaryReader,
 		diaryWriter = diaryWriter,
 		diaryImageWriter = diaryImageWriter,
-		coupleEntryReader = coupleEntryReader
+		coupleEntryReader = coupleEntryReader,
+		diaryUtils = diaryUtils
 	)
 
 	afterEach {
@@ -54,7 +55,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val diaries = DiaryTestFixture.getDiaries(pageSize)
 			every { coupleEntryReader.findByUser(user) } returns coupleEntry
 			every { diaryReader.findBeforeNowUsingCursor(any()) } returns diaries
-			every { DiaryUtils.decryptDiaries(any()) } just Runs
+			every { diaryUtils.decryptDiaries(any()) } just Runs
 
 			it("커서 기준 이전 다이어리들을 호출한다") {
 				// 상태 검증
@@ -65,7 +66,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findBeforeNowUsingCursor(any())
-					DiaryUtils.decryptDiaries(diaries)
+					diaryUtils.decryptDiaries(diaries)
 				}
 			}
 		}
@@ -75,7 +76,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val diaries = DiaryTestFixture.getDiaries(pageSize)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry()
 			every { diaryReader.findAfterNowUsingCursor(any()) } returns diaries
-			every { DiaryUtils.decryptDiaries(any()) } just Runs
+			every { diaryUtils.decryptDiaries(any()) } just Runs
 
 			it("커서 기준 이후 다이어리들을 호출한다.") {
 				// 상태 검증
@@ -86,7 +87,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAfterNowUsingCursor(any())
-					DiaryUtils.decryptDiaries(diaries)
+					diaryUtils.decryptDiaries(diaries)
 				}
 			}
 		}
@@ -101,14 +102,14 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val diary = DiaryTestFixture.getDiaryByCreateParam(param, user)
 			every { diaryWriter.save(any()) } returns diary
 			every { diaryImageWriter.saveAll(diary, imageUrls) } just Runs
-			every { DiaryUtils.encryptDiaryCreateParam(any()) } just Runs
+			every { diaryUtils.encryptDiaryCreateParam(any()) } just Runs
 
 			it("다이어리와 이미지 모두 저장한다") {
 				diaryService.save(param)
 
 				// 행위 검증
 				verify(exactly = 1) {
-					DiaryUtils.encryptDiaryCreateParam(param)
+					diaryUtils.encryptDiaryCreateParam(param)
 					diaryWriter.save(any())
 					diaryImageWriter.saveAll(diary, imageUrls)
 				}
@@ -119,14 +120,14 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val param = DiaryTestFixture.getCreateParam(imageUrls = null, user = user)
 			val diary = DiaryTestFixture.getDiaryByCreateParam(param, user)
 			every { diaryWriter.save(any()) } returns diary
-			every { DiaryUtils.encryptDiaryCreateParam(any()) } just Runs
+			every { diaryUtils.encryptDiaryCreateParam(any()) } just Runs
 
 			it("다이어리만 저장한다") {
 				diaryService.save(param)
 
 				// 행위 검증
 				verify(exactly = 1) {
-					DiaryUtils.encryptDiaryCreateParam(param)
+					diaryUtils.encryptDiaryCreateParam(param)
 					diaryWriter.save(any())
 				}
 			}
@@ -160,7 +161,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val param = DiaryTestFixture.getUpdateParam(null)
 			val diary = DiaryTestFixture.getDiaryByUpdateParam(param = param, user = user)
 			every { diaryReader.findEntityById(param.diaryId) } returns diary
-			every { DiaryUtils.encryptDiaryUpdateParam(param) } just Runs
+			every { diaryUtils.encryptDiaryUpdateParam(param) } just Runs
 			every { diaryWriter.update(diary, any()) } just Runs
 
 			it("다이어리만 업데이트 한다") {
@@ -169,7 +170,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
-					DiaryUtils.encryptDiaryUpdateParam(param)
+					diaryUtils.encryptDiaryUpdateParam(param)
 					diaryWriter.update(diary, any())
 				}
 			}
@@ -180,7 +181,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val param = DiaryTestFixture.getUpdateParam(imageUrls = imageUrls)
 			val diary = DiaryTestFixture.getDiaryByUpdateParam(param = param, user = user)
 			every { diaryReader.findEntityById(param.diaryId) } returns diary
-			every { DiaryUtils.encryptDiaryUpdateParam(param) } just Runs
+			every { diaryUtils.encryptDiaryUpdateParam(param) } just Runs
 			every { diaryWriter.update(diary, any()) } just Runs
 			every { diaryImageWriter.deleteAll(diary) } just Runs
 			every { diaryImageWriter.saveAll(diary, imageUrls) } just Runs
@@ -191,7 +192,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(param.diaryId)
-					DiaryUtils.encryptDiaryUpdateParam(param)
+					diaryUtils.encryptDiaryUpdateParam(param)
 					diaryWriter.update(diary, any())
 					diaryImageWriter.deleteAll(diary)
 					diaryImageWriter.saveAll(diary, imageUrls)
@@ -251,7 +252,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val diaries = DiaryTestFixture.getDiaryResponseList(user = user, partner = null, size = size)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry(user = user, partner = user)
 			every { diaryReader.findAllByMemoryDate(any()) } returns diaries
-			every { DiaryUtils.decryptDiariesOfSimple(any()) } just Runs
+			every { diaryUtils.decryptDiariesOfSimple(any()) } just Runs
 
 			it("조회에 성공한다") {
 
@@ -263,7 +264,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAllByMemoryDate(any())
-					DiaryUtils.decryptDiariesOfSimple(any())
+					diaryUtils.decryptDiariesOfSimple(any())
 				}
 			}
 		}
@@ -272,7 +273,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 			val diaries = DiaryTestFixture.getDiaryResponseList(user = user, partner = partner, size = size)
 			every { coupleEntryReader.findByUser(user) } returns getCoupleEntry(user = user, partner = partner)
 			every { diaryReader.findAllByMemoryDate(any()) } returns diaries
-			every { DiaryUtils.decryptDiariesOfSimple(any()) } just Runs
+			every { diaryUtils.decryptDiariesOfSimple(any()) } just Runs
 
 			it("조회에 성공한다") {
 
@@ -284,7 +285,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				verify(exactly = 1) {
 					coupleEntryReader.findByUser(user)
 					diaryReader.findAllByMemoryDate(any())
-					DiaryUtils.decryptDiariesOfSimple(any())
+					diaryUtils.decryptDiariesOfSimple(any())
 				}
 			}
 		}
@@ -313,7 +314,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 		context("id가 존재한다면") {
 			val user = getUser(1L)
 			val diary = DiaryTestFixture.getDiaryByUser(user)
-			every { DiaryUtils.decryptDiary(diary) } just Runs
+			every { diaryUtils.decryptDiary(diary) } just Runs
 			every { diaryReader.findEntityById(diary.id!!) } returns diary
 
 			it("다이어리 상세 조회에 성공한다") {
@@ -326,7 +327,7 @@ class DiaryServiceTest : ServiceDescribeSpec({
 				// 행위 검증
 				verify(exactly = 1) {
 					diaryReader.findEntityById(diary.id!!)
-					DiaryUtils.decryptDiary(diary)
+					diaryUtils.decryptDiary(diary)
 				}
 			}
 		}

@@ -30,7 +30,7 @@ class DiaryController(
 	fun save(
 		@AuthorizedUser user: User,
 		@RequestBody request: DiaryCreateRequest
-	): ApiResponse<Void> {
+	): ApiResponse<Unit> {
 		diaryService.save(request.toParam(user))
 		return ApiResponse.success()
 	}

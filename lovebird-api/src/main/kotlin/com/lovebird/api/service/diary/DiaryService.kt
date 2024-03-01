@@ -6,11 +6,7 @@ import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
 import com.lovebird.api.dto.response.diary.DiarySimpleResponse
-import com.lovebird.api.util.DiaryUtils.decryptDiaries
-import com.lovebird.api.util.DiaryUtils.decryptDiariesOfSimple
-import com.lovebird.api.util.DiaryUtils.decryptDiary
-import com.lovebird.api.util.DiaryUtils.encryptDiaryCreateParam
-import com.lovebird.api.util.DiaryUtils.encryptDiaryUpdateParam
+import com.lovebird.api.util.DiaryUtils
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
@@ -29,7 +25,8 @@ class DiaryService(
 	private val diaryReader: DiaryReader,
 	private val diaryWriter: DiaryWriter,
 	private val diaryImageWriter: DiaryImageWriter,
-	private val coupleEntryReader: CoupleEntryReader
+	private val coupleEntryReader: CoupleEntryReader,
+	private val diaryUtils: DiaryUtils
 ) {
 
 	@Transactional(readOnly = true)
@@ -49,8 +46,7 @@ class DiaryService(
 
 	@Transactional
 	fun save(param: DiaryCreateParam) {
-		encryptDiaryCreateParam(param)
-
+		diaryUtils.encryptDiaryCreateParam(param)
 		val diary: Diary = diaryWriter.save(param.toEntity())
 		param.imageUrls?.let { diaryImageWriter.saveAll(diary, it) }
 	}
@@ -59,7 +55,7 @@ class DiaryService(
 	fun update(param: DiaryUpdateParam) {
 		val diary: Diary = diaryReader.findEntityById(param.diaryId)
 
-		encryptDiaryUpdateParam(param)
+		diaryUtils.encryptDiaryUpdateParam(param)
 		diaryWriter.update(diary, param.toDomainParam())
 
 		param.imageUrls?.let {
@@ -83,7 +79,7 @@ class DiaryService(
 
 		val diaries: List<DiaryResponseParam> = diaryReader.findAll(user.id!!, partner?.id)
 
-		decryptDiariesOfSimple(diaries)
+		diaryUtils.decryptDiariesOfSimple(diaries)
 
 		return DiarySimpleResponse.of(diaries)
 	}
@@ -94,7 +90,7 @@ class DiaryService(
 		val partner: User? = coupleEntry?.partner
 		val diaries: List<DiaryResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
-		decryptDiariesOfSimple(diaries)
+		diaryUtils.decryptDiariesOfSimple(diaries)
 
 		return DiarySimpleResponse.of(diaries)
 	}
@@ -103,21 +99,21 @@ class DiaryService(
 	fun findDetailById(diaryId: Long): DiaryDetailResponse {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
 
-		decryptDiary(diary)
+		diaryUtils.decryptDiary(diary)
 
 		return DiaryDetailResponse.of(diary)
 	}
 
 	private fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findBeforeNowUsingCursor(param)
-		decryptDiaries(diaries)
+		diaryUtils.decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
 	}
 
 	private fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findAfterNowUsingCursor(param)
-		decryptDiaries(diaries)
+		diaryUtils.decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
 	}
