@@ -6,6 +6,7 @@ import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.service.user.AuthService
+import com.lovebird.api.service.user.SuperAuthService
 import com.lovebird.api.utils.AuthTestFixture.getAccessTokenResponse
 import com.lovebird.api.utils.andExpectData
 import com.lovebird.api.utils.restdocs.BOOLEAN
@@ -38,6 +39,8 @@ import java.time.LocalDate
 class AuthControllerTest(
 	@MockkBean(relaxed = true)
 	private val authService: AuthService,
+	@MockkBean(relaxed = true)
+	private val superAuthService: SuperAuthService,
 	@Autowired
 	private val context: WebApplicationContext
 ) : ControllerDescribeSpec({
