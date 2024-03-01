@@ -18,5 +18,15 @@ class CoupleEntryQueryRepository(
 			.fetchOne()
 	}
 
+	fun findPartnerIdById(id: Long): Long {
+		return queryFactory
+			.select(coupleEntry.partner.id)
+			.from(coupleEntry)
+			.where(eqCoupleEntryId(id))
+			.fetchOne()!!
+	}
+
+	fun eqCoupleEntryId(coupleEntryId: Long): BooleanExpression = coupleEntry.id.eq(coupleEntryId)
+
 	fun eqUserId(userId: Long): BooleanExpression = coupleEntry.user.id.eq(userId)
 }
