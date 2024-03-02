@@ -14,6 +14,6 @@ class UserWriter(
 	}
 
 	fun delete(user: User) {
-		userJpaRepository.delete(user);
+		userJpaRepository.delete(user)
 	}
 }
