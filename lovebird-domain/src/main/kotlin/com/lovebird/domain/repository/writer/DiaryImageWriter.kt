@@ -17,4 +17,8 @@ class DiaryImageWriter(
 	fun deleteAll(diary: Diary) {
 		diaryImageJpaRepository.deleteAll(diary.diaryImages)
 	}
+
+	fun deleteAllByDiaries(diaries: List<Diary>) {
+		diaryImageJpaRepository.deleteAllByDiaryIn(diaries)
+	}
 }
