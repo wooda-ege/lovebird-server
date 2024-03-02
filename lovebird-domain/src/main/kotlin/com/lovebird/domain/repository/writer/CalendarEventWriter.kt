@@ -2,6 +2,7 @@ package com.lovebird.domain.repository.writer
 
 import com.lovebird.domain.annotation.Writer
 import com.lovebird.domain.dto.query.CalendarEventRequestParam
+import com.lovebird.domain.entity.Calendar
 import com.lovebird.domain.entity.CalendarEvent
 import com.lovebird.domain.repository.jpa.CalendarEventJpaRepository
 
@@ -16,5 +17,9 @@ class CalendarEventWriter(
 
 	fun deleteAll(calendarEvents: List<CalendarEvent>) {
 		calendarEventJpaRepository.deleteAll(calendarEvents)
+	}
+
+	fun deleteAllByCalendars(calendars: List<Calendar>) {
+		calendarEventJpaRepository.deleteAllByCalendarIn(calendars)
 	}
 }

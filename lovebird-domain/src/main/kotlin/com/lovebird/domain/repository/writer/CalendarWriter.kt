@@ -2,6 +2,7 @@ package com.lovebird.domain.repository.writer
 
 import com.lovebird.domain.annotation.Writer
 import com.lovebird.domain.entity.Calendar
+import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.jpa.CalendarJpaRepository
 
 @Writer
@@ -14,5 +15,9 @@ class CalendarWriter(
 
 	fun delete(calendar: Calendar) {
 		calendarJpaRepository.delete(calendar)
+	}
+
+	fun deleteAllByCalendars(calendars: List<Calendar>) {
+		calendarJpaRepository.deleteAll(calendars)
 	}
 }
