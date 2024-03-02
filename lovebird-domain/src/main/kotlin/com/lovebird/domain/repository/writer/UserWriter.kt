@@ -12,4 +12,8 @@ class UserWriter(
 	fun save(user: User): User {
 		return userJpaRepository.save(user)
 	}
+
+	fun delete(user: User) {
+		userJpaRepository.delete(user);
+	}
 }
