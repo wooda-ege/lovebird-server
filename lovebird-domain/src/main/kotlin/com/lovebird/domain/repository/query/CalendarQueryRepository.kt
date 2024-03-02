@@ -42,7 +42,14 @@ class CalendarQueryRepository(
 
 	private fun eqUserId(userId: Long?): BooleanExpression = calendar.user.id.eq(userId)
 
-	private fun eqYearAndMonth(param: CalenderListRequestParam): BooleanExpression {
+	private fun eqYearAndMonth(param: CalenderListRequestParam): BooleanExpression? {
+		if (param.year == null && param.month == null) {
+			return null
+		} else if (param.month == null) {
+			return calendar.startDate.year().eq(param.year)
+		} else if (param.year == null) {
+			return calendar.startDate.month().eq(param.month)
+		}
 		return calendar.startDate.year().eq(param.year).and(calendar.startDate.month().eq(param.month))
 	}
 }
