@@ -13,17 +13,10 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.ColumnDefault
-import org.hibernate.annotations.DynamicUpdate
-import org.hibernate.annotations.SQLDelete
-import org.hibernate.annotations.Where
 import java.time.LocalDateTime
 
-@DynamicUpdate
 @Entity
 @Table(name = "calendar_event")
-@SQLDelete(sql = "UPDATE calendar_event SET deleted = true WHERE calendar_event_id=?")
-@Where(clause = "deleted=false")
 class CalendarEvent(
 	calendar: Calendar,
 	user: User,
@@ -56,10 +49,6 @@ class CalendarEvent(
 
 	@Column(name = "result")
 	val result: String = "알림 발송 전"
-
-	@Column(name = "deleted", nullable = false)
-	@ColumnDefault("false")
-	var deleted: Boolean = false
 
 	fun updateCalendarEvent(newEventAt: LocalDateTime, alarm: Alarm) {
 		if (!eventAt.isEqual(newEventAt)) {
