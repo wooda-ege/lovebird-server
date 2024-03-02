@@ -19,10 +19,10 @@ class AuthProcessingService(
 
 	@Transactional
 	fun deleteAccount(user: User) {
-		diaryService.delete(user)
-		calendarService.delete(user)
-		coupleService.delete(user)
-		profileService.delete(user)
-		userService.delete(user)
+		diaryService.deleteByUser(user)
+		calendarService.deleteByUser(user)
+		coupleService.deleteByUser(user)
+		profileService.deleteByUser(user)
+		userService.deleteByUser(user)
 	}
 }

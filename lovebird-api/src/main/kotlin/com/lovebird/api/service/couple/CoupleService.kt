@@ -46,7 +46,7 @@ class CoupleService(
 		}
 	}
 
-	fun delete(user: User) {
+	fun deleteByUser(user: User) {
 		coupleEntryWriter.deleteByUser(user)
 		coupleEntryWriter.deleteByPartner(user)
 	}

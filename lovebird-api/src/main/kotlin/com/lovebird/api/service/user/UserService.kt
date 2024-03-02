@@ -25,7 +25,7 @@ class UserService(
 		return userReader.findEntityByProviderId(providerId)
 	}
 
-	fun delete(user: User) {
+	fun deleteByUser(user: User) {
 		userWriter.delete(user)
 	}
 }

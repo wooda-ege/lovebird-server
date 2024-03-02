@@ -110,7 +110,7 @@ class CalendarService(
 		}
 	}
 
-	fun delete(user: User) {
+	fun deleteByUser(user: User) {
 		val calendars = calendarReader.findCalendarsByUser(user)
 		calendarEventWriter.deleteAllByCalendars(calendars)
 		calendarWriter.deleteAllByCalendars(calendars)

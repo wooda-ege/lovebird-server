@@ -43,7 +43,7 @@ class ProfileService(
 		return profileReader.findEntityByUser(user)
 	}
 
-	fun delete(user: User) {
+	fun deleteByUser(user: User) {
 		profileWriter.delete(user)
 	}
 }
