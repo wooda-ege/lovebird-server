@@ -5,7 +5,7 @@ import com.lovebird.api.dto.request.user.SignInRequest
 import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
-import com.lovebird.api.service.user.AuthProcessingService
+import com.lovebird.api.service.user.AuthDeleteService
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.api.service.user.SuperAuthService
 import com.lovebird.api.utils.AuthTestFixture.getAccessTokenResponse
@@ -44,7 +44,7 @@ class AuthControllerTest(
 	@MockkBean(relaxed = true)
 	private val superAuthService: SuperAuthService,
 	@MockkBean(relaxed = true)
-	private val authProcessingService: AuthProcessingService,
+	private val authDeleteService: AuthDeleteService,
 	@Autowired
 	private val context: WebApplicationContext
 ) : ControllerDescribeSpec({
@@ -403,7 +403,7 @@ class AuthControllerTest(
 				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
 
 			it("1000 SUCCESS") {
-				every { authProcessingService.deleteAccount(any()) } returns Unit
+				every { authDeleteService.deleteAccount(any()) } returns Unit
 
 				mockMvc.perform(request)
 					.andExpect(status().isOk)

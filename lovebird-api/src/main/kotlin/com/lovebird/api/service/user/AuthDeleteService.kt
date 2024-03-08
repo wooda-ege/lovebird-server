@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AuthProcessingService(
+class AuthDeleteService(
 	private val userService: UserService,
 	private val diaryService: DiaryService,
 	private val calendarService: CalendarService,

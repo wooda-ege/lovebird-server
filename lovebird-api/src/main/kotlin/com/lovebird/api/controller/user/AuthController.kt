@@ -7,7 +7,7 @@ import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.AccessTokenResponse
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
-import com.lovebird.api.service.user.AuthProcessingService
+import com.lovebird.api.service.user.AuthDeleteService
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.api.service.user.SuperAuthService
 import com.lovebird.common.response.ApiResponse
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
 	private val authService: AuthService,
 	private val superAuthService: SuperAuthService,
-	private val authProcessingService: AuthProcessingService
+	private val authDeleteService: AuthDeleteService
 ) {
 
 	@PostMapping("/sign-up/oidc")
@@ -63,7 +63,7 @@ class AuthController(
 
 	@DeleteMapping
 	fun deleteAccount(@AuthorizedUser user: User): ApiResponse<Void> {
-		authProcessingService.deleteAccount(user)
+		authDeleteService.deleteAccount(user)
 		return ApiResponse.success()
 	}
 }
