@@ -5,7 +5,7 @@ data class PresignedUrlListResponse(
 	val totalCount: Int
 ) {
 	companion object {
-		@JvmStatic
+
 		fun of(presignedUrlResponses: List<PresignedUrlResponse>): PresignedUrlListResponse {
 			return PresignedUrlListResponse(presignedUrlResponses, presignedUrlResponses.size)
 		}
