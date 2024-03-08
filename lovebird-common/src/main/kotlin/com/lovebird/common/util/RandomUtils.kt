@@ -1,6 +1,5 @@
 package com.lovebird.common.util
 
-import java.time.LocalDateTime
 import java.util.UUID
 
 object RandomUtils {
@@ -16,6 +15,6 @@ object RandomUtils {
 	}
 
 	fun generateTimeBasedUUID(): String {
-		return UUID.fromString(LocalDateTime.now().toString()).toString()
+		return UUID.randomUUID().toString()
 	}
 }
