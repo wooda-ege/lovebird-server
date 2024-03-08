@@ -15,14 +15,14 @@ class PresignedUrlService(
 ) {
 
 	fun getDiaryPresignedUrls(param: DiaryUploadPresignedUrlParam): PresignedUrlListResponse {
-		val newFileNames = FilenameUtils.generateDiaryImageNames(param.filenames, param.userId, param.diaryId)
+		val newFileNames = FilenameUtils.generateDiaryImageNames(param.filenames, param.userId)
 
 		return PresignedUrlListResponse.of(newFileNames.map { getDiaryPresignedUrl(param.userId, it) })
 	}
 
 	fun getProfilePresignedUrl(param: ProfileUploadPresignedUrlParam): PresignedUrlResponse {
-		val newFilename: String = FilenameUtils.generateProfileImageName(param.filename, param.userId)
-		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl(Domain.PROFILE.lower(), param.userId, newFilename)
+		val newFilename: String = FilenameUtils.generateProfileImageName(param.filename, param.providerId)
+		val presignedUrl = presignedUrlProvider.getUploadPresignedUrl(Domain.PROFILE.lower(), null, newFilename)
 
 		return PresignedUrlResponse(presignedUrl, newFilename)
 	}
