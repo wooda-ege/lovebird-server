@@ -21,7 +21,7 @@ class PresignedUrlController(
 
 	@PostMapping("/profile")
 	fun getProfilePresignedUrl(
-		@RequestBody request: ProfileUploadPresignedUrlRequest,
+		@RequestBody request: ProfileUploadPresignedUrlRequest
 	): ApiResponse<PresignedUrlResponse> {
 		return ApiResponse.success(presignedUrlService.getProfilePresignedUrl(request.toParam()))
 	}
