@@ -5,6 +5,7 @@ import com.lovebird.api.dto.request.user.SignInRequest
 import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
+import com.lovebird.api.service.user.AuthDeleteService
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.api.service.user.SuperAuthService
 import com.lovebird.api.utils.AuthTestFixture.getAccessTokenResponse
@@ -26,6 +27,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.restdocs.ManualRestDocumentation
@@ -41,6 +43,8 @@ class AuthControllerTest(
 	private val authService: AuthService,
 	@MockkBean(relaxed = true)
 	private val superAuthService: SuperAuthService,
+	@MockkBean(relaxed = true)
+	private val authDeleteService: AuthDeleteService,
 	@Autowired
 	private val context: WebApplicationContext
 ) : ControllerDescribeSpec({
@@ -388,6 +392,27 @@ class AuthControllerTest(
 						envelopeResponseBody(
 							"data.accessToken" type STRING means "액세스 토큰"
 						)
+					)
+			}
+		}
+	}
+
+	describe("DELETE: /api/v1/auth") {
+		context("로그인한 유저라면") {
+			val request = request(HttpMethod.DELETE, baseUrl)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
+
+			it("1000 SUCCESS") {
+				every { authDeleteService.deleteAccount(any()) } returns Unit
+
+				mockMvc.perform(request)
+					.andExpect(status().isOk)
+					.andDocument(
+						"1000-auth-delete-account",
+						requestHeaders(
+							"Authorization" headerMeans "액세스 토큰"
+						),
+						envelopeResponseBody(dataOptional = true)
 					)
 			}
 		}

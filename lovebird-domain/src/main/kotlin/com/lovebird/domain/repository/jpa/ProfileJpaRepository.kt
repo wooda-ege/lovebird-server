@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository
 interface ProfileJpaRepository : JpaRepository<Profile, Long> {
 
 	fun findByUser(user: User): Profile?
+
+	fun deleteByUser(user: User)
 }

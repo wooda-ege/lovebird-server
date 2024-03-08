@@ -117,4 +117,10 @@ class DiaryService(
 
 		return DiaryListResponse.of(diaries)
 	}
+
+	fun deleteByUser(user: User) {
+		val diaries = diaryReader.findAllByUser(user)
+		diaryImageWriter.deleteAllByDiaries(diaries)
+		diaryWriter.deleteAll(diaries)
+	}
 }

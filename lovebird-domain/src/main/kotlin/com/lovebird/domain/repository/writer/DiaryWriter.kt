@@ -21,4 +21,8 @@ class DiaryWriter(
 	fun delete(diary: Diary) {
 		diaryJpaRepository.delete(diary)
 	}
+
+	fun deleteAll(diaries: List<Diary>) {
+		diaryJpaRepository.deleteAll(diaries)
+	}
 }

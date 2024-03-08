@@ -1,14 +1,18 @@
 package com.lovebird.api.controller.user
 
+import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.annotation.RefreshToken
 import com.lovebird.api.dto.request.user.SignInRequest
 import com.lovebird.api.dto.request.user.SignUpRequest
 import com.lovebird.api.dto.response.user.AccessTokenResponse
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
+import com.lovebird.api.service.user.AuthDeleteService
 import com.lovebird.api.service.user.AuthService
 import com.lovebird.api.service.user.SuperAuthService
 import com.lovebird.common.response.ApiResponse
+import com.lovebird.domain.entity.User
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -19,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/auth")
 class AuthController(
 	private val authService: AuthService,
-	private val superAuthService: SuperAuthService
+	private val superAuthService: SuperAuthService,
+	private val authDeleteService: AuthDeleteService
 ) {
 
 	@PostMapping("/sign-up/oidc")
@@ -54,5 +59,11 @@ class AuthController(
 	@PostMapping("/access-token")
 	fun regenerateAccessToken(@RefreshToken refreshToken: String): ApiResponse<AccessTokenResponse> {
 		return ApiResponse.success(authService.recreateAccessToken(refreshToken))
+	}
+
+	@DeleteMapping
+	fun deleteAccount(@AuthorizedUser user: User): ApiResponse<Void> {
+		authDeleteService.deleteAccount(user)
+		return ApiResponse.success()
 	}
 }

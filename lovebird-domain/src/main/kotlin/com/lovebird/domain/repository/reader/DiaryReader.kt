@@ -7,6 +7,7 @@ import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleRequestParam
 import com.lovebird.domain.entity.Diary
+import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.jpa.DiaryJpaRepository
 import com.lovebird.domain.repository.query.DiaryQueryRepository
 
@@ -34,5 +35,9 @@ class DiaryReader(
 
 	fun findAll(userId: Long, partnerId: Long?): List<DiaryResponseParam> {
 		return diaryQueryRepository.findAll(userId, partnerId)
+	}
+
+	fun findAllByUser(user: User): List<Diary> {
+		return diaryJpaRepository.findAllByUser(user)
 	}
 }

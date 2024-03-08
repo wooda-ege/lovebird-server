@@ -109,4 +109,10 @@ class CalendarService(
 			throw LbException(ReturnCode.INVALID_MEMBER)
 		}
 	}
+
+	fun deleteByUser(user: User) {
+		val calendars = calendarReader.findCalendarsByUser(user)
+		calendarEventWriter.deleteAllByCalendars(calendars)
+		calendarWriter.deleteAllByCalendars(calendars)
+	}
 }
