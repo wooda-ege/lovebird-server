@@ -6,7 +6,7 @@ import com.lovebird.api.dto.param.user.SignInParam
 import com.lovebird.api.dto.param.user.SignUpParam
 import com.lovebird.api.dto.param.user.UserAuthParam
 import com.lovebird.api.dto.request.user.SignUpRequest
-import com.lovebird.api.dto.response.user.AccessTokenResponse
+import com.lovebird.api.dto.response.user.RecreateTokenResponse
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.factory.AuthProviderFactory
@@ -14,6 +14,7 @@ import com.lovebird.api.provider.JwtProvider
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.api.service.profile.ProfileService
 import com.lovebird.api.validator.JwtValidator
+import com.lovebird.api.vo.JwtToken
 import com.lovebird.api.vo.PrincipalUser
 import com.lovebird.common.enums.Provider
 import com.lovebird.common.enums.ReturnCode
@@ -64,10 +65,11 @@ class AuthService(
 	}
 
 	@Transactional
-	fun recreateAccessToken(refreshToken: String): AccessTokenResponse {
+	fun recreateAccessToken(refreshToken: String): RecreateTokenResponse {
 		val principalUser: PrincipalUser = jwtValidator.getPrincipalUser(refreshToken)
+		val jwtToken: JwtToken = jwtProvider.generateJwtToken(principalUser)
 
-		return jwtProvider.generateAccessToken(principalUser)
+		return RecreateTokenResponse.of(jwtToken)
 	}
 
 	private fun signUsingOidc(param: SignUpParam.OidcUserParam): UserAuthParam {
