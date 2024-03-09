@@ -1,27 +1,27 @@
-name: Lovebird CD (develop branch)
+name: Lovebird CD (master branch)
 
 on:
   push:
     branches:
-      - develop
-#    paths:
-#      - lovebird-api/**
-#      - lovebird-client/**
-#      - lovebird-external/**
-#      - lovebird-domain/**
-#      - lovebird-common/**
+      - master
+    paths:
+      - lovebird-api/**
+      - lovebird-client/**
+      - lovebird-external/**
+      - lovebird-domain/**
+      - lovebird-common/**
 
 env:
   MAIN_RESOURCE_PATH: ./lovebird-api/src/main/resources/application.yml
-  DEV_RESOURCE_PATH: ./lovebird-api/src/main/resources/application-dev.yml
-  CLIENT_RESOURCE_PATH: ./lovebird-client/src/main/resources/client-dev.yml
-  DOMAIN_RESOURCE_PATH: ./lovebird-domain/src/main/resources/db-dev.yml
-  S3_RESOURCE_PATH: ./lovebird-external/s3/src/main/resources/s3-dev.yml
+  PROD_RESOURCE_PATH: ./lovebird-api/src/main/resources/application-prod.yml
+  CLIENT_RESOURCE_PATH: ./lovebird-client/src/main/resources/client-prod.yml
+  DOMAIN_RESOURCE_PATH: ./lovebird-domain/src/main/resources/db-prod.yml
+  S3_RESOURCE_PATH: ./lovebird-external/s3/src/main/resources/s3-prod.yml
   FIREBASE_SDK_PATH: ./lovebird-external/fcm/src/main/resources/firebase/lovebird-firebase-admin-sdk.json
-  AWS_S3_REGION: ${{ secrets.DEV_S3_REGION }}
-  AWS_S3_BUCKET_NAME: ${{ secrets.DEV_DEPLOY_S3_BUCKET_NAME }}
-  CODEDEPLOY_APPLICATION_NAME: ${{ secrets.DEV_AWS_CODEDEPLOY_APPLICATION_NAME }}
-  CODEDEPLOY_DEPLOYMENT_GROUP_NAME: ${{ secrets.DEV_AWS_CODEDEPLOY_DEPLOYMENT_GROUP_NAME }}
+  AWS_S3_REGION: ${{ secrets.PROD_S3_REGION }}
+  AWS_S3_BUCKET_NAME: ${{ secrets.PROD_DEPLOY_S3_BUCKET_NAME }}
+  CODEDEPLOY_APPLICATION_NAME: ${{ secrets.PROD_AWS_CODEDEPLOY_APPLICATION_NAME }}
+  CODEDEPLOY_DEPLOYMENT_GROUP_NAME: ${{ secrets.PROD_AWS_CODEDEPLOY_DEPLOYMENT_GROUP_NAME }}
 
 permissions: write-all
 
@@ -29,7 +29,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    environment: Development-CD
+    environment: Production-CD
 
     steps:
       - name: Get Current Time
@@ -58,21 +58,23 @@ jobs:
         with:
           files: ${{ env.MAIN_RESOURCE_PATH }}
         env:
-          spring.profiles.default: dev
+          spring.profiles.default: prod
           apple.test-code: ${{ secrets.APPLE_TEST_CODE }}
           aes.secret-key: ${{ secrets.AES_SECRET_KEY }}
 
-      - name: Set application-dev yml file
+      - name: Set application-prod yml file
         uses: microsoft/variable-substitution@v1
         with:
-          files: ${{ env.DEV_RESOURCE_PATH }}
+          files: ${{ env.PROD_RESOURCE_PATH }}
         env:
           jwt.access-header: ${{ secrets.ACCESS_HEADER }}
           jwt.refresh-header: ${{ secrets.REFRESH_HEADER }}
-          jwt.secret: ${{ secrets.DEV_JWT_SECRET }}
+          jwt.secret: ${{ secrets.PROD_JWT_SECRET }}
+          jwt.expiration.access-token: ${{ secrets.PROD_JWT_ACCESS_TOKEN_EXPIRATION }}
+          jwt.expiration.refresh-token: ${{ secrets.PROD_JWT_REFRESH_TOKEN_EXPIRATION }}
           slack.webhook.url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Set client-dev yml file
+      - name: Set client-prod yml file
         uses: microsoft/variable-substitution@v1
         with:
           files: ${{ env.CLIENT_RESOURCE_PATH }}
@@ -81,21 +83,21 @@ jobs:
           oauth.naver.client-id: ${{ secrets.NAVER_CLIENT_ID }}
           oauth.naver.client-secret: ${{ secrets.NAVER_CLIENT_SECRET }}
 
-      - name: Set domain-dev yml file
+      - name: Set domain-prod yml file
         uses: microsoft/variable-substitution@v1
         with:
           files: ${{ env.DOMAIN_RESOURCE_PATH }}
         env:
-          storage.datasource.core.jdbc-url: ${{ secrets.DEV_RDS_HOST }}
-          storage.datasource.core.username: ${{ secrets.DEV_RDS_USERNAME }}
-          storage.datasource.core.password: ${{ secrets.DEV_RDS_PASSWORD }}
+          storage.datasource.core.jdbc-url: ${{ secrets.PROD_RDS_HOST }}
+          storage.datasource.core.username: ${{ secrets.PROD_RDS_USERNAME }}
+          storage.datasource.core.password: ${{ secrets.PROD_RDS_PASSWORD }}
 
-      - name: Set s3-dev yml file
+      - name: Set s3-prod yml file
         uses: microsoft/variable-substitution@v1
         with:
           files: ${{ env.S3_RESOURCE_PATH }}
         env:
-          cloud.aws.s3-bucket: ${{ secrets.DEV_S3_BUCKET_NAME }}
+          cloud.aws.s3-bucket: ${{ secrets.PROD_S3_BUCKET_NAME }}
           cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
           cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
 
