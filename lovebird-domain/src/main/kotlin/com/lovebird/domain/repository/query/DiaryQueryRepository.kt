@@ -3,15 +3,12 @@ package com.lovebird.domain.repository.query
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
 import com.lovebird.domain.dto.query.DiarySimpleRequestParam
-import com.lovebird.domain.dto.query.DiarySimpleResponseParam
-import com.lovebird.domain.entity.QDiary
+import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.QDiary.diary
 import com.lovebird.domain.entity.QDiaryImage.diaryImage
-import com.lovebird.domain.entity.QUser.user
 import com.querydsl.core.group.GroupBy.groupBy
 import com.querydsl.core.group.GroupBy.list
 import com.querydsl.core.types.OrderSpecifier
-import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.NumberPath
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -24,10 +21,9 @@ class DiaryQueryRepository(
 ) {
 
 	fun findBeforeNowUsingCursor(param: DiaryListRequestParam): List<DiaryResponseParam> {
-		return queryFactory
+		val transform: Map<Diary, List<String>> = queryFactory
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.leftJoin(diary.diaryImages, diaryImage)
 			.where(
 				eqCouple(param.userId, param.partnerId),
 				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
@@ -35,33 +31,15 @@ class DiaryQueryRepository(
 			)
 			.orderBy(descMemoryDate(), ascDiaryId())
 			.limit(param.pageSize)
-			.transform(
-				groupBy(diary.id)
-					.list(
-						Projections.constructor(
-							DiaryResponseParam::class.java,
-							diary.id,
-							user.id,
-							diary.title,
-							diary.memoryDate,
-							diary.place,
-							diary.content,
-							list(
-								Projections.constructor(
-									String::class.java,
-									diaryImage.imageUrl
-								)
-							)
-						)
-					)
-			)
+			.transform(groupBy(diary).`as`(list(diaryImage.imageUrl)))
+
+		return DiaryResponseParam.of(transform)
 	}
 
 	fun findAfterNowUsingCursor(param: DiaryListRequestParam): List<DiaryResponseParam> {
-		return queryFactory
+		val transform: Map<Diary, List<String>> = queryFactory
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.leftJoin(diary.diaryImages, diaryImage)
 			.where(
 				eqCouple(param.userId, param.partnerId),
 				eqMemoryDateAndGtDiaryId(param.memoryDate, param.diaryId),
@@ -69,51 +47,32 @@ class DiaryQueryRepository(
 			)
 			.orderBy(ascMemoryDate(), ascDiaryId())
 			.limit(param.pageSize)
-			.transform(
-				groupBy(diary.id)
-					.list(
-						Projections.constructor(
-							DiaryResponseParam::class.java,
-							diary.id,
-							user.id,
-							diary.title,
-							diary.memoryDate,
-							diary.place,
-							diary.content,
-							list(
-								Projections.constructor(
-									String::class.java,
-									diaryImage.imageUrl
-								)
-							)
-						)
-					)
-			)
+			.transform(groupBy(diary).`as`(list(diaryImage.imageUrl)))
+
+		return DiaryResponseParam.of(transform)
 	}
 
-	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiarySimpleResponseParam> {
-		return queryFactory
-			.select(
-				Projections.constructor(
-					DiarySimpleResponseParam::class.java,
-					diary.id,
-					diary.user.id,
-					diary.title,
-					diary.memoryDate,
-					diary.place,
-					diary.content,
-					diary.diaryImages.get(0)
-				)
-			)
+	fun findAllByMemoryDate(param: DiarySimpleRequestParam): List<DiaryResponseParam> {
+		val transform: Map<Diary, List<String>> = queryFactory
 			.from(diary)
-			.innerJoin(user)
-			.on(eqUserId(user.id))
+			.leftJoin(diary.diaryImages, diaryImage)
 			.where(eqCouple(param.userId, param.partnerId), eqMemoryDate(param.memoryDate))
 			.orderBy(ascDiaryId())
-			.fetch()
+			.transform(groupBy(diary).`as`(list(diaryImage.imageUrl)))
+
+		return DiaryResponseParam.of(transform)
 	}
 
-	private fun eqDiary(diary: QDiary): BooleanExpression = diary.eq(diary)
+	fun findAll(userId: Long, partnerId: Long?): List<DiaryResponseParam> {
+		val transform: Map<Diary, List<String>> = queryFactory
+			.from(diary)
+			.leftJoin(diary.diaryImages, diaryImage)
+			.where(eqCouple(userId, partnerId))
+			.orderBy(ascDiaryId())
+			.transform(groupBy(diary).`as`(list(diaryImage.imageUrl)))
+
+		return DiaryResponseParam.of(transform)
+	}
 
 	private fun eqCouple(userId: Long, partnerId: Long?): BooleanExpression {
 		val expression: BooleanExpression = eqUserId(userId)

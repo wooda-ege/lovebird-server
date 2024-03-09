@@ -2,7 +2,6 @@ package com.lovebird.api.provider
 
 import com.lovebird.api.vo.JwtToken
 import com.lovebird.api.vo.PrincipalUser
-import com.lovebird.api.vo.RefreshToken
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -30,13 +29,6 @@ class JwtProvider(
 		return JwtToken(accessToken, refreshToken, grantType)
 	}
 
-	fun generateRefreshToken(principalUser: PrincipalUser): RefreshToken {
-		val claims = getClaims(principalUser)
-		val refreshToken = generateRefreshToken(principalUser, claims)
-
-		return RefreshToken(refreshToken, grantType)
-	}
-
 	private fun getClaims(principalUser: PrincipalUser): Claims {
 		val claims = Jwts.claims()
 		claims["id"] = principalUser.name
@@ -56,7 +48,7 @@ class JwtProvider(
 			.setSubject(principalUser.name)
 			.setClaims(claims)
 			.signWith(key, SignatureAlgorithm.HS512)
-			.setExpiration(Date(Date().time + validationSecond))
+			.setExpiration(Date(System.currentTimeMillis() + validationSecond))
 			.compact()
 	}
 }

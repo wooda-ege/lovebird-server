@@ -7,7 +7,6 @@ import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.request.diary.DiaryUpdateRequest
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryResponseParam
-import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
 import org.springframework.test.util.ReflectionTestUtils
@@ -125,19 +124,19 @@ object DiaryTestFixture {
 		)
 	}
 
-	fun getDiarySimpleResponseList(user: User, partner: User?, size: Int): List<DiarySimpleResponseParam> {
-		val diaries = arrayListOf<DiarySimpleResponseParam>()
+	fun getDiaryResponseList(user: User, partner: User?, size: Int): List<DiaryResponseParam> {
+		val diaries = arrayListOf<DiaryResponseParam>()
 
 		for (i in 1..size) {
 			diaries.add(
-				DiarySimpleResponseParam(
+				DiaryResponseParam(
 					diaryId = i.toLong(),
 					userId = getRandomUserId(user, partner),
 					title = "제목$i",
 					memoryDate = LocalDate.now(),
 					place = "장소$i",
 					content = "내용$i",
-					imageUrl = "imageURL$i"
+					imageUrls = arrayListOf("imageURL$i")
 				)
 			)
 		}

@@ -33,6 +33,9 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+	// Slack
+	implementation("net.gpedro.integrations.slack:slack-webhook:1.4.0")
+
 	// Test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
@@ -134,7 +137,7 @@ val testCoverage by tasks.registering {
 
 tasks.test {
 	extensions.configure(JacocoTaskExtension::class) {
-		destinationFile = file("$buildDir/jacoco/jacoco.exec")
+		setDestinationFile(layout.buildDirectory.file("jacoco/jacoco.exec").get().asFile)
 	}
 	outputs.dir(snippetsDir)
 	finalizedBy("jacocoTestReport")

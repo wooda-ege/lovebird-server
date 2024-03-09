@@ -50,7 +50,7 @@ class PresignedUrlControllerTest(
 		val url = "$baseUrl/profile"
 
 		context("유효한 요청이 전달 되면") {
-			val requestBody = ProfileUploadPresignedUrlRequest("test.png")
+			val requestBody = ProfileUploadPresignedUrlRequest("provider", "test.png")
 			val requestJson = toJson(requestBody)
 			val response = PresignedUrlResponse("https://cdn.lovebird.com/profile/1-profile.png", "1-profile.png")
 			val request = request(HttpMethod.POST, url)
@@ -59,7 +59,7 @@ class PresignedUrlControllerTest(
 				.content(requestJson)
 
 			it("1000 SUCCESS") {
-				every { presignedUrlService.getProfilePresignedUrl(requestBody.toParam(1L)) } returns response
+				every { presignedUrlService.getProfilePresignedUrl(requestBody.toParam()) } returns response
 
 				mockMvc
 					.perform(request)
@@ -76,6 +76,7 @@ class PresignedUrlControllerTest(
 							"Authorization" headerMeans "액세스 토큰"
 						),
 						requestBody(
+							"providerId" type STRING means "제공자 ID" isOptional false,
 							"filename" type STRING means "파일 이름" isOptional false
 						),
 						envelopeResponseBody(
@@ -96,7 +97,7 @@ class PresignedUrlControllerTest(
 		)
 
 		context("유효한 요청이 전달 되면") {
-			val requestBody = DiaryUploadPresignedUrlRequest(filenames, 1L)
+			val requestBody = DiaryUploadPresignedUrlRequest(filenames)
 			val requestJson = toJson(requestBody)
 			val response = PresignedUrlListResponse.of(presignedUrls)
 			val request = request(HttpMethod.POST, url)
@@ -125,8 +126,7 @@ class PresignedUrlControllerTest(
 							"Authorization" headerMeans "액세스 토큰"
 						),
 						requestBody(
-							"filenames" type ARRAY means "파일 이름 리스트" isOptional false,
-							"diaryId" type NUMBER means "다이어리 ID" isOptional false
+							"filenames" type ARRAY means "파일 이름 리스트" isOptional false
 						),
 						envelopeResponseBody(
 							"data.presignedUrls" type ARRAY means "Presigned Url 리스트",

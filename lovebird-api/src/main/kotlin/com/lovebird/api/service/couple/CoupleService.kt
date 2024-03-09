@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional(readOnly = true)
 class CoupleService(
 	private val coupleEntryReader: CoupleEntryReader,
 	private val coupleEntryWriter: CoupleEntryWriter
@@ -27,6 +26,16 @@ class CoupleService(
 		coupleEntryWriter.saveAll(listOf(CoupleEntry(user1, user2), CoupleEntry(user2, user1)))
 	}
 
+	@Transactional(readOnly = true)
+	fun findPartnerByUser(user: User): User? {
+		return coupleEntryReader.findByUser(user)?.partner
+	}
+
+	@Transactional(readOnly = true)
+	fun existByUser(user: User): Boolean {
+		return coupleEntryReader.existsByUser(user)
+	}
+
 	fun validateCouple(user1: User, user2: User) {
 		if (existByUser(user1) || existByUser(user2)) {
 			throw LbException(ReturnCode.ALREADY_EXIST_COUPLE)
@@ -37,11 +46,8 @@ class CoupleService(
 		}
 	}
 
-	fun findPartnerByUser(user: User): User? {
-		return coupleEntryReader.findByUser(user)?.partner
-	}
-
-	fun existByUser(user: User): Boolean {
-		return coupleEntryReader.existsByUser(user)
+	fun deleteByUser(user: User) {
+		coupleEntryWriter.deleteByUser(user)
+		coupleEntryWriter.deleteByPartner(user)
 	}
 }

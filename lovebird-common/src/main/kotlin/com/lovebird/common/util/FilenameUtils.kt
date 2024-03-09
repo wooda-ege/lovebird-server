@@ -1,14 +1,17 @@
 package com.lovebird.common.util
 
+import com.lovebird.common.util.RandomUtils.generateTimeBasedUUID
+
 object FilenameUtils {
 
-	fun generateProfileImageName(filename: String, userId: Long): String {
-		return "%d-profile%s".format(userId, getFileExtension(filename))
+	fun generateProfileImageName(filename: String, providerId: String): String {
+		return "%s-profile%s".format(providerId, getFileExtension(filename))
 	}
 
-	fun generateDiaryImageNames(imageNames: List<String>, userId: Long, diaryId: Long): List<String> {
+	fun generateDiaryImageNames(imageNames: List<String>, userId: Long): List<String> {
+		val diaryUUID: String = generateTimeBasedUUID()
 		var i = 1
-		return imageNames.map { "%d_%d-%d%s".format(userId, diaryId, i++, getFileExtension(it)) }
+		return imageNames.map { "%d_%s-%d%s".format(userId, diaryUUID, i++, getFileExtension(it)) }
 	}
 
 	private fun getFileExtension(originalFileName: String): String {

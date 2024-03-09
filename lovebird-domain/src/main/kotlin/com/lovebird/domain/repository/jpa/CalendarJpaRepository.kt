@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository
 interface CalendarJpaRepository : JpaRepository<Calendar, Long> {
 
 	fun findCalendarByIdAndUser(id: Long, user: User): Calendar
+
+	fun findAllByUser(user: User): List<Calendar>
 }

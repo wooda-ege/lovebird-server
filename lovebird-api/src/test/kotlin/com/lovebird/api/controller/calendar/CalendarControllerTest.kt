@@ -77,13 +77,13 @@ class CalendarControllerTest(
 	}
 
 	describe("GET: /api/v1/calendars") {
+		val url = "$baseUrl?year=2024&month=1"
 		context("year 또는 month 기준으로 캘린더 목록을 요청하면") {
 			val requestBody = getCalendarListRequest()
-			val requestJson = toJson(requestBody)
-			val request = request(HttpMethod.GET, baseUrl)
+			val request = request(HttpMethod.GET, url)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer access-token")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestJson)
+
 			val user = ServiceDescribeSpec.getUser(1L)
 			val calendarList = CalendarServiceTest.getCalendarList(requestBody.toParam(user), null)
 			val response = CalendarListResponse.of(calendarList)
@@ -98,10 +98,6 @@ class CalendarControllerTest(
 						"1000-calendar-list",
 						requestHeaders(
 							"Authorization" headerMeans "액세스 토큰"
-						),
-						requestBody(
-							"year" type NUMBER means "년도(Year)",
-							"month" type NUMBER means "월(Month)"
 						),
 						envelopeResponseBody(
 							"data.calendars" type ARRAY means "캘린더 목록",

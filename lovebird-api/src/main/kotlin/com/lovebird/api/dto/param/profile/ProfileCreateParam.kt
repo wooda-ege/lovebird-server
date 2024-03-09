@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 data class ProfileCreateParam(
 	val user: User,
-	val imageUrl: String,
+	val imageUrl: String?,
 	val email: String,
 	val nickname: String,
 	val birthday: LocalDate?,

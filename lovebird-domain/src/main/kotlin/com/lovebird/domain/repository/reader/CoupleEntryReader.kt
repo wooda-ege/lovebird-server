@@ -15,6 +15,10 @@ class CoupleEntryReader(
 	}
 
 	fun findByUser(user: User): CoupleEntry? {
-		return coupleEntryQueryRepository.findByUser(user)
+		return coupleEntryQueryRepository.findByUserId(user.id!!)
+	}
+
+	fun findPartnerIdById(id: Long): Long {
+		return coupleEntryQueryRepository.findPartnerIdById(id)
 	}
 }

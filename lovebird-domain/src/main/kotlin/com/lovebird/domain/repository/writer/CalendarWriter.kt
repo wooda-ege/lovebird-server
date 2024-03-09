@@ -15,4 +15,8 @@ class CalendarWriter(
 	fun delete(calendar: Calendar) {
 		calendarJpaRepository.delete(calendar)
 	}
+
+	fun deleteAllByCalendars(calendars: List<Calendar>) {
+		calendarJpaRepository.deleteAll(calendars)
+	}
 }

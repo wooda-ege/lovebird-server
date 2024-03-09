@@ -3,14 +3,15 @@ package com.lovebird.api.service.profile
 import com.lovebird.api.common.base.ServiceDescribeSpec
 import com.lovebird.api.dto.param.profile.ProfileCreateParam
 import com.lovebird.api.dto.response.profile.ProfileDetailResponse
-import com.lovebird.common.enums.AnniversaryType
+import com.lovebird.api.utils.ProfileTestFixture.getProfilePartnerParam
+import com.lovebird.api.utils.ProfileTestFixture.getProfileUserParam
 import com.lovebird.common.enums.Gender
 import com.lovebird.common.enums.Provider
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
 import com.lovebird.domain.dto.command.ProfileUpdateRequestParam
-import com.lovebird.domain.dto.query.ProfileDetailResponseParam
 import com.lovebird.domain.entity.User
+import com.lovebird.domain.repository.reader.CoupleEntryReader
 import com.lovebird.domain.repository.reader.ProfileReader
 import com.lovebird.domain.repository.writer.ProfileWriter
 import io.kotest.assertions.throwables.shouldNotThrow
@@ -25,7 +26,8 @@ class ProfileServiceTest : ServiceDescribeSpec({
 
 	val profileReader: ProfileReader = mockk<ProfileReader>(relaxed = true)
 	val profileWriter: ProfileWriter = mockk<ProfileWriter>(relaxed = true)
-	val profileService = ProfileService(profileReader, profileWriter)
+	val coupleEntryReader: CoupleEntryReader = mockk<CoupleEntryReader>(relaxed = true)
+	val profileService = ProfileService(profileReader, profileWriter, coupleEntryReader)
 
 	afterEach {
 		clearMocks(profileReader, profileWriter)
@@ -74,17 +76,22 @@ class ProfileServiceTest : ServiceDescribeSpec({
 		val user: User = getUser()
 
 		context("해당 유저가 프로필을 가지고 있을 때") {
-			every { profileReader.findDetailParamByUser(user) } returns getDetailParam()
+			val userParam = getProfileUserParam()
+			val partnerParam = getProfilePartnerParam()
+
+			every { profileReader.findUserProfileByUser(user) } returns userParam
+			every { coupleEntryReader.findPartnerIdById(any()) } returns 2L
+			every { profileReader.findPartnerProfileByUser(2L) } returns partnerParam
 
 			it("상세 조회를 성공한다.") {
 				val detailResponse: ProfileDetailResponse = profileService.findDetailByUser(user)
 
-				detailResponse shouldBe ProfileDetailResponse.of(getDetailParam())
+				detailResponse shouldBe ProfileDetailResponse.of(userParam, partnerParam)
 			}
 		}
 
 		context("해당 유저가 프로필을 가지고 있지 않을 때") {
-			every { profileReader.findDetailParamByUser(user) } throws LbException(ReturnCode.NOT_EXIST_PROFILE)
+			every { profileReader.findUserProfileByUser(user) } throws LbException(ReturnCode.NOT_EXIST_PROFILE)
 
 			it("예외를 반환한다") {
 				shouldThrow<LbException> { profileService.findDetailByUser(user) }
@@ -114,22 +121,6 @@ class ProfileServiceTest : ServiceDescribeSpec({
 				birthday = birthday,
 				firstDate = firstDate,
 				gender = Gender.MALE
-			)
-		}
-
-		fun getDetailParam(): ProfileDetailResponseParam {
-			return ProfileDetailResponseParam(
-				userId = 1L,
-				partnerId = 2L,
-				email = "test-email",
-				nickname = "test-nickname",
-				partnerNickname = "test-partner-nickname",
-				firstDate = LocalDate.of(2021, 1, 1),
-				birthday = LocalDate.of(1998, 5, 6),
-				nextAnniversaryType = AnniversaryType.ONE_HUNDRED,
-				nextAnniversaryDate = LocalDate.of(2021, 5, 6),
-				profileImageUrl = "test-profile-image-url",
-				partnerImageUrl = "test-partner-image-url"
 			)
 		}
 

@@ -72,10 +72,12 @@ class ProfileControllerTest(
 						jsonPath("$.data.partnerNickname") shouldBe response.partnerNickname!!,
 						jsonPath("$.data.firstDate") shouldBe response.firstDate!!.toString(),
 						jsonPath("$.data.birthday") shouldBe response.birthday!!.toString(),
+						jsonPath("$.data.partnerBirthday") shouldBe response.partnerBirthday!!.toString(),
 						jsonPath("$.data.dayCount") shouldBe response.dayCount!!,
 						jsonPath("$.data.nextAnniversary.kind") shouldBe response.nextAnniversary!!.kind.toString(),
+						jsonPath("$.data.nextAnniversary.seq") shouldBe response.nextAnniversary!!.seq.toString(),
 						jsonPath("$.data.nextAnniversary.anniversaryDate") shouldBe response.nextAnniversary!!.anniversaryDate.toString(),
-						jsonPath("$.data.profileImageUrl") shouldBe response.profileImageUrl,
+						jsonPath("$.data.profileImageUrl") shouldBe response.profileImageUrl!!,
 						jsonPath("$.data.partnerImageUrl") shouldBe response.partnerImageUrl!!
 					)
 					.andDocument(
@@ -138,8 +140,9 @@ class ProfileControllerTest(
 				partnerNickname = "test2",
 				firstDate = LocalDate.of(2024, 1, 1),
 				birthday = LocalDate.now(),
+				partnerBirthday = LocalDate.now(),
 				dayCount = 48,
-				nextAnniversary = AnniversaryResponse(AnniversaryType.BIRTHDAY, LocalDate.now()),
+				nextAnniversary = AnniversaryResponse(AnniversaryType.DAY, 3, LocalDate.of(2024, 1, 1).plusDays(300)),
 				profileImageUrl = "profile image url",
 				partnerImageUrl = "partner profile image url"
 			)
@@ -165,9 +168,11 @@ class ProfileControllerTest(
 				"partnerNickname" type STRING means "파트너 닉네임" isOptional true,
 				"firstDate" type STRING means "사귄 날짜" isOptional true,
 				"birthday" type STRING means "생년월일" isOptional true,
+				"partnerBirthday" type STRING means "파트너 생년월일" isOptional true,
 				"dayCount" type NUMBER means "사귄 일수" isOptional true,
 				"nextAnniversary" type OBJECT means "다음 기념일" isOptional true,
 				"nextAnniversary.kind" type STRING means "다음 기념일 종류" isOptional true,
+				"nextAnniversary.seq" type NUMBER means "다음 기념일 순서" isOptional true,
 				"nextAnniversary.anniversaryDate" type STRING means "다음 기념일 날짜" isOptional true,
 				"profileImageUrl" type STRING means "프로필 이미지 URL" isOptional true,
 				"partnerImageUrl" type STRING means "파트너 프로필 이미지 URL" isOptional true

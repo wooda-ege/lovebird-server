@@ -6,12 +6,15 @@ import com.lovebird.api.dto.param.user.SignInParam
 import com.lovebird.api.dto.param.user.SignUpParam
 import com.lovebird.api.dto.param.user.UserAuthParam
 import com.lovebird.api.dto.request.user.SignUpRequest
+import com.lovebird.api.dto.response.user.RecreateTokenResponse
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.factory.AuthProviderFactory
 import com.lovebird.api.provider.JwtProvider
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.api.service.profile.ProfileService
+import com.lovebird.api.validator.JwtValidator
+import com.lovebird.api.vo.JwtToken
 import com.lovebird.api.vo.PrincipalUser
 import com.lovebird.common.enums.Provider
 import com.lovebird.common.enums.ReturnCode
@@ -26,14 +29,15 @@ class AuthService(
 	private val profileService: ProfileService,
 	private val coupleService: CoupleService,
 	private val authProviderFactory: AuthProviderFactory,
-	private val jwtProvider: JwtProvider
+	private val jwtProvider: JwtProvider,
+	private val jwtValidator: JwtValidator
 ) {
 	@Transactional
 	fun signUpUserUsingOidc(request: SignUpRequest.OidcUserRequest): SignUpResponse {
-		val param = signUsingOidc(request.toUserRegisterParam())
+		val param: UserAuthParam = signUsingOidc(request.toUserRegisterParam())
 		profileService.save(request.toProfileCreateParam(param.user))
 
-		return SignUpResponse.of(jwtProvider.generateJwtToken(param.principalUser))
+		return SignUpResponse.from(jwtProvider.generateJwtToken(param.principalUser))
 	}
 
 	@Transactional
@@ -41,13 +45,13 @@ class AuthService(
 		val param = signUsingNaver(request.toUserRegisterParam())
 		profileService.save(request.toProfileCreateParam(param.user))
 
-		return SignUpResponse.of(jwtProvider.generateJwtToken(param.principalUser))
+		return SignUpResponse.from(jwtProvider.generateJwtToken(param.principalUser))
 	}
 
 	@Transactional(readOnly = true)
 	fun signInUsingOidc(param: SignInParam.OidcUserParam): SignInResponse {
 		val user = findUserByProviderId(getProviderId(param.provider, param.idToken))
-		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.of(user))
+		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.from(user))
 
 		return SignInResponse.of(jwtToken, coupleService.existByUser(user))
 	}
@@ -55,9 +59,17 @@ class AuthService(
 	@Transactional(readOnly = true)
 	fun signInUsingNaver(param: SignInParam.NaverUserParam): SignInResponse {
 		val user = findUserByProviderId(getProviderId(param.provider, NaverLoginParam(param.code, param.state)))
-		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.of(user))
+		val jwtToken = jwtProvider.generateJwtToken(PrincipalUser.from(user))
 
 		return SignInResponse.of(jwtToken, coupleService.existByUser(user))
+	}
+
+	@Transactional
+	fun recreateAccessToken(refreshToken: String): RecreateTokenResponse {
+		val principalUser: PrincipalUser = jwtValidator.getPrincipalUser(refreshToken)
+		val jwtToken: JwtToken = jwtProvider.generateJwtToken(principalUser)
+
+		return RecreateTokenResponse.of(jwtToken)
 	}
 
 	private fun signUsingOidc(param: SignUpParam.OidcUserParam): UserAuthParam {
@@ -65,7 +77,7 @@ class AuthService(
 		validateProviderId(oAuthParam.providerId)
 		val user: User = userService.save(param.toUserEntity(oAuthParam.providerId))
 
-		return UserAuthParam.of(user)
+		return UserAuthParam.from(user)
 	}
 
 	private fun signUsingNaver(param: SignUpParam.NaverUserParam): UserAuthParam {
@@ -73,7 +85,7 @@ class AuthService(
 		validateProviderId(oAuthParam.providerId)
 		val user: User = userService.save(param.toUserEntity(oAuthParam.providerId))
 
-		return UserAuthParam.of(user)
+		return UserAuthParam.from(user)
 	}
 
 	private fun validateProviderId(providerId: String) {

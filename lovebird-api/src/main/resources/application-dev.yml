@@ -8,7 +8,11 @@ jwt:
     refresh-header: ${REFRESH_HEADER}
     secret: ${DEV_JWT_SECRET}
     expiration:
-        access-token: 432000
-        refresh-token: 6048000
+        access-token: 1814400000
+        refresh-token: 2592000000
     grant-type: Bearer
 
+slack:
+    webhook:
+        is-enable: true
+        url: ${SLACK_WEBHOOK_URL}

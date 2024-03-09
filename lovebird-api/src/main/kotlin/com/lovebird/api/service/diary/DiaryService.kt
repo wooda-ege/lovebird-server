@@ -5,16 +5,11 @@ import com.lovebird.api.dto.param.diary.DiaryUpdateParam
 import com.lovebird.api.dto.request.diary.DiaryListRequest
 import com.lovebird.api.dto.response.diary.DiaryDetailResponse
 import com.lovebird.api.dto.response.diary.DiaryListResponse
-import com.lovebird.api.dto.response.diary.DiarySimpleListResponse
-import com.lovebird.api.util.DiaryUtils.decryptDiaries
-import com.lovebird.api.util.DiaryUtils.decryptDiariesOfSimple
-import com.lovebird.api.util.DiaryUtils.decryptDiary
-import com.lovebird.api.util.DiaryUtils.encryptDiaryCreateParam
-import com.lovebird.api.util.DiaryUtils.encryptDiaryUpdateParam
+import com.lovebird.api.dto.response.diary.DiarySimpleResponse
+import com.lovebird.api.util.DiaryUtils
 import com.lovebird.common.enums.DiarySearchType
 import com.lovebird.domain.dto.query.DiaryListRequestParam
 import com.lovebird.domain.dto.query.DiaryResponseParam
-import com.lovebird.domain.dto.query.DiarySimpleResponseParam
 import com.lovebird.domain.entity.CoupleEntry
 import com.lovebird.domain.entity.Diary
 import com.lovebird.domain.entity.User
@@ -30,7 +25,8 @@ class DiaryService(
 	private val diaryReader: DiaryReader,
 	private val diaryWriter: DiaryWriter,
 	private val diaryImageWriter: DiaryImageWriter,
-	private val coupleEntryReader: CoupleEntryReader
+	private val coupleEntryReader: CoupleEntryReader,
+	private val diaryUtils: DiaryUtils
 ) {
 
 	@Transactional(readOnly = true)
@@ -50,8 +46,7 @@ class DiaryService(
 
 	@Transactional
 	fun save(param: DiaryCreateParam) {
-		encryptDiaryCreateParam(param)
-
+		diaryUtils.encryptDiaryCreateParam(param)
 		val diary: Diary = diaryWriter.save(param.toEntity())
 		param.imageUrls?.let { diaryImageWriter.saveAll(diary, it) }
 	}
@@ -60,7 +55,7 @@ class DiaryService(
 	fun update(param: DiaryUpdateParam) {
 		val diary: Diary = diaryReader.findEntityById(param.diaryId)
 
-		encryptDiaryUpdateParam(param)
+		diaryUtils.encryptDiaryUpdateParam(param)
 		diaryWriter.update(diary, param.toDomainParam())
 
 		param.imageUrls?.let {
@@ -78,36 +73,54 @@ class DiaryService(
 	}
 
 	@Transactional(readOnly = true)
-	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleListResponse {
+	fun findAll(user: User): DiarySimpleResponse {
 		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
 		val partner: User? = coupleEntry?.partner
-		val diaries: List<DiarySimpleResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
 
-		decryptDiariesOfSimple(diaries)
+		val diaries: List<DiaryResponseParam> = diaryReader.findAll(user.id!!, partner?.id)
 
-		return DiarySimpleListResponse.of(diaries)
+		diaryUtils.decryptDiariesOfSimple(diaries)
+
+		return DiarySimpleResponse.of(diaries)
+	}
+
+	@Transactional(readOnly = true)
+	fun findAllByMemoryDate(request: DiaryListRequest.SearchByMemoryDateRequest, user: User): DiarySimpleResponse {
+		val coupleEntry: CoupleEntry? = coupleEntryReader.findByUser(user)
+		val partner: User? = coupleEntry?.partner
+		val diaries: List<DiaryResponseParam> = diaryReader.findAllByMemoryDate(request.toParam(user.id!!, partner?.id))
+
+		diaryUtils.decryptDiariesOfSimple(diaries)
+
+		return DiarySimpleResponse.of(diaries)
 	}
 
 	@Transactional(readOnly = true)
 	fun findDetailById(diaryId: Long): DiaryDetailResponse {
 		val diary: Diary = diaryReader.findEntityById(diaryId)
 
-		decryptDiary(diary)
+		diaryUtils.decryptDiary(diary)
 
 		return DiaryDetailResponse.of(diary)
 	}
 
 	private fun findBeforeNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findBeforeNowUsingCursor(param)
-		decryptDiaries(diaries)
+		diaryUtils.decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
 	}
 
 	private fun findAfterNowUsingCursor(param: DiaryListRequestParam): DiaryListResponse {
 		val diaries: List<DiaryResponseParam> = diaryReader.findAfterNowUsingCursor(param)
-		decryptDiaries(diaries)
+		diaryUtils.decryptDiaries(diaries)
 
 		return DiaryListResponse.of(diaries)
+	}
+
+	fun deleteByUser(user: User) {
+		val diaries = diaryReader.findAllByUser(user)
+		diaryImageWriter.deleteAllByDiaries(diaries)
+		diaryWriter.deleteAll(diaries)
 	}
 }

@@ -5,12 +5,16 @@ on:
     branches:
       - develop
       - master
-    paths:
-      - lovebird-api/**
-      - lovebird-client/**
-      - lovebird-external/**
-      - lovebird-domain/**
-      - lovebird-common/**
+  push:
+    branches:
+      - develop
+      - master
+#    paths:
+#      - lovebird-api/**
+#      - lovebird-client/**
+#      - lovebird-external/**
+#      - lovebird-domain/**
+#      - lovebird-common/**
 
 permissions: write-all
 
@@ -68,7 +72,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./codecov.xml
+          files: ./codecov.yml
           directory: ./lovebird-api/build/reports/jacoco/test
           fail_ci_if_error: true
         continue-on-error: true

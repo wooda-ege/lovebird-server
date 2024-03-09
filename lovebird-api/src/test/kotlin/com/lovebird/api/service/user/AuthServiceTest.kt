@@ -11,15 +11,21 @@ import com.lovebird.api.factory.AuthProviderFactory
 import com.lovebird.api.provider.JwtProvider
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.api.service.profile.ProfileService
+import com.lovebird.api.utils.AuthTestFixture.getJwtToken
+import com.lovebird.api.utils.CommonTestFixture.getPrincipalUser
+import com.lovebird.api.validator.JwtValidator
 import com.lovebird.api.vo.JwtToken
 import com.lovebird.common.enums.Gender
 import com.lovebird.common.enums.Provider
+import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import java.time.LocalDate
 
 class AuthServiceTest : ServiceDescribeSpec({
@@ -29,10 +35,11 @@ class AuthServiceTest : ServiceDescribeSpec({
 	val coupleService: CoupleService = mockk<CoupleService>(relaxed = true)
 	val authFactory: AuthProviderFactory = mockk<AuthProviderFactory>(relaxed = true)
 	val jwtProvider: JwtProvider = mockk<JwtProvider>(relaxed = true)
-	val authService = AuthService(userService, profileService, coupleService, authFactory, jwtProvider)
+	val jwtValidator: JwtValidator = mockk<JwtValidator>(relaxed = true)
+	val authService = AuthService(userService, profileService, coupleService, authFactory, jwtProvider, jwtValidator)
 
 	afterTest {
-		clearMocks(userService, profileService, coupleService, authFactory, jwtProvider)
+		clearMocks(userService, profileService, coupleService, authFactory, jwtProvider, jwtValidator)
 	}
 
 	describe("signUpUserUsingOidc()") {
@@ -59,7 +66,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 			it("회원가입에 성공한다") {
 				val response: SignUpResponse = authService.signUpUserUsingOidc(request)
 
-				response shouldBe SignUpResponse.of(jwtToken)
+				response shouldBe SignUpResponse.from(jwtToken)
 			}
 		}
 		context("이미 존재하는 User 일 때") {
@@ -100,7 +107,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 			it("회원가입에 성공한다") {
 				val response: SignUpResponse = authService.signUpUserUsingNaver(request)
 
-				response shouldBe SignUpResponse.of(jwtToken)
+				response shouldBe SignUpResponse.from(jwtToken)
 			}
 		}
 		context("이미 존재하는 User 일 때") {
@@ -151,7 +158,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 			code = "authorization-code",
 			state = "lovebird"
 		)
-		val jwtToken = JwtToken("access token", "refresh token", "bearer")
+		val jwtToken = getJwtToken()
 
 		context("주어진 param 데이터가 정상 데이터일 때") {
 			every { authFactory.getProviderId(param.provider, NaverLoginParam(param.code, param.state)) } returns providerId
@@ -170,6 +177,43 @@ class AuthServiceTest : ServiceDescribeSpec({
 
 			it("예외를 던진다") {
 				shouldThrow<LbException> { authService.signInUsingNaver(param) }
+			}
+		}
+	}
+
+	describe("recreateAccessToken()") {
+		val refreshToken = "refresh-token"
+		val principalUser = getPrincipalUser(1, "123456789")
+		val jwtToken = getJwtToken()
+
+		context("올바른 Refresh Token 일 때") {
+			every { jwtValidator.getPrincipalUser(refreshToken) } returns principalUser
+			every { jwtProvider.generateJwtToken(principalUser) } returns jwtToken
+
+			it("AccessToken 을 재발급한다") {
+				authService.recreateAccessToken(refreshToken).should {
+					jwtToken
+				}
+
+				verify(exactly = 1) {
+					jwtValidator.getPrincipalUser(refreshToken)
+					jwtProvider.generateJwtToken(principalUser)
+				}
+			}
+		}
+		context("잘못된 Refresh Token 일 때") {
+			every { jwtValidator.getPrincipalUser(refreshToken) } throws LbException(ReturnCode.WRONG_JWT_TOKEN)
+
+			it("예외가 발생한다") {
+				val exception = shouldThrow<LbException> {
+					authService.recreateAccessToken(refreshToken)
+				}
+
+				exception.getMsg().should { ReturnCode.WRONG_JWT_TOKEN.message }
+				exception.getCode().should { ReturnCode.WRONG_JWT_TOKEN.code }
+
+				verify(exactly = 1) { jwtValidator.getPrincipalUser(refreshToken) }
+				verify(exactly = 0) { jwtProvider.generateJwtToken(principalUser) }
 			}
 		}
 	}

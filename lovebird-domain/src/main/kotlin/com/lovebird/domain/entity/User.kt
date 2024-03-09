@@ -13,11 +13,9 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.DynamicUpdate
 
 @Entity
 @Table(name = "users")
-@DynamicUpdate
 class User(
 	provider: Provider,
 	providerId: String,

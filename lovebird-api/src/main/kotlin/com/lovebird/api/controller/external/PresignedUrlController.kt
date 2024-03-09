@@ -21,10 +21,9 @@ class PresignedUrlController(
 
 	@PostMapping("/profile")
 	fun getProfilePresignedUrl(
-		@RequestBody request: ProfileUploadPresignedUrlRequest,
-		@AuthorizedUser user: User
+		@RequestBody request: ProfileUploadPresignedUrlRequest
 	): ApiResponse<PresignedUrlResponse> {
-		return ApiResponse.success(presignedUrlService.getProfilePresignedUrl(request.toParam(user.id!!)))
+		return ApiResponse.success(presignedUrlService.getProfilePresignedUrl(request.toParam()))
 	}
 
 	@PostMapping("/diary")

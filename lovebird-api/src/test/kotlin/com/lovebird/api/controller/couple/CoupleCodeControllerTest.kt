@@ -45,11 +45,11 @@ class CoupleCodeControllerTest(
 	beforeEach { restDocumentation.beforeTest(javaClass, it.name.testName) }
 	afterEach { restDocumentation.afterTest() }
 
-	describe("POST : /api/v1/couple/code") {
+	describe("GET : /api/v1/couple/code") {
 		val url = "$baseUrl/code"
 		context("유효한 요청이 전달 되면") {
 			val response = getCoupleCodeResponse()
-			val request = request(HttpMethod.POST, url)
+			val request = request(HttpMethod.GET, url)
 				.header(AUTHORIZATION, "Bearer access-token")
 
 			it("1000 SUCCESS") {

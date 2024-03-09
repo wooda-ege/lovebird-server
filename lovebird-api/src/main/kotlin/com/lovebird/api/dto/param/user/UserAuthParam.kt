@@ -8,8 +8,8 @@ data class UserAuthParam(
 	val principalUser: PrincipalUser
 ) {
 	companion object {
-		fun of(user: User): UserAuthParam {
-			return UserAuthParam(user, PrincipalUser.of(user))
+		fun from(user: User): UserAuthParam {
+			return UserAuthParam(user, PrincipalUser.from(user))
 		}
 	}
 }

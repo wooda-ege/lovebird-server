@@ -71,7 +71,7 @@ class CoupleCodeService(
 		return coupleCodeReader.findByCode(code).let {
 			if (it.isExpired()) {
 				delete(it)
-				throw LbException(ReturnCode.WRONG_PARAMETER)
+				throw LbException(ReturnCode.WRONG_COUPLE_CODE)
 			}
 			it
 		}

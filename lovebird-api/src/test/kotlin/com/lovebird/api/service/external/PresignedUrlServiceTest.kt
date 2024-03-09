@@ -23,16 +23,16 @@ class PresignedUrlServiceTest : ServiceDescribeSpec({
 	}
 
 	describe("getProfilePresignedUrl()") {
-		val userId = 1L
+		val providerId = "provider"
 		val filename = "test.png"
 		val domain = Domain.PROFILE
 		val presignedUrl = "https://cdn.lovebird.com/profile/1-profile.png"
-		val newFilename = "1-profile.png"
+		val newFilename = "provider-profile.png"
 
 		context("정상적인 Parameter가 주어졌을 때") {
-			val param = ProfileUploadPresignedUrlParam(userId, filename)
+			val param = ProfileUploadPresignedUrlParam(providerId, filename)
 
-			every { presignedUrlProvider.getUploadPresignedUrl(domain.lower(), param.userId, newFilename) } returns presignedUrl
+			every { presignedUrlProvider.getUploadPresignedUrl(domain.lower(), null, newFilename) } returns presignedUrl
 
 			it("프로필 사진 업로드용 presigned url을 반환한다.") {
 				val response: PresignedUrlResponse = presignedUrlService.getProfilePresignedUrl(param)
@@ -45,27 +45,18 @@ class PresignedUrlServiceTest : ServiceDescribeSpec({
 
 	describe("getDiaryPresignedUrls()") {
 		val userId = 1L
-		val diaryId = 1L
 		val filenames = listOf("test1.png", "test2.png")
 		val domain = Domain.DIARY
-		val presignedUrl1 = "https://cdn.lovebird.com/profile/1_1-1.png"
-		val presignedUrl2 = "https://cdn.lovebird.com/profile/1_1-2.png"
-		val newFilename1 = "1_1-1.png"
-		val newFilename2 = "1_1-2.png"
+		val presignedUrl = "https://cdn.lovebird.com/profile/1_1-1.png"
 
 		context("정상적인 Parameter가 주어졌을 때") {
-			val param = DiaryUploadPresignedUrlParam(userId, diaryId, filenames)
+			val param = DiaryUploadPresignedUrlParam(userId, filenames)
 
-			every { presignedUrlProvider.getUploadPresignedUrl(domain.lower(), param.userId, newFilename1) } returns presignedUrl1
-			every { presignedUrlProvider.getUploadPresignedUrl(domain.lower(), param.userId, newFilename2) } returns presignedUrl2
+			every { presignedUrlProvider.getUploadPresignedUrl(domain.lower(), param.userId, any()) } returns presignedUrl
 
 			it("다이어리 사진 업로드용 presigned url을 반환한다.") {
 				val response: PresignedUrlListResponse = presignedUrlService.getDiaryPresignedUrls(param)
 
-				response.presignedUrls[0].presignedUrl shouldBe presignedUrl1
-				response.presignedUrls[0].filename shouldBe newFilename1
-				response.presignedUrls[1].presignedUrl shouldBe presignedUrl2
-				response.presignedUrls[1].filename shouldBe newFilename2
 				response.totalCount shouldBe 2
 			}
 		}

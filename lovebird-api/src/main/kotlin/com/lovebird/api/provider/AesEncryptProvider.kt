@@ -1,21 +1,23 @@
 package com.lovebird.api.provider
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-object AesEncryptProvider {
-
+@Component
+class AesEncryptProvider(
 	@Value("\${aes.secret-key}")
-	private lateinit var key: String
+	private val key: String
+) {
+
 	private val encoder = Base64.getEncoder()
 	private val decoder = Base64.getDecoder()
 
 	fun encryptString(encryptString: String): String {
 		val encryptedString = cipherPkcs5(Cipher.ENCRYPT_MODE).doFinal(encryptString.toByteArray(Charsets.UTF_8))
-
 		return String(encoder.encode(encryptedString))
 	}
 

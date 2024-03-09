@@ -47,8 +47,7 @@ class CalendarService(
 
 		return if (coupleEntry != null) {
 			val partner: User = coupleEntry.partner
-			val calendars: List<CalendarListResponseParam> = calendarReader
-				.findCalendarsByDate(param.toRequestParam(partner))
+			val calendars: List<CalendarListResponseParam> = calendarReader.findCalendarsByDate(param.toRequestParam(partner))
 
 			CalendarListResponse.of(calendars)
 		} else {
@@ -106,6 +105,14 @@ class CalendarService(
 	}
 
 	private fun validateCalendarUser(calendar: Calendar, user: User) {
-		if (calendar.user.id != user.id) { throw LbException(ReturnCode.INVALID_MEMBER) }
+		if (calendar.user.id != user.id) {
+			throw LbException(ReturnCode.INVALID_MEMBER)
+		}
+	}
+
+	fun deleteByUser(user: User) {
+		val calendars = calendarReader.findCalendarsByUser(user)
+		calendarEventWriter.deleteAllByCalendars(calendars)
+		calendarWriter.deleteAllByCalendars(calendars)
 	}
 }

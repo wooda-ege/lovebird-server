@@ -11,7 +11,7 @@ class PresignedUrlProvider(
 	private val awsS3Config: AwsS3Config
 ) {
 
-	fun getUploadPresignedUrl(domain: String, userId: Long, filename: String): String {
+	fun getUploadPresignedUrl(domain: String, userId: Long?, filename: String): String {
 		val path = getPath(userId, domain, filename)
 		return getPresignedUrl(path, HttpMethod.PUT)
 	}
@@ -36,7 +36,11 @@ class PresignedUrlProvider(
 		return expiration
 	}
 
-	private fun getPath(userId: Long, domain: String, filename: String): String {
-		return "users/%n/%s/%s".format(userId, domain, filename)
+	private fun getPath(userId: Long?, domain: String, filename: String): String {
+		return if (userId == null) {
+			"users/%s/%s".format(domain, filename)
+		} else {
+			"users/%s/%n/%s".format(domain, userId, filename)
+		}
 	}
 }
