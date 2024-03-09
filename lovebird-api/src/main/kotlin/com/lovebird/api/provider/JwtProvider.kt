@@ -1,6 +1,5 @@
 package com.lovebird.api.provider
 
-import com.lovebird.api.dto.response.user.AccessTokenResponse
 import com.lovebird.api.vo.JwtToken
 import com.lovebird.api.vo.PrincipalUser
 import io.jsonwebtoken.Claims
@@ -28,13 +27,6 @@ class JwtProvider(
 		val refreshToken = generateRefreshToken(principalUser, claims)
 
 		return JwtToken(accessToken, refreshToken, grantType)
-	}
-
-	fun generateAccessToken(principalUser: PrincipalUser): AccessTokenResponse {
-		val claims = getClaims(principalUser)
-		val accessToken = generateAccessToken(principalUser, claims)
-
-		return AccessTokenResponse(accessToken)
 	}
 
 	private fun getClaims(principalUser: PrincipalUser): Claims {

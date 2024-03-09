@@ -4,7 +4,7 @@ import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.annotation.RefreshToken
 import com.lovebird.api.dto.request.user.SignInRequest
 import com.lovebird.api.dto.request.user.SignUpRequest
-import com.lovebird.api.dto.response.user.AccessTokenResponse
+import com.lovebird.api.dto.response.user.RecreateTokenResponse
 import com.lovebird.api.dto.response.user.SignInResponse
 import com.lovebird.api.dto.response.user.SignUpResponse
 import com.lovebird.api.service.user.AuthDeleteService
@@ -56,8 +56,8 @@ class AuthController(
 		return ApiResponse.success(superAuthService.signInSuper(id))
 	}
 
-	@PostMapping("/access-token")
-	fun regenerateAccessToken(@RefreshToken refreshToken: String): ApiResponse<AccessTokenResponse> {
+	@PostMapping("/recreate")
+	fun regenerateAccessToken(@RefreshToken refreshToken: String): ApiResponse<RecreateTokenResponse> {
 		return ApiResponse.success(authService.recreateAccessToken(refreshToken))
 	}
 
