@@ -11,7 +11,7 @@ import com.lovebird.api.factory.AuthProviderFactory
 import com.lovebird.api.provider.JwtProvider
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.api.service.profile.ProfileService
-import com.lovebird.api.utils.AuthTestFixture.getAccessTokenResponse
+import com.lovebird.api.utils.AuthTestFixture.getJwtToken
 import com.lovebird.api.utils.CommonTestFixture.getPrincipalUser
 import com.lovebird.api.validator.JwtValidator
 import com.lovebird.api.vo.JwtToken
@@ -158,7 +158,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 			code = "authorization-code",
 			state = "lovebird"
 		)
-		val jwtToken = JwtToken("access token", "refresh token", "bearer")
+		val jwtToken = getJwtToken()
 
 		context("주어진 param 데이터가 정상 데이터일 때") {
 			every { authFactory.getProviderId(param.provider, NaverLoginParam(param.code, param.state)) } returns providerId
@@ -184,20 +184,20 @@ class AuthServiceTest : ServiceDescribeSpec({
 	describe("recreateAccessToken()") {
 		val refreshToken = "refresh-token"
 		val principalUser = getPrincipalUser(1, "123456789")
-		val accessToken = getAccessTokenResponse()
+		val jwtToken = getJwtToken()
 
 		context("올바른 Refresh Token 일 때") {
 			every { jwtValidator.getPrincipalUser(refreshToken) } returns principalUser
-			every { jwtProvider.generateAccessToken(principalUser) } returns accessToken
+			every { jwtProvider.generateJwtToken(principalUser) } returns jwtToken
 
 			it("AccessToken 을 재발급한다") {
 				authService.recreateAccessToken(refreshToken).should {
-					accessToken
+					jwtToken
 				}
 
 				verify(exactly = 1) {
 					jwtValidator.getPrincipalUser(refreshToken)
-					jwtProvider.generateAccessToken(principalUser)
+					jwtProvider.generateJwtToken(principalUser)
 				}
 			}
 		}
@@ -213,7 +213,7 @@ class AuthServiceTest : ServiceDescribeSpec({
 				exception.getCode().should { ReturnCode.WRONG_JWT_TOKEN.code }
 
 				verify(exactly = 1) { jwtValidator.getPrincipalUser(refreshToken) }
-				verify(exactly = 0) { jwtProvider.generateAccessToken(principalUser) }
+				verify(exactly = 0) { jwtProvider.generateJwtToken(principalUser) }
 			}
 		}
 	}
