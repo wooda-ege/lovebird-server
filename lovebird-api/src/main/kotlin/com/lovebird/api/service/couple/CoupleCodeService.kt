@@ -41,6 +41,11 @@ class CoupleCodeService(
 		return CoupleLinkResponse(coupleCode.user.id!!)
 	}
 
+	@Transactional
+	fun deleteByUser(user: User) {
+		findByUser(user)?.let { delete(it) }
+	}
+
 	private fun linkForAppleTest(user: User): CoupleLinkResponse {
 		coupleService.saveAll(user, user)
 		return CoupleLinkResponse(user.id!!)
