@@ -1,6 +1,7 @@
 package com.lovebird.api.service.user
 
 import com.lovebird.api.service.calendar.CalendarService
+import com.lovebird.api.service.couple.CoupleCodeService
 import com.lovebird.api.service.couple.CoupleService
 import com.lovebird.api.service.diary.DiaryService
 import com.lovebird.api.service.profile.ProfileService
@@ -13,6 +14,7 @@ class AuthDeleteService(
 	private val userService: UserService,
 	private val diaryService: DiaryService,
 	private val calendarService: CalendarService,
+	private val coupleCodeService: CoupleCodeService,
 	private val coupleService: CoupleService,
 	private val profileService: ProfileService
 ) {
@@ -21,6 +23,7 @@ class AuthDeleteService(
 	fun deleteAccount(user: User) {
 		diaryService.deleteByUser(user)
 		calendarService.deleteByUser(user)
+		coupleCodeService.deleteByUser(user)
 		coupleService.deleteByUser(user)
 		profileService.deleteByUser(user)
 		userService.deleteByUser(user)
