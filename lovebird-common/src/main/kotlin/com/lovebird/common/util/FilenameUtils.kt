@@ -4,8 +4,8 @@ import com.lovebird.common.util.RandomUtils.generateTimeBasedUUID
 
 object FilenameUtils {
 
-	fun generateProfileImageName(filename: String, providerId: String): String {
-		return "%s-profile%s".format(providerId, getFileExtension(filename))
+	fun generateProfileImageName(imageName: String, providerId: String): String {
+		return "%s-profile%s".format(providerId, getFileExtension(imageName))
 	}
 
 	fun generateDiaryImageNames(imageNames: List<String>, userId: Long): List<String> {
