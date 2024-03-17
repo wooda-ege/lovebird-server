@@ -1,0 +1,7 @@
+== S3
+
+=== 프로필 이미지 업로드
+operation::1000-profile-image-upload[]
+
+=== 일기 이미지 리스트 업로드
+operation::1000-diary-images-upload[]
