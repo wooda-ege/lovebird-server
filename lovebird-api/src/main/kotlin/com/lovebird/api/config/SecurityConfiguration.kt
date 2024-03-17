@@ -45,6 +45,7 @@ class SecurityConfiguration(
 				.requestMatchers(
 					AntPathRequestMatcher("/api/v1/auth/**"),
 					AntPathRequestMatcher("/api/v1/presigned-urls/profile"),
+					AntPathRequestMatcher("/api/v1/images/profile"),
 					AntPathRequestMatcher("/docs/index.html")
 				).permitAll()
 				.requestMatchers("/api/v1/**").hasAnyRole("USER", "ADMIN")
