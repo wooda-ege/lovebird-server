@@ -96,6 +96,7 @@
 |===
 
 include::presigned-url.adoc[]
+include::s3.adoc[]
 include::auth.adoc[]
 include::profile.adoc[]
 include::couple.adoc[]

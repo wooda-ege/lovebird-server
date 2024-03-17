@@ -17,11 +17,11 @@ object ProfileUtils {
 
 	private fun getAnniversaryOfDay(days: Long, firstDate: LocalDate): AnniversaryResponse {
 		return if (days < 100) {
-			AnniversaryResponse.of(AnniversaryType.DAY, 100, getPlusDaysFromNow(100, firstDate))
+			AnniversaryResponse.of(AnniversaryType.DAY, 100, getPlusDaysFromNow(99, firstDate))
 		} else if (days < 200) {
-			AnniversaryResponse.of(AnniversaryType.DAY, 200, getPlusDaysFromNow(200, firstDate))
+			AnniversaryResponse.of(AnniversaryType.DAY, 200, getPlusDaysFromNow(199, firstDate))
 		} else {
-			AnniversaryResponse.of(AnniversaryType.DAY, 300, getPlusDaysFromNow(300, firstDate))
+			AnniversaryResponse.of(AnniversaryType.DAY, 300, getPlusDaysFromNow(299, firstDate))
 		}
 	}
 
