@@ -1,7 +1,6 @@
 package com.lovebird.api.controller.external
 
 import com.lovebird.api.common.base.ControllerDescribeSpec
-import com.lovebird.api.dto.request.external.ProfileImageUploadRequest
 import com.lovebird.api.service.external.S3ImageService
 import com.lovebird.api.utils.CommonTestFixture.getMultipartFile
 import com.lovebird.api.utils.restdocs.ARRAY
@@ -23,8 +22,6 @@ import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.requestPartFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
@@ -48,32 +45,19 @@ class S3ImageControllerTest(
 
 		context("유효한 요청이 전달되면") {
 			val image = getMultipartFile()
-			val imageUploadRequest = ProfileImageUploadRequest("provider-id")
 			val response = FileUploadResponse("1-profile.png", "프로필 이미지 url")
 			val request = multipart(url)
 				.file(image)
-				.file(
-					MockMultipartFile(
-						"imageUploadRequest",
-						"",
-						"application/json",
-						toJson(imageUploadRequest).toByteArray()
-					)
-				)
 				.contentType(MediaType.APPLICATION_JSON)
 
 			it("1000 SUCCESS") {
-				every { s3ImageService.uploadProfileImage(imageUploadRequest.toParam(image)) } returns response
+				every { s3ImageService.uploadProfileImage(any()) } returns response
 
 				mockMvc
 					.perform(request)
 					.andExpect(status().isOk)
 					.andDocument(
 						"1000-profile-image-upload",
-						requestPartFields(
-							"imageUploadRequest",
-							fieldWithPath("providerId").type(STRING).description("소셜 제공자 ID")
-						),
 						envelopeResponseBody(
 							"data.fileName" type STRING means "새로운 파일 이름",
 							"data.fileUrl" type STRING means "파일 URL"

@@ -21,7 +21,7 @@ class PresignedUrlService(
 	}
 
 	fun getProfilePresignedUrl(param: ProfileUploadPresignedUrlParam): PresignedUrlResponse {
-		val newFilename: String = FilenameUtils.generateProfileImageName(param.filename, param.providerId)
+		val newFilename: String = FilenameUtils.generateProfileImageName(param.filename)
 		val presignedUrl: String = presignedUrlProvider.getUploadPresignedUrl(Domain.PROFILE.lower(), null, newFilename)
 
 		return PresignedUrlResponse(presignedUrl, newFilename)
