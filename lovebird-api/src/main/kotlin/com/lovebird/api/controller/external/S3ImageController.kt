@@ -32,7 +32,7 @@ class S3ImageController(
 	@PostMapping("/diary")
 	fun uploadDiaryImages(
 		@AuthorizedUser user: User,
-		@RequestPart(value = "images") images: List<MultipartFile>
+		@RequestPart(value = "image") images: List<MultipartFile>
 	): ApiResponse<FileUploadListResponse> {
 		val fileUploadListResponse = s3ImageService.uploadDiaryImages(DiaryImagesUploadParam.of(images, user.id!!))
 
