@@ -2,7 +2,7 @@ package com.lovebird.api.controller.external
 
 import com.lovebird.api.annotation.AuthorizedUser
 import com.lovebird.api.dto.param.external.DiaryImagesUploadParam
-import com.lovebird.api.dto.request.external.ProfileImageUploadRequest
+import com.lovebird.api.dto.param.external.ProfileImageUploadParam
 import com.lovebird.api.service.external.S3ImageService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
@@ -22,10 +22,9 @@ class S3ImageController(
 
 	@PostMapping("/profile")
 	fun uploadProfileImage(
-		@RequestPart(value = "image") image: MultipartFile,
-		@RequestPart(value = "imageUploadRequest") request: ProfileImageUploadRequest
+		@RequestPart(value = "image") image: MultipartFile
 	): ApiResponse<FileUploadResponse> {
-		val fileUploadResponse = s3ImageService.uploadProfileImage(request.toParam(image))
+		val fileUploadResponse = s3ImageService.uploadProfileImage(ProfileImageUploadParam.from(image))
 
 		return ApiResponse.success(fileUploadResponse)
 	}

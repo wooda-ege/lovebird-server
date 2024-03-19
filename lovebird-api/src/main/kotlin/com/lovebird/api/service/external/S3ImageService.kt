@@ -17,7 +17,7 @@ class S3ImageService(
 ) {
 
 	fun uploadProfileImage(param: ProfileImageUploadParam): FileUploadResponse {
-		val newFileName: String = generateProfileImageName(param.image.originalFilename!!, param.providerId)
+		val newFileName: String = generateProfileImageName(param.image.originalFilename!!)
 
 		return fileUploadService.upload(FileUploadRequest(param.image, newFileName, param.domain, null))
 	}
