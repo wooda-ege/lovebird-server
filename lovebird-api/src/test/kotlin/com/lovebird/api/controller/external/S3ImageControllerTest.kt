@@ -81,7 +81,7 @@ class S3ImageControllerTest(
 			val request = multipart(url)
 				.file(
 					MockMultipartFile(
-						"images",
+						"image",
 						"",
 						"multipart/form-data",
 						image.inputStream

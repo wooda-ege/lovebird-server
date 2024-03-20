@@ -28,7 +28,6 @@ class PresignedUrlServiceTest : ServiceDescribeSpec({
 		val filename = "test.png"
 		val domain = Domain.PROFILE
 		val presignedUrl = "https://cdn.lovebird.com/profile/1-profile.png"
-		val newFilename = "provider-profile.png"
 
 		context("정상적인 Parameter가 주어졌을 때") {
 			val param = ProfileUploadPresignedUrlParam(providerId, filename)
