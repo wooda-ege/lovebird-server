@@ -14,6 +14,10 @@ spring:
             - fcm.yml
             - logging-${spring.profiles.default}.yml
             - monitoring.yml
+    servlet:
+      multipart:
+          max-file-size: 50MB
+          max-request-size: 50MB
 
 apple:
     test-code: ${APPLE_TEST_CODE}
