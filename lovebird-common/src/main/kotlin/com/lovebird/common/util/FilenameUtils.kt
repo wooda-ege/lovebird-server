@@ -12,7 +12,7 @@ object FilenameUtils {
 	fun generateDiaryImageNames(imageNames: List<String>, userId: Long): List<String> {
 		val uuid: String = generateTimeBasedUUID()
 		var i = 1
-		return imageNames.map { "%d_%s-%d%s".format(userId, uuid, i++, getFileExtension(it)) }
+		return imageNames.map { "%d-%s-%d%s".format(userId, uuid, i++, getFileExtension(it)) }
 	}
 
 	private fun getFileExtension(originalFileName: String): String {

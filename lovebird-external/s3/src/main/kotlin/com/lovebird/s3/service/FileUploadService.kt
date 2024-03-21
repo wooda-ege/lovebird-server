@@ -61,9 +61,9 @@ class FileUploadService(
 
 	private fun getPath(userId: Long?, domain: String, filename: String): String {
 		return if (userId == null) {
-			"users/%s/%s".format(domain, filename)
+			"%s/%s".format(domain, filename)
 		} else {
-			"users/%s/%n/%s".format(domain, userId, filename)
+			"%s/%d/%s".format(domain, userId, filename)
 		}
 	}
 }
