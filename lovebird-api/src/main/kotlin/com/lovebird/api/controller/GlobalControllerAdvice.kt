@@ -4,6 +4,7 @@ import com.lovebird.api.service.slack.SlackService
 import com.lovebird.common.enums.ReturnCode
 import com.lovebird.common.exception.LbException
 import com.lovebird.common.response.ApiResponse
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,9 +23,12 @@ import java.sql.SQLException
 class GlobalControllerAdvice(
 	private val slackService: SlackService
 ) {
+	private val logger = KotlinLogging.logger {}
 
 	@ExceptionHandler(LbException::class)
 	fun handleLbException(e: LbException): ResponseEntity<ApiResponse<Unit>> {
+		logger.error { e.getMsg() }
+
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(ApiResponse.fail(e.getReturnCode()))
@@ -78,7 +82,6 @@ class GlobalControllerAdvice(
 	)
 	fun handleBusinessException(e: RuntimeException, request: HttpServletRequest): ResponseEntity<ApiResponse<Unit>> {
 		slackService.sendSlackForError(e, request)
-
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ApiResponse.error(ReturnCode.INTERNAL_SERVER_ERROR))

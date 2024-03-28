@@ -50,6 +50,9 @@ dependencies {
 	testImplementation("io.kotest:kotest-assertions-core:${property("kotestVersion")}")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:${property("kotestSpringVersion")}")
 	testImplementation("com.ninja-squad:springmockk:4.0.2")
+
+	// kotlin -log
+	implementation("io.github.oshai:kotlin-logging-jvm:5.1.1")
 }
 
 tasks.asciidoctor {
