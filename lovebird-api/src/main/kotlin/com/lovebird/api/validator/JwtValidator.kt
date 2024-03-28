@@ -7,6 +7,7 @@ import com.lovebird.common.exception.LbException
 import com.lovebird.domain.entity.User
 import com.lovebird.domain.repository.reader.UserReader
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -57,8 +58,9 @@ class JwtValidator(
 				.build()
 				.parseClaimsJws(token)
 				.body
+		} catch (e: ExpiredJwtException) {
+			throw LbException(ReturnCode.EXPIRED_JWT_TOKEN)
 		} catch (e: RuntimeException) {
-			println(e.message)
 			throw LbException(ReturnCode.WRONG_JWT_TOKEN)
 		}
 	}
