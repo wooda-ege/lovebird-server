@@ -27,7 +27,7 @@ class ProfileController(
 	fun modifyProfile(
 		@AuthorizedUser user: User,
 		@RequestBody request: ProfileUpdateRequest
-	): ApiResponse<Void> {
+	): ApiResponse<Unit> {
 		profileService.update(user, request.toParam())
 		return ApiResponse.success()
 	}

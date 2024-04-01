@@ -67,13 +67,13 @@ class DiaryController(
 	fun modify(
 		@PathVariable diaryId: Long,
 		@RequestBody request: DiaryUpdateRequest
-	): ApiResponse<Void> {
+	): ApiResponse<Unit> {
 		diaryService.update(request.toParam(diaryId))
 		return ApiResponse.success()
 	}
 
 	@DeleteMapping("/{diaryId}")
-	fun delete(@PathVariable diaryId: Long): ApiResponse<Void> {
+	fun delete(@PathVariable diaryId: Long): ApiResponse<Unit> {
 		diaryService.delete(diaryId)
 		return ApiResponse.success()
 	}
