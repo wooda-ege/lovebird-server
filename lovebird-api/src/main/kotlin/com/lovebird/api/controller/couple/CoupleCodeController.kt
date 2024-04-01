@@ -8,7 +8,7 @@ import com.lovebird.api.service.couple.CoupleCodeService
 import com.lovebird.common.response.ApiResponse
 import com.lovebird.domain.entity.User
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -24,7 +24,7 @@ class CoupleCodeController(
 		return ApiResponse.success(coupleCodeService.generateCodeIfNotExist(user))
 	}
 
-	@PostMapping("/link")
+	@PutMapping("/link")
 	fun linkCouple(
 		@AuthorizedUser user: User,
 		@RequestBody request: CoupleLinkRequest
