@@ -62,7 +62,7 @@ class AuthController(
 	}
 
 	@DeleteMapping
-	fun deleteAccount(@AuthorizedUser user: User): ApiResponse<Void> {
+	fun deleteAccount(@AuthorizedUser user: User): ApiResponse<Unit> {
 		authDeleteService.deleteAccount(user)
 		return ApiResponse.success()
 	}

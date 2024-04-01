@@ -77,13 +77,13 @@ class CoupleCodeControllerTest(
 		}
 	}
 
-	describe("POST : /api/v1/couple/link") {
+	describe("PUT : /api/v1/couple/link") {
 		val url = "$baseUrl/link"
 
 		context("유효한 요청이 전달 되면") {
 			val requestJson = toJson(getCoupleLinkRequest())
 			val response = getCoupleLinkResponse()
-			val request = request(HttpMethod.POST, url)
+			val request = request(HttpMethod.PUT, url)
 				.header(AUTHORIZATION, "Bearer access-token")
 				.content(requestJson)
 				.contentType(APPLICATION_JSON)
@@ -114,7 +114,7 @@ class CoupleCodeControllerTest(
 		context("애플 테스트 요청이 전달 되면") {
 			val requestJson = toJson(CoupleLinkRequest("appleTestCode"))
 			val response = getCoupleLinkResponse()
-			val request = request(HttpMethod.POST, url)
+			val request = request(HttpMethod.PUT, url)
 				.header(AUTHORIZATION, "Bearer access-token")
 				.content(requestJson)
 				.contentType(APPLICATION_JSON)
@@ -145,7 +145,7 @@ class CoupleCodeControllerTest(
 
 		context("유효하지 않은 코드로 요청이 전달 되면") {
 			val requestJson = toJson(CoupleLinkRequest("appleTestCode"))
-			val request = request(HttpMethod.POST, url)
+			val request = request(HttpMethod.PUT, url)
 				.header(AUTHORIZATION, "Bearer access-token")
 				.content(requestJson)
 				.contentType(APPLICATION_JSON)
@@ -175,7 +175,7 @@ class CoupleCodeControllerTest(
 
 		context("본인의 코드로 요청이 전달 되면") {
 			val requestJson = toJson(CoupleLinkRequest("appleTestCode"))
-			val request = request(HttpMethod.POST, url)
+			val request = request(HttpMethod.PUT, url)
 				.header(AUTHORIZATION, "Bearer access-token")
 				.content(requestJson)
 				.contentType(APPLICATION_JSON)
@@ -205,7 +205,7 @@ class CoupleCodeControllerTest(
 
 		context("이미 연동된 유저의 요청이 전달 되면") {
 			val requestJson = toJson(CoupleLinkRequest("appleTestCode"))
-			val request = request(HttpMethod.POST, url)
+			val request = request(HttpMethod.PUT, url)
 				.header(AUTHORIZATION, "Bearer access-token")
 				.content(requestJson)
 				.contentType(APPLICATION_JSON)

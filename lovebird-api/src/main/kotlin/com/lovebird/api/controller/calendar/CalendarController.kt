@@ -47,7 +47,7 @@ class CalendarController(
 		@AuthorizedUser user: User,
 		@Valid @RequestBody
 		request: CalendarCreateRequest
-	): ResponseEntity<ApiResponse<Void>> {
+	): ResponseEntity<ApiResponse<Unit>> {
 		calendarService.save(request, user)
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success())
 	}
@@ -58,7 +58,7 @@ class CalendarController(
 		@AuthorizedUser user: User,
 		@Valid @RequestBody
 		request: CalendarUpdateRequest
-	): ApiResponse<Void> {
+	): ApiResponse<Unit> {
 		calendarService.update(request.toParam(id, user))
 		return ApiResponse.success()
 	}
@@ -67,7 +67,7 @@ class CalendarController(
 	fun delete(
 		@PathVariable id: Long,
 		@AuthorizedUser user: User
-	): ApiResponse<Void> {
+	): ApiResponse<Unit> {
 		calendarService.delete(id, user)
 		return ApiResponse.success()
 	}
