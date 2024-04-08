@@ -5,7 +5,7 @@ import io.jsonwebtoken.Claims
 
 data class OAuthParam(
 	val providerId: String,
-	val email: String
+	val email: String?
 ) {
 	companion object {
 		fun from(userInfo: Map<String, String>): OAuthParam {
